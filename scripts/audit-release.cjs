@@ -6,10 +6,10 @@ const read=p=>fs.readFileSync(path.join(root,p),'utf8'),json=p=>JSON.parse(read(
 const failures=[];const check=(ok,why)=>{if(!ok)failures.push(why);};
 check(!entryExists(path.join(root,pluginLogs)),'Forbidden public export directory: '+pluginLogs+' (including empty or ignored directories)');
 const pkg=json('package.json'),lock=json('package-lock.json'),manifest=json('com.local.ets2rally.plugin/manifest.json');
-check([pkg.version,lock.version,lock.packages[''].version,manifest.version].every(v=>v==='1.0.0'),'Version mismatch');
+check([pkg.version,lock.version,lock.packages[''].version,manifest.version].every(v=>v===pkg.version)&&/^\d+\.\d+\.\d+$/.test(pkg.version),'Version mismatch');
 check(manifest.repo==='https://github.com/ASJS-CAT/ETS2-FlexBar-Dashboard','Repository mismatch');
 check(pkg.license==='PolyForm-Noncommercial-1.0.0','Project license mismatch');
-check(/1\.0\.0/.test(read('src/bootstrap.cjs'))&&/1\.0\.0/.test(read('src/runtime.cjs')),'Runtime version mismatch');
+check(read('src/bootstrap.cjs').includes(' '+pkg.version+' starting;')&&read('src/runtime.cjs').includes("version:'"+pkg.version+"'"),'Runtime version mismatch');
 const ignore=new Set(['node_modules','build','release-candidate','.git','.cache']);
 const files=[];
 function walk(dir){for(const e of fs.readdirSync(dir,{withFileTypes:true})){

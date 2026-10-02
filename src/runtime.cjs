@@ -3,7 +3,6 @@ const dgram=require('node:dgram');
 const {performance}=require('node:perf_hooks');
 const {settings,decode,isDefaultCarousel,isInformationCarousel}=require('./model.cjs');
 const {LAYOUT}=require('./layout.cjs');
-const {renderLauncher}=require('./launcher.cjs');
 const {RallySession}=require('./rally-session.cjs');
 const {probeGameProcess}=require('./game-process.cjs');
 const {Touch,Inputs,PAGE_SELECTOR,hit}=require('./interaction.cjs');
@@ -16,11 +15,11 @@ function startRuntime(plugin,logger,options={}) {
   const clock=options.clock||(()=>performance.now());
   const socket=options.socket||dgram.createSocket('udp4');
   const sessions=new Map(), savedViews=new Map(), inputs=new Inputs(), transitions=[];
-  let hostConnected=true,probePending=false,nextProbe=0,coverKey='',coverImage=null;
+  let hostConnected=true,probePending=false,nextProbe=0;
   const log=(event,detail={})=>{const entry={at:new Date().toISOString(),event,...detail};transitions.push(entry);if(transitions.length>80)transitions.shift();logger.info?.('Rally lifecycle',entry);};
   const rally=new RallySession(log);
   let cfg=settings(), packet=null, received=-Infinity, ready=false, stopped=false, error='', timer;
-  const stats={alive:0,activated:0,received:0,draws:0,drawErrors:0,entryDraws:0,entryDrawErrors:0,udpDatagrams:0,udpRejectedSource:0,udpRejectedPacket:0};
+  const stats={alive:0,activated:0,received:0,draws:0,drawErrors:0,touchEvents:0,touchActions:0,udpDatagrams:0,udpRejectedSource:0,udpRejectedPacket:0};
   const report=e=>{ error=String(e?.message||e).split(', payload:')[0]; logger.error(error); };
   function invalidate(reason){
     for(const s of sessions.values()){s.revision=(s.revision||0)+1;s.next=0;s.lastImage=null;s.lastDraw=-Infinity;s.dirty=true;}
@@ -76,8 +75,10 @@ function startRuntime(plugin,logger,options={}) {
       else if(d.status==='connected'){s.deviceDisconnected=false;session(d.serialNumber,s.key,'device_reconnected');}}
     options.onDeviceStatus?.(devices);
   });
-  plugin.on('plugin.config.updated',p=>configure(p.config));
+  // FlexDesigner sends the settings object directly; older adapters wrap it.
+  plugin.on('plugin.config.updated',p=>configure(p?.config??p));
   plugin.on('device.touch',e=>{
+    stats.touchEvents++;
     const s=sessions.get(e.serialNumber); if(!s||s.deviceDisconnected||!hostConnected) return;
     const now=clock(),v=rally.advance(now,cfg);
     let controls=[PAGE_SELECTOR,...(v.quick?.controls||[])];
@@ -102,6 +103,7 @@ function startRuntime(plugin,logger,options={}) {
     }
     if(action.feedback){Promise.resolve(plugin.sendControlCommand?.(e.serialNumber,'haptic.click')).catch(err=>logger.warn?.(err.message));return;}
     if(action.cancelled)return;
+    stats.touchActions++;
     if(action.id==='section_next') {if(action.long)rally.resetTrip();else s.dash.nextSection();}
     else if(action.id==='carousel_next'){
       if(s.carouselDown?.dashboard!==rally.dash||!sameCarousel(v,s.carouselDown.view))return;
@@ -131,7 +133,7 @@ function startRuntime(plugin,logger,options={}) {
       rally:rally.status(),lifecycle:{hostConnected,views:[...savedViews].map(([serial,s])=>({serial,uid:s.key.uid,active:sessions.has(serial),uiMode:s.view?.page,section:rally.dash.section})),transitions},
       paused:packet?.paused, input:packet?.input, activeSessions:sessions.size,config:cfg,udpBound:ready,
       host:options.getDiagnostics?.()||null,fonts:require('./fonts.cjs').fontDiagnostics,telemetryText:Object.fromEntries(Object.entries(packet?.values||{}).filter(([k,v])=>typeof v==='string')),lights:Object.fromEntries(Object.entries(packet?.values||{}).filter(([k])=>k.startsWith('truck.light.'))),
-      stats:{...stats},rpm:{sdkLimit:packet?.values?.['rpm.limit']??null,dialMax:cfg.rpmScaleMax||packet?.values?.['rpm.limit']||2500},version:'1.0.0',lastPacketAgeMs:Number.isFinite(received)?Math.round(clock()-received):null});
+      stats:{...stats},rpm:{sdkLimit:packet?.values?.['rpm.limit']??null,dialMax:cfg.rpmScaleMax||packet?.values?.['rpm.limit']||2500},version:'1.0.1',lastPacketAgeMs:Number.isFinite(received)?Math.round(clock()-received):null});
     if(p.action==='status')return options.refreshDiagnostics?options.refreshDiagnostics().then(status):status();
     return {error:'Unknown action'};
   });
@@ -144,7 +146,12 @@ function startRuntime(plugin,logger,options={}) {
     if(packet.foreground===true&&oldForeground!==true)restore('bridge_foreground_return');
     if(oldState!==rally.state||oldIdentity!==rally.id)invalidate('telemetry_state_changed');
   });
-  socket.on('error',e=>{ready=false;inputs.clear();report(e);});
+  socket.on('error',e=>{
+    ready=false;inputs.clear();report(e);
+    // A host restart can leave an earlier process holding the telemetry port.
+    // Never let a second, telemetry-less instance keep painting OFFLINE frames.
+    if(e.code==='EADDRINUSE'){stop();options.onPortConflict?.();}
+  });
   socket.bind(telemetryPort,'127.0.0.1',()=>{ready=true;logger.info?.(`Telemetry listener ready: 127.0.0.1:${telemetryPort}`);});
   function tick() {
     if(stopped)return;
@@ -181,19 +188,11 @@ function startRuntime(plugin,logger,options={}) {
           return Promise.resolve(plugin.directDraw(serial,s.key,image,force?false:cfg.diffUpdate,0))
             .then(()=>{stats.draws++;if(!stopped&&hostConnected&&!s.deviceDisconnected&&sessions.get(serial)===s&&s.revision===revision)s.presented={view:drawnView,dashboard:drawnDashboard};});
         };
-        let drawing,entrySucceeded=true;
-        if(typeof plugin.draw==='function'){
-          const key=cfg.theme+':'+cfg.language;
-          if(key!==coverKey){coverImage=renderLauncher(cfg).toDataURL('image/png');coverKey=key;}
-          const cover=coverImage;
-          const entry={...s.key,style:{...s.key.style,width:2170,showImage:true,showIcon:false,showTitle:false,image:cover}};
-          drawing=Promise.resolve().then(()=>plugin.draw(serial,entry,'base64',cover))
-            .then(()=>{stats.entryDraws++;})
-            .catch(e=>{entrySucceeded=false;stats.entryDrawErrors++;report(e);s.lastImage=null;})
-            .then(drawDirect);
-        }else drawing=drawDirect();
-        Promise.resolve(drawing)
-          .then(()=>{if(s.revision===revision&&entrySucceeded){s.lastImage=image;s.lastDraw=clock();}})
+        // The manifest supplies the bilingual launcher before activation.
+        // Never send ordinary key draws here: they replace the host's DirectDraw
+        // touch surface while its framebuffer continues to look correct.
+        Promise.resolve(drawDirect())
+          .then(()=>{if(s.revision===revision){s.lastImage=image;s.lastDraw=clock();}})
           .catch(e=>{stats.drawErrors++;report(e);})
           .finally(()=>{s.busy=false;if((s.dirty||s.revision!==revision)&&sessions.get(serial)===s){s.next=0;tick();}});
 

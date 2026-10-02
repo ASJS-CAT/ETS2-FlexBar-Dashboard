@@ -4,9 +4,11 @@ English | [简体中文](README.zh-CN.md)
 
 ![Dashboard](docs/assets/flexgate-cover.png)
 
-A DirectDraw dashboard for Euro Truck Simulator 2 and FlexBar on Windows x64. It displays SCS Telemetry SDK data and controls game bindings through an SCS Input SDK generic input device. **Version 1.0.0 — First public release (2026-10-02).** RC1 passed real FlexBar + ETS2 hardware acceptance; the validated runtime is frozen.
+A DirectDraw dashboard for Euro Truck Simulator 2 and FlexBar on Windows x64. It displays SCS Telemetry SDK data and controls game bindings through an SCS Input SDK generic input device. **Version 1.0.1 — Touch and language hotfix (2026-10-02).** Restores DirectDraw touch controls and applies saved dashboard language immediately; the calibrated dashboard layout and game bridge are unchanged.
 
 First use: install the `.flexplugin` and game bridge DLL, add the plugin to a FlexBar page, then tap its launcher once. This tap is a current DirectDraw host limitation. The launcher means “enter dashboard”, not “offline”. Follow the [Quick Start](docs/QUICKSTART.md) · [Issues](https://github.com/ASJS-CAT/ETS2-FlexBar-Dashboard/issues).
+
+**Upgrading from 1.0.0:** install 1.0.1, then unplug/reconnect FlexBar once and re-enter the dashboard if touch remains unresponsive. The launcher uses the built-in bilingual cover; active dashboards use only DirectDraw. Settings and dashboard language remain separately configurable.
 
 ## Hardware Demo
 
@@ -88,7 +90,7 @@ npm run plugin:validate
 npm run plugin:pack
 ```
 
-Packaging uses the official FlexCLI filename `com.local.ets2rally.flexplugin`. Keep the `com.local.ets2rally.plugin` directory. The tag must be exactly `1.0.0`, matching the manifest. CI builds artifacts without automatically publishing a public Release.
+Packaging uses the official FlexCLI filename `com.local.ets2rally.flexplugin`. Keep the `com.local.ets2rally.plugin` directory. The tag must be exactly `1.0.1`, matching the manifest. CI builds artifacts without automatically publishing a public Release.
 
 [CONTRIBUTING](CONTRIBUTING.md) · [RELEASE_CHECKLIST](RELEASE_CHECKLIST.md) · [RELEASE_AUDIT](RELEASE_AUDIT.md)
 

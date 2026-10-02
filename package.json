@@ -1,6 +1,6 @@
 {
   "name": "ets2-flexbar-rally",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "DirectDraw dashboard for Euro Truck Simulator 2 on FlexBar, with SCS Telemetry and generic Input SDK controls",
   "scripts": {

@@ -18,7 +18,7 @@ test('launcher renders before activation, without a game/session, and is embedde
  const key=require('../com.local.ets2rally.plugin/manifest.json').keyLibrary.children[0];
  assert.equal(key.config.keyType,'directDraw');assert.equal(key.style.image,renderLauncher({}, {bilingual:true}).toDataURL());
 });
-test('built-in cover is bilingual; runtime covers still follow the selected language',()=>{
+test('built-in cover is bilingual; launcher render helper supports each language',()=>{
  const bilingual=capture(()=>renderLauncher({}, {bilingual:true}));
  assert.ok(bilingual.includes('点击进入仪表盘 / TAP TO OPEN DASHBOARD'));
  for(const language of ['en','zh']){
@@ -72,6 +72,24 @@ function harness(cfg={}){
   touch(state,t,x=1050){now=t;handlers['device.touch']({serialNumber:'A',state,x,y:25});}
  };
 }
+
+test('host settings updates apply the real flat payload immediately and survive a fresh runtime',async()=>{
+ const saved={language:'zh',dashboardLanguage:'zh',cycleSeconds:9,theme:'el_mint'};
+ const h=harness();try{
+  await h.mount();
+  h.handlers['plugin.config.updated'](saved);await h.paint();
+  const cfg=h.handlers['ui.message']({action:'preferences'});
+  assert.equal(cfg.dashboardLanguage,'zh');assert.equal(cfg.cycleSeconds,9);
+  assert.ok(capture(()=>render(h.runtime.rally.view(cfg),cfg)).includes(dictionary.zh['metric.trip_average']));
+  h.handlers['plugin.config.updated']({...saved,dashboardLanguage:'en'});await h.paint();
+  const en=h.handlers['ui.message']({action:'preferences'});
+  assert.equal(en.dashboardLanguage,'en');
+  assert.ok(capture(()=>render(h.runtime.rally.view(en),en)).includes(dictionary.en['metric.trip_average']));
+  h.handlers['plugin.config.updated']({config:saved});
+  assert.equal(h.handlers['ui.message']({action:'preferences'}).dashboardLanguage,'zh');
+ }finally{h.runtime.stop();}
+ const restarted=harness(saved);try{assert.equal(restarted.handlers['ui.message']({action:'preferences'}).dashboardLanguage,'zh');}finally{restarted.runtime.stop();}
+});
 test('carousel tap moves one selected page forward, wraps, and resets the full timer',async()=>{
  const h=harness({cycleSeconds:3,cyclePanels:['route','fuel']});try{
   await h.mount();h.receive(2900);await h.paint();assert.equal(h.runtime.rally.cached.panel,'route');

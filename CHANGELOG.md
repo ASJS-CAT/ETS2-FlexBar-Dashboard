@@ -1,3 +1,11 @@
+# 1.0.1 — 2026-10-02
+
+- Stop ordinary key redraws from replacing the active DirectDraw touch surface; retain the built-in bilingual launcher. / 停止普通按键重绘破坏 DirectDraw 触摸状态，保留内置双语入口。
+- Apply FlexDesigner settings events using the actual flat payload, including dashboard language. / 按宿主实际报文应用设置，修复仪表盘中文无法即时生效。
+- Stop a duplicate instance when its telemetry port is occupied, preventing competing OFFLINE frames. / 遥测端口占用时退出重复实例，防止离线画面交替。
+- Keep calibrated UI geometry, telemetry bridge DLL and game input bindings unchanged. / 保持已校准布局、桥接 DLL 与游戏绑定不变。
+- Devices left in the 1.0.0 unresponsive touch state may need one unplug/reconnect after upgrading. / 旧版遗留的触摸失效状态可能需要升级后拔插设备一次。
+
 # 1.0.0 — 2026-10-02
 
 Version 1.0.0 — First public release / 首个公开版本。

@@ -1,7 +1,7 @@
 {
   "name": "ETS2 FlexBar Dashboard",
   "uuid": "com.local.ets2rally",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "ASJS-CAT",
   "entry": "backend/plugin.cjs",
   "description": "DirectDraw ETS2 dashboard with SCS Telemetry and Input SDK controls",

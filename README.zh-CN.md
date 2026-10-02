@@ -4,9 +4,11 @@
 
 ![Dashboard](docs/assets/flexgate-cover.png)
 
-面向 Windows x64 上 Euro Truck Simulator 2 与 FlexBar 的 DirectDraw 仪表盘。使用 SCS Telemetry SDK 显示车辆数据，用 SCS Input SDK 的 generic input 设备执行游戏内已绑定的操作。**Version 1.0.0 — First public release / 首个公开版本（2026-10-02）**。RC1 已通过真实 FlexBar + ETS2 实机验收，已验收 runtime 保持冻结。
+面向 Windows x64 上 Euro Truck Simulator 2 与 FlexBar 的 DirectDraw 仪表盘。使用 SCS Telemetry SDK 显示车辆数据，用 SCS Input SDK 的 generic input 设备执行游戏内已绑定的操作。**Version 1.0.1 — 触摸与语言热修复（2026-10-02）**。恢复 DirectDraw 触摸操作并即时应用保存的仪表盘语言；已校准布局与游戏桥接 DLL 保持不变。
 
 首次使用：安装 `.flexplugin`、安装随附游戏桥接 DLL、将插件添加到 FlexBar 页面，然后轻点入口一次。这个点击是当前 DirectDraw 宿主限制；入口图表示“进入仪表盘”，不是离线状态。详见 [Quick Start](docs/QUICKSTART.zh-CN.md) · [Issues](https://github.com/ASJS-CAT/ETS2-FlexBar-Dashboard/issues).
+
+**从 1.0.0 升级：**安装 1.0.1 后，如设备触摸仍无响应，请拔插 FlexBar 一次并重新进入仪表盘。入口使用内置双语图，进入后的仪表盘只通过 DirectDraw 绘制。设置语言与仪表盘语言仍可分别选择。
 
 ## 实机展示
 
@@ -88,7 +90,7 @@ npm run plugin:validate
 npm run plugin:pack
 ```
 
-打包使用官方 FlexCLI 文件名 `com.local.ets2rally.flexplugin`。插件目录保持 `com.local.ets2rally.plugin`。tag 必须精确为 `1.0.0`，与 manifest 一致。CI 只构建，不自动上传公开 Release。
+打包使用官方 FlexCLI 文件名 `com.local.ets2rally.flexplugin`。插件目录保持 `com.local.ets2rally.plugin`。tag 必须精确为 `1.0.1`，与 manifest 一致。CI 只构建，不自动上传公开 Release。
 
 [CONTRIBUTING](CONTRIBUTING.md) · [RELEASE_CHECKLIST](RELEASE_CHECKLIST.md) · [RELEASE_AUDIT](RELEASE_AUDIT.md)
 

@@ -48,3 +48,17 @@ test('Direct Draw activation, ambiguous status, failed send recovery and periodi
     const status=handlers['ui.message']({action:'status'});assert.equal(status.stats.drawErrors,1);assert.equal(status.stats.draws,2);
   }finally{runtime.stop();}
 });
+
+
+test('duplicate instance fails closed on a telemetry port conflict without continuing to draw',async()=>{
+ const handlers={},socket=new EventEmitter();let draws=0,conflicts=0,closed=false;
+ socket.bind=()=>{};socket.close=()=>{closed=true;};socket.send=()=>assert.fail('unbound instance must not send inputs');
+ const plugin={on:(e,f)=>handlers[e]=f,getConfig:()=>new Promise(()=>{}),directDraw:async()=>{draws++;}};
+ const runtime=startRuntime(plugin,{error:()=>{}},{socket,onPortConflict:()=>conflicts++});
+ try{
+  handlers['plugin.alive']({serialNumber:'A',keys:[{cid:CID,uid:1}]});await flush();
+  socket.emit('error',Object.assign(Error('port occupied'),{code:'EADDRINUSE'}));
+  const before=draws;runtime.tick();handlers['device.touch']({serialNumber:'A',state:'down',x:50,y:20});
+  await flush();assert.equal(draws,before);assert.equal(runtime.sessions.size,0);assert.equal(conflicts,1);assert.equal(closed,true);
+ }finally{runtime.stop();}
+});

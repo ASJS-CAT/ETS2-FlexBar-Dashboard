@@ -4,6 +4,7 @@ const {startRuntime}=require('./runtime.cjs');
 const {diagnostics}=require('./diagnostics.cjs');
 let diagnostic;
 const runtime=startRuntime(plugin,logger,{portBase:process.env.ETS2_FLEXBAR_TEST_PORT_BASE?Number(process.env.ETS2_FLEXBAR_TEST_PORT_BASE):29762,
+  onPortConflict:()=>{logger.error('Another dashboard instance owns the telemetry port; stopping this instance.');process.exit(0);},
   refreshDiagnostics:()=>diagnostic.refresh(),getDiagnostics:()=>diagnostic.state,
   onDeviceStatus:devices=>diagnostic.wakeDevices(devices)});
 diagnostic=diagnostics(plugin,runtime.configure);
