@@ -1,0 +1,44 @@
+[
+  {
+    "package": "@eniac/flexdesigner",
+    "version": "1.0.9",
+    "declaredLicense": "MIT",
+    "declaredAuthor": {
+      "name": "eniac"
+    },
+    "registry": "https://registry.npmjs.org/@eniac/flexdesigner/1.0.9",
+    "repository": {
+      "url": "git+https://github.com/ENIAC-Tech/flexdesigner-sdk.git",
+      "type": "git"
+    },
+    "gitHead": "062888c0e768f67d501e4362b86222064edd91c5",
+    "tarball": "https://registry.npmjs.org/@eniac/flexdesigner/-/flexdesigner-1.0.9.tgz",
+    "integrity": "sha512-XhC/ECiLIt0jPNPnobXJmfbUTqCGj6/5ewHxESBmeivORqJZzl65HP5/R5pbv7SS6mTvPwec02iRqgrmE5J4MQ==",
+    "readme": "https://github.com/ENIAC-Tech/flexdesigner-sdk/blob/062888c0e768f67d501e4362b86222064edd91c5/readme.md",
+    "tree": "https://api.github.com/repos/ENIAC-Tech/flexdesigner-sdk/git/trees/062888c0e768f67d501e4362b86222064edd91c5?recursive=1",
+    "licenseNoticePaths": [],
+    "githubDetectedLicense": null,
+    "limitation": "SDK README refers to unspecified EniacTech license agreement; no standalone license/author notice found."
+  },
+  {
+    "package": "@eniac/flexcli",
+    "version": "1.0.7",
+    "declaredLicense": "MIT",
+    "declaredAuthor": {
+      "name": "eniac"
+    },
+    "registry": "https://registry.npmjs.org/@eniac/flexcli/1.0.7",
+    "repository": {
+      "url": "git+https://github.com/ENIAC-Tech/flexcli.git",
+      "type": "git"
+    },
+    "gitHead": "a795273a2a75ce9fbdc498a3153c241379fde56c",
+    "tarball": "https://registry.npmjs.org/@eniac/flexcli/-/flexcli-1.0.7.tgz",
+    "integrity": "sha512-YFtsoK+4xn6Tnnqh3F2blNjWh/jOuFZUAJGi0z3ZZOjj/rWF6w8VV/4A5NFuC1HyVV2AAEqhtH9X0d1hjwKgfw==",
+    "readme": "https://github.com/ENIAC-Tech/flexcli/blob/a795273a2a75ce9fbdc498a3153c241379fde56c/readme.md",
+    "tree": "https://api.github.com/repos/ENIAC-Tech/flexcli/git/trees/a795273a2a75ce9fbdc498a3153c241379fde56c?recursive=1",
+    "licenseNoticePaths": [],
+    "githubDetectedLicense": null,
+    "limitation": "No standalone license/author notice found; build tool only, not bundled runtime."
+  }
+]

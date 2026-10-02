@@ -1,0 +1,7 @@
+* text=auto eol=lf
+*.png binary
+*.ps1 text eol=crlf
+# Preserve exact upstream legal/source bytes for recorded SHA-256 checks.
+/LICENSE -text
+/docs/legal-audit/licenses/** -text
+/docs/legal-audit/sources/** -text

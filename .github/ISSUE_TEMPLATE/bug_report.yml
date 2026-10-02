@@ -1,0 +1,67 @@
+name: Bug report / 缺陷报告
+description: Reproducible runtime or installation problem / 可复现问题
+title: '[Bug] '
+body:
+  - type: markdown
+    attributes:
+      value: 'Before sharing logs/screenshots, remove personal paths, device serials and private game information. 上传前删除个人路径、设备序列号及私人游戏信息。不要上传存档或凭据。'
+  - type: input
+    id: flexdesigner
+    attributes:
+      label: 'FlexDesigner version / 版本'
+    validations:
+      required: true
+  - type: input
+    id: firmware
+    attributes:
+      label: 'FlexBar firmware / 固件版本'
+    validations:
+      required: true
+  - type: input
+    id: ets2
+    attributes:
+      label: 'ETS2 version / 游戏版本'
+    validations:
+      required: true
+  - type: input
+    id: plugin
+    attributes:
+      label: 'Plugin version / 插件版本'
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: 'Windows version / 系统版本'
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 'Steps to reproduce / 复现步骤'
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 'Expected behavior / 预期行为'
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 'Actual behavior / 实际行为'
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 'Redacted logs / 脱敏日志'
+    validations:
+      required: false
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 'Screenshots / 截图'
+    validations:
+      required: false

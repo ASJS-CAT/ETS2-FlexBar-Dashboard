@@ -1,0 +1,246 @@
+[
+  {
+    "component": "aho-corasick",
+    "version": "1.1.3",
+    "license": "Unlicense OR MIT",
+    "source": "https://static.crates.io/crates/aho-corasick/aho-corasick-1.1.3.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/aho-corasick-1.1.3/COPYING",
+      "docs/licenses/native/aho-corasick-1.1.3/LICENSE-MIT"
+    ],
+    "sourceArchiveSha256": "8e60d3430d3a69478ad0993f19238d2df97c507009a52b3c10addcd7f6bcb916",
+    "cargoVcsInfo": {
+      "git": {
+        "sha1": "56256dca1bcd2365fd1dc987c1c06195429a2e2c"
+      },
+      "path_in_vcs": ""
+    },
+    "sourceAvailability": "exact registry source archive retrieved and hashed; local modifications by upstream builder not independently established"
+  },
+  {
+    "component": "base64-simd",
+    "version": "0.8.0",
+    "license": "MIT",
+    "source": "https://static.crates.io/crates/base64-simd/base64-simd-0.8.0.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/base64-simd-0.8.0/LICENSE-upstream"
+    ],
+    "sourceArchiveSha256": "339abbe78e73178762e23bea9dfd08e697eb3f3301cd4be981c0f78ba5859195",
+    "cargoVcsInfo": {
+      "git": {
+        "sha1": "d74c030d9dc4f3cae02146d1f497ff62726ef09a"
+      },
+      "path_in_vcs": "crates/base64-simd"
+    },
+    "noticeSource": "https://raw.githubusercontent.com/Nugine/simd/d74c030d9dc4f3cae02146d1f497ff62726ef09a/LICENSE",
+    "sourceAvailability": "exact registry source archive retrieved and hashed; local modifications by upstream builder not independently established"
+  },
+  {
+    "component": "cfb",
+    "version": "0.7.3",
+    "license": "MIT",
+    "source": "https://static.crates.io/crates/cfb/cfb-0.7.3.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/cfb-0.7.3/LICENSE"
+    ],
+    "sourceArchiveSha256": "d38f2da7a0a2c4ccf0065be06397cc26a81f4e528be095826eee9d4adbb8c60f",
+    "cargoVcsInfo": {
+      "git": {
+        "sha1": "df3678d0fa60e298f7b1532939b4dede1e2895e4"
+      },
+      "path_in_vcs": ""
+    },
+    "sourceAvailability": "exact registry source archive retrieved and hashed; local modifications by upstream builder not independently established"
+  },
+  {
+    "component": "cssparser",
+    "version": "0.35.0",
+    "license": "MPL-2.0",
+    "source": "https://static.crates.io/crates/cssparser/cssparser-0.35.0.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/cssparser-0.35.0/LICENSE"
+    ],
+    "sourceArchiveSha256": "4e901edd733a1472f944a45116df3f846f54d37e67e68640ac8bb69689aca2aa",
+    "cargoVcsInfo": {
+      "git": {
+        "sha1": "3dd4f63639925438d9932dafc0d81395847f9be4"
+      },
+      "path_in_vcs": ""
+    },
+    "sourceAvailability": "exact registry source archive retrieved and hashed; local modifications by upstream builder not independently established"
+  },
+  {
+    "component": "memchr",
+    "version": "2.7.5",
+    "license": "Unlicense OR MIT",
+    "source": "https://static.crates.io/crates/memchr/memchr-2.7.5.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/memchr-2.7.5/COPYING",
+      "docs/licenses/native/memchr-2.7.5/LICENSE-MIT"
+    ],
+    "sourceArchiveSha256": "32a282da65faaf38286cf3be983213fcf1d2e2a58700e808f83f4ea9a4804bc0",
+    "cargoVcsInfo": {
+      "git": {
+        "sha1": "3962118774ac511580c5b40fd14323e31629fa52"
+      },
+      "path_in_vcs": ""
+    },
+    "sourceAvailability": "exact registry source archive retrieved and hashed; local modifications by upstream builder not independently established"
+  },
+  {
+    "component": "napi",
+    "version": "3.3.0",
+    "license": "MIT",
+    "source": "https://static.crates.io/crates/napi/napi-3.3.0.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/napi-3.3.0/LICENSE-upstream"
+    ],
+    "sourceArchiveSha256": "f1b74e3dce5230795bb4d2821b941706dee733c7308752507254b0497f39cad7",
+    "cargoVcsInfo": {
+      "git": {
+        "sha1": "2cb9c17e1ca9333eba2c8a853f482f8efbea5fdd"
+      },
+      "path_in_vcs": "crates/napi"
+    },
+    "noticeSource": "https://raw.githubusercontent.com/napi-rs/napi-rs/2cb9c17e1ca9333eba2c8a853f482f8efbea5fdd/LICENSE",
+    "sourceAvailability": "exact registry source archive retrieved and hashed; local modifications by upstream builder not independently established"
+  },
+  {
+    "component": "napi-sys",
+    "version": "3.0.0",
+    "license": "MIT",
+    "source": "https://static.crates.io/crates/napi-sys/napi-sys-3.0.0.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/napi-sys-3.0.0/LICENSE-upstream"
+    ],
+    "sourceArchiveSha256": "3e4e7135a8f97aa0f1509cce21a8a1f9dcec1b50d8dee006b48a5adb69a9d64d",
+    "cargoVcsInfo": {
+      "git": {
+        "sha1": "a9dc138aa036d75db790282ebf9bfe88670d9e7d"
+      },
+      "path_in_vcs": "crates/sys"
+    },
+    "noticeSource": "https://raw.githubusercontent.com/napi-rs/napi-rs/a9dc138aa036d75db790282ebf9bfe88670d9e7d/LICENSE",
+    "sourceAvailability": "exact registry source archive retrieved and hashed; local modifications by upstream builder not independently established"
+  },
+  {
+    "component": "nom",
+    "version": "8.0.0",
+    "license": "MIT",
+    "source": "https://static.crates.io/crates/nom/nom-8.0.0.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/nom-8.0.0/LICENSE"
+    ],
+    "sourceArchiveSha256": "df9761775871bdef83bee530e60050f7e54b1105350d6884eb0fb4f46c2f9405",
+    "cargoVcsInfo": {
+      "git": {
+        "sha1": "2cec1b3e4c9ccac62c902d60c00de6d1549ccbe1"
+      },
+      "path_in_vcs": ""
+    },
+    "sourceAvailability": "exact registry source archive retrieved and hashed; local modifications by upstream builder not independently established"
+  },
+  {
+    "component": "regex",
+    "version": "1.11.2",
+    "license": "MIT OR Apache-2.0",
+    "source": "https://static.crates.io/crates/regex/regex-1.11.2.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/regex-1.11.2/LICENSE-APACHE",
+      "docs/licenses/native/regex-1.11.2/LICENSE-MIT"
+    ],
+    "sourceArchiveSha256": "23d7fd106d8c02486a8d64e778353d1cffe08ce79ac2e82f540c86d0facf6912",
+    "cargoVcsInfo": {
+      "git": {
+        "sha1": "d0aa586a4c15d3e8d86990f33b4d3635340af407"
+      },
+      "path_in_vcs": ""
+    },
+    "sourceAvailability": "exact registry source archive retrieved and hashed; local modifications by upstream builder not independently established"
+  },
+  {
+    "component": "regex-automata",
+    "version": "0.4.10",
+    "license": "MIT OR Apache-2.0",
+    "source": "https://static.crates.io/crates/regex-automata/regex-automata-0.4.10.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/regex-automata-0.4.10/LICENSE-APACHE",
+      "docs/licenses/native/regex-automata-0.4.10/LICENSE-MIT"
+    ],
+    "sourceArchiveSha256": "6b9458fa0bfeeac22b5ca447c63aaf45f28439a709ccd244698632f9aa6394d6",
+    "cargoVcsInfo": {
+      "git": {
+        "sha1": "873ed800c535bc3ef0711c1ee6f2726b89a8508c"
+      },
+      "path_in_vcs": "regex-automata"
+    },
+    "sourceAvailability": "exact registry source archive retrieved and hashed; local modifications by upstream builder not independently established"
+  },
+  {
+    "component": "regex-syntax",
+    "version": "0.8.6",
+    "license": "MIT OR Apache-2.0",
+    "source": "https://static.crates.io/crates/regex-syntax/regex-syntax-0.8.6.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/regex-syntax-0.8.6/LICENSE-APACHE",
+      "docs/licenses/native/regex-syntax-0.8.6/LICENSE-MIT",
+      "docs/licenses/native/regex-syntax-0.8.6/src/unicode_tables/LICENSE-UNICODE"
+    ],
+    "sourceArchiveSha256": "caf4aa5b0f434c91fe5c7f1ecb6a5ece2130b02ad2a590589dda5146df959001",
+    "cargoVcsInfo": {
+      "git": {
+        "sha1": "ea834f8e1fd7b72a3c1b2319b1a47f0c50d43082"
+      },
+      "path_in_vcs": "regex-syntax"
+    },
+    "sourceAvailability": "exact registry source archive retrieved and hashed; local modifications by upstream builder not independently established"
+  },
+  {
+    "component": "smallvec",
+    "version": "1.15.1",
+    "license": "MIT OR Apache-2.0",
+    "source": "https://static.crates.io/crates/smallvec/smallvec-1.15.1.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/smallvec-1.15.1/LICENSE-APACHE",
+      "docs/licenses/native/smallvec-1.15.1/LICENSE-MIT"
+    ],
+    "sourceArchiveSha256": "67b1b7a3b5fe4f1376887184045fcf45c69e92af734b7aaddc05fb777b6fbd03",
+    "cargoVcsInfo": {
+      "git": {
+        "sha1": "d0f47a3ea99296498ee940b5d99f59b403c498a2"
+      },
+      "path_in_vcs": ""
+    },
+    "sourceAvailability": "exact registry source archive retrieved and hashed; local modifications by upstream builder not independently established"
+  },
+  {
+    "component": "tokio",
+    "version": "1.47.1",
+    "license": "MIT",
+    "source": "https://static.crates.io/crates/tokio/tokio-1.47.1.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/tokio-1.47.1/LICENSE"
+    ],
+    "sourceArchiveSha256": "89e49afdadebb872d3145a5638b59eb0691ea23e46ca484037cfab3b76b95038",
+    "cargoVcsInfo": {
+      "git": {
+        "sha1": "be8ee45b3fc2d107174e586141b1cb12c93e2ddf"
+      },
+      "path_in_vcs": "tokio"
+    },
+    "sourceAvailability": "exact registry source archive retrieved and hashed; local modifications by upstream builder not independently established"
+  }
+]

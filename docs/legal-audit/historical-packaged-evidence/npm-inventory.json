@@ -1,0 +1,1898 @@
+[
+  {
+    "name": "@colors/colors",
+    "version": "1.6.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@colors/colors/-/colors-1.6.1.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "@dabh/diagnostics",
+    "version": "2.0.9",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@dabh/diagnostics/-/diagnostics-2.0.9.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "@eniac/flexcli",
+    "version": "1.0.7",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@eniac/flexcli/-/flexcli-1.0.7.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@eniac/flexdesigner",
+    "version": "1.0.9",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@eniac/flexdesigner/-/flexdesigner-1.0.9.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "@inquirer/ansi",
+    "version": "1.0.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@inquirer/ansi/-/ansi-1.0.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@inquirer/checkbox",
+    "version": "4.3.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@inquirer/checkbox/-/checkbox-4.3.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@inquirer/confirm",
+    "version": "5.1.21",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@inquirer/confirm/-/confirm-5.1.21.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@inquirer/core",
+    "version": "10.3.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@inquirer/core/-/core-10.3.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@inquirer/editor",
+    "version": "4.2.23",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@inquirer/editor/-/editor-4.2.23.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@inquirer/expand",
+    "version": "4.0.23",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@inquirer/expand/-/expand-4.0.23.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@inquirer/external-editor",
+    "version": "1.0.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@inquirer/external-editor/-/external-editor-1.0.3.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@inquirer/figures",
+    "version": "1.0.15",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@inquirer/figures/-/figures-1.0.15.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@inquirer/input",
+    "version": "4.3.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@inquirer/input/-/input-4.3.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@inquirer/number",
+    "version": "3.0.23",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@inquirer/number/-/number-3.0.23.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@inquirer/password",
+    "version": "4.0.23",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@inquirer/password/-/password-4.0.23.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@inquirer/prompts",
+    "version": "7.10.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@inquirer/prompts/-/prompts-7.10.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@inquirer/rawlist",
+    "version": "4.1.11",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@inquirer/rawlist/-/rawlist-4.1.11.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@inquirer/search",
+    "version": "3.2.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@inquirer/search/-/search-3.2.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@inquirer/select",
+    "version": "4.4.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@inquirer/select/-/select-4.4.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@inquirer/type",
+    "version": "3.0.10",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@inquirer/type/-/type-3.0.10.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@isaacs/cliui",
+    "version": "8.0.2",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/@isaacs/cliui/-/cliui-8.0.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "ansi-styles",
+    "version": "6.2.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/ansi-styles/-/ansi-styles-6.2.3.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "wrap-ansi",
+    "version": "8.1.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-8.1.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@jridgewell/sourcemap-codec",
+    "version": "1.6.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.6.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@napi-rs/canvas",
+    "version": "0.1.80",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@napi-rs/canvas/-/canvas-0.1.80.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "@napi-rs/canvas-android-arm64",
+    "version": "0.1.80",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@napi-rs/canvas-android-arm64/-/canvas-android-arm64-0.1.80.tgz",
+    "scope": "optional platform dependency",
+    "installed": false
+  },
+  {
+    "name": "@napi-rs/canvas-darwin-arm64",
+    "version": "0.1.80",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@napi-rs/canvas-darwin-arm64/-/canvas-darwin-arm64-0.1.80.tgz",
+    "scope": "optional platform dependency",
+    "installed": false
+  },
+  {
+    "name": "@napi-rs/canvas-darwin-x64",
+    "version": "0.1.80",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@napi-rs/canvas-darwin-x64/-/canvas-darwin-x64-0.1.80.tgz",
+    "scope": "optional platform dependency",
+    "installed": false
+  },
+  {
+    "name": "@napi-rs/canvas-linux-arm-gnueabihf",
+    "version": "0.1.80",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@napi-rs/canvas-linux-arm-gnueabihf/-/canvas-linux-arm-gnueabihf-0.1.80.tgz",
+    "scope": "optional platform dependency",
+    "installed": false
+  },
+  {
+    "name": "@napi-rs/canvas-linux-arm64-gnu",
+    "version": "0.1.80",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@napi-rs/canvas-linux-arm64-gnu/-/canvas-linux-arm64-gnu-0.1.80.tgz",
+    "scope": "optional platform dependency",
+    "installed": false
+  },
+  {
+    "name": "@napi-rs/canvas-linux-arm64-musl",
+    "version": "0.1.80",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@napi-rs/canvas-linux-arm64-musl/-/canvas-linux-arm64-musl-0.1.80.tgz",
+    "scope": "optional platform dependency",
+    "installed": false
+  },
+  {
+    "name": "@napi-rs/canvas-linux-riscv64-gnu",
+    "version": "0.1.80",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@napi-rs/canvas-linux-riscv64-gnu/-/canvas-linux-riscv64-gnu-0.1.80.tgz",
+    "scope": "optional platform dependency",
+    "installed": false
+  },
+  {
+    "name": "@napi-rs/canvas-linux-x64-gnu",
+    "version": "0.1.80",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@napi-rs/canvas-linux-x64-gnu/-/canvas-linux-x64-gnu-0.1.80.tgz",
+    "scope": "optional platform dependency",
+    "installed": false
+  },
+  {
+    "name": "@napi-rs/canvas-linux-x64-musl",
+    "version": "0.1.80",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@napi-rs/canvas-linux-x64-musl/-/canvas-linux-x64-musl-0.1.80.tgz",
+    "scope": "optional platform dependency",
+    "installed": false
+  },
+  {
+    "name": "@napi-rs/canvas-win32-x64-msvc",
+    "version": "0.1.80",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@napi-rs/canvas-win32-x64-msvc/-/canvas-win32-x64-msvc-0.1.80.tgz",
+    "scope": "optional platform dependency",
+    "installed": true
+  },
+  {
+    "name": "@napi-rs/lzma-linux-x64-gnu",
+    "version": "1.5.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@napi-rs/lzma-linux-x64-gnu/-/lzma-linux-x64-gnu-1.5.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@pkgjs/parseargs",
+    "version": "0.11.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@pkgjs/parseargs/-/parseargs-0.11.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@rollup/plugin-commonjs",
+    "version": "28.0.6",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/plugin-commonjs/-/plugin-commonjs-28.0.6.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@rollup/plugin-json",
+    "version": "6.1.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/plugin-json/-/plugin-json-6.1.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@rollup/plugin-node-resolve",
+    "version": "16.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/plugin-node-resolve/-/plugin-node-resolve-16.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@rollup/pluginutils",
+    "version": "5.4.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-5.4.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@rollup/rollup-android-arm-eabi",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-android-arm-eabi/-/rollup-android-arm-eabi-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-android-arm64",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-android-arm64/-/rollup-android-arm64-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-darwin-arm64",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-darwin-arm64/-/rollup-darwin-arm64-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-darwin-x64",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-darwin-x64/-/rollup-darwin-x64-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-freebsd-arm64",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-freebsd-arm64/-/rollup-freebsd-arm64-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-freebsd-x64",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-freebsd-x64/-/rollup-freebsd-x64-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-linux-arm-gnueabihf",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-linux-arm-gnueabihf/-/rollup-linux-arm-gnueabihf-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-linux-arm-musleabihf",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-linux-arm-musleabihf/-/rollup-linux-arm-musleabihf-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-linux-arm64-gnu",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-linux-arm64-gnu/-/rollup-linux-arm64-gnu-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-linux-arm64-musl",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-linux-arm64-musl/-/rollup-linux-arm64-musl-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-linux-loong64-gnu",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-linux-loong64-gnu/-/rollup-linux-loong64-gnu-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-linux-loong64-musl",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-linux-loong64-musl/-/rollup-linux-loong64-musl-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-linux-ppc64-gnu",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-linux-ppc64-gnu/-/rollup-linux-ppc64-gnu-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-linux-ppc64-musl",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-linux-ppc64-musl/-/rollup-linux-ppc64-musl-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-linux-riscv64-gnu",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-linux-riscv64-gnu/-/rollup-linux-riscv64-gnu-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-linux-riscv64-musl",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-linux-riscv64-musl/-/rollup-linux-riscv64-musl-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-linux-s390x-gnu",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-linux-s390x-gnu/-/rollup-linux-s390x-gnu-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-linux-x64-gnu",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-linux-x64-musl",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-linux-x64-musl/-/rollup-linux-x64-musl-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-openbsd-x64",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-openbsd-x64/-/rollup-openbsd-x64-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-openharmony-arm64",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-openharmony-arm64/-/rollup-openharmony-arm64-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-win32-arm64-msvc",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-win32-arm64-msvc/-/rollup-win32-arm64-msvc-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-win32-ia32-msvc",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-win32-ia32-msvc/-/rollup-win32-ia32-msvc-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "@rollup/rollup-win32-x64-gnu",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-win32-x64-gnu/-/rollup-win32-x64-gnu-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@rollup/rollup-win32-x64-msvc",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@so-ric/colorspace",
+    "version": "1.1.6",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@so-ric/colorspace/-/colorspace-1.1.6.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "@types/estree",
+    "version": "1.0.9",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@types/estree/-/estree-1.0.9.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@types/resolve",
+    "version": "1.20.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@types/resolve/-/resolve-1.20.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "@types/triple-beam",
+    "version": "1.3.5",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@types/triple-beam/-/triple-beam-1.3.5.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "abort-controller",
+    "version": "3.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/abort-controller/-/abort-controller-3.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "ajv",
+    "version": "8.20.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/ajv/-/ajv-8.20.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "ansi-regex",
+    "version": "6.3.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-6.3.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "ansi-styles",
+    "version": "4.3.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/ansi-styles/-/ansi-styles-4.3.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "color-convert",
+    "version": "2.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "color-name",
+    "version": "1.1.4",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "archiver",
+    "version": "7.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/archiver/-/archiver-7.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "archiver-utils",
+    "version": "5.0.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/archiver-utils/-/archiver-utils-5.0.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "async",
+    "version": "3.2.6",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/async/-/async-3.2.6.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "b4a",
+    "version": "1.8.1",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/b4a/-/b4a-1.8.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "balanced-match",
+    "version": "1.0.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "bare-events",
+    "version": "2.9.2",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/bare-events/-/bare-events-2.9.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "bare-fs",
+    "version": "4.8.1",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/bare-fs/-/bare-fs-4.8.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "bare-path",
+    "version": "3.1.2",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/bare-path/-/bare-path-3.1.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "bare-stream",
+    "version": "2.13.4",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/bare-stream/-/bare-stream-2.13.4.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "bare-url",
+    "version": "2.5.4",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/bare-url/-/bare-url-2.5.4.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "base64-js",
+    "version": "1.5.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/base64-js/-/base64-js-1.5.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "brace-expansion",
+    "version": "2.1.7",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/brace-expansion/-/brace-expansion-2.1.7.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "buffer",
+    "version": "6.0.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/buffer/-/buffer-6.0.3.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "buffer-crc32",
+    "version": "1.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/buffer-crc32/-/buffer-crc32-1.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "chalk",
+    "version": "5.6.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/chalk/-/chalk-5.6.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "chardet",
+    "version": "2.2.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/chardet/-/chardet-2.2.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "cli-cursor",
+    "version": "5.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/cli-cursor/-/cli-cursor-5.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "cli-spinners",
+    "version": "2.9.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/cli-spinners/-/cli-spinners-2.9.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "cli-width",
+    "version": "4.1.0",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/cli-width/-/cli-width-4.1.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "color",
+    "version": "5.0.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/color/-/color-5.0.3.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "color-convert",
+    "version": "3.1.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/color-convert/-/color-convert-3.1.3.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "color-name",
+    "version": "2.1.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/color-name/-/color-name-2.1.1.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "color-string",
+    "version": "2.1.4",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/color-string/-/color-string-2.1.4.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "commander",
+    "version": "13.1.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/commander/-/commander-13.1.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "commondir",
+    "version": "1.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/commondir/-/commondir-1.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "compress-commons",
+    "version": "6.0.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/compress-commons/-/compress-commons-6.0.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "core-util-is",
+    "version": "1.0.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.3.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "crc-32",
+    "version": "1.2.2",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/crc-32/-/crc-32-1.2.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "crc32-stream",
+    "version": "6.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/crc32-stream/-/crc32-stream-6.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "cross-spawn",
+    "version": "7.0.6",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.6.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "deepmerge",
+    "version": "4.3.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/deepmerge/-/deepmerge-4.3.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "eastasianwidth",
+    "version": "0.2.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/eastasianwidth/-/eastasianwidth-0.2.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "emoji-regex",
+    "version": "9.2.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/emoji-regex/-/emoji-regex-9.2.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "enabled",
+    "version": "2.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/enabled/-/enabled-2.0.0.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "es-errors",
+    "version": "1.3.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/es-errors/-/es-errors-1.3.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "estree-walker",
+    "version": "2.0.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/estree-walker/-/estree-walker-2.0.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "event-target-shim",
+    "version": "5.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/event-target-shim/-/event-target-shim-5.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "events",
+    "version": "3.3.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/events/-/events-3.3.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "events-universal",
+    "version": "1.0.1",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/events-universal/-/events-universal-1.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "fast-deep-equal",
+    "version": "3.1.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "fast-fifo",
+    "version": "1.3.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/fast-fifo/-/fast-fifo-1.3.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "fast-uri",
+    "version": "3.1.8",
+    "license": "BSD-3-Clause",
+    "source": "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.8.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "fdir",
+    "version": "6.5.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/fdir/-/fdir-6.5.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "fecha",
+    "version": "4.2.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/fecha/-/fecha-4.2.3.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "file-stream-rotator",
+    "version": "0.6.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/file-stream-rotator/-/file-stream-rotator-0.6.1.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "fn.name",
+    "version": "1.1.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/fn.name/-/fn.name-1.1.0.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "foreground-child",
+    "version": "3.3.1",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/foreground-child/-/foreground-child-3.3.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "fsevents",
+    "version": "2.3.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz",
+    "scope": "build/test only",
+    "installed": false
+  },
+  {
+    "name": "function-bind",
+    "version": "1.1.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "get-east-asian-width",
+    "version": "1.6.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/get-east-asian-width/-/get-east-asian-width-1.6.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "glob",
+    "version": "10.5.0",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/glob/-/glob-10.5.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "graceful-fs",
+    "version": "4.2.11",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "handlebars",
+    "version": "4.7.9",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/handlebars/-/handlebars-4.7.9.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "hasown",
+    "version": "2.0.4",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/hasown/-/hasown-2.0.4.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "iconv-lite",
+    "version": "0.7.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.7.3.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "ieee754",
+    "version": "1.2.1",
+    "license": "BSD-3-Clause",
+    "source": "https://registry.npmjs.org/ieee754/-/ieee754-1.2.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "inherits",
+    "version": "2.0.4",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "inquirer",
+    "version": "12.11.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/inquirer/-/inquirer-12.11.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "is-core-module",
+    "version": "2.16.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/is-core-module/-/is-core-module-2.16.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "is-fullwidth-code-point",
+    "version": "3.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/is-fullwidth-code-point/-/is-fullwidth-code-point-3.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "is-interactive",
+    "version": "2.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/is-interactive/-/is-interactive-2.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "is-module",
+    "version": "1.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/is-module/-/is-module-1.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "is-reference",
+    "version": "1.2.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/is-reference/-/is-reference-1.2.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "is-stream",
+    "version": "2.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/is-stream/-/is-stream-2.0.1.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "is-unicode-supported",
+    "version": "2.1.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/is-unicode-supported/-/is-unicode-supported-2.1.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "isarray",
+    "version": "1.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/isarray/-/isarray-1.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "isexe",
+    "version": "2.0.0",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/isexe/-/isexe-2.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "jackspeak",
+    "version": "3.4.3",
+    "license": "BlueOak-1.0.0",
+    "source": "https://registry.npmjs.org/jackspeak/-/jackspeak-3.4.3.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "json-schema-traverse",
+    "version": "1.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/json-schema-traverse/-/json-schema-traverse-1.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "kuler",
+    "version": "2.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/kuler/-/kuler-2.0.0.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "lazystream",
+    "version": "1.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/lazystream/-/lazystream-1.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "readable-stream",
+    "version": "2.3.8",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/readable-stream/-/readable-stream-2.3.8.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "safe-buffer",
+    "version": "5.1.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.1.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "string_decoder",
+    "version": "1.1.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.1.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "lodash",
+    "version": "4.18.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/lodash/-/lodash-4.18.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "log-symbols",
+    "version": "6.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/log-symbols/-/log-symbols-6.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "is-unicode-supported",
+    "version": "1.3.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/is-unicode-supported/-/is-unicode-supported-1.3.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "logform",
+    "version": "2.7.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/logform/-/logform-2.7.0.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "@colors/colors",
+    "version": "1.6.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/@colors/colors/-/colors-1.6.0.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "lru-cache",
+    "version": "10.4.3",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/lru-cache/-/lru-cache-10.4.3.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "magic-string",
+    "version": "0.30.21",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/magic-string/-/magic-string-0.30.21.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "mimic-function",
+    "version": "5.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/mimic-function/-/mimic-function-5.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "minimatch",
+    "version": "9.0.9",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/minimatch/-/minimatch-9.0.9.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "minimist",
+    "version": "1.2.8",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/minimist/-/minimist-1.2.8.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "minipass",
+    "version": "7.1.3",
+    "license": "BlueOak-1.0.0",
+    "source": "https://registry.npmjs.org/minipass/-/minipass-7.1.3.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "moment",
+    "version": "2.31.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/moment/-/moment-2.31.0.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "ms",
+    "version": "2.1.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "mute-stream",
+    "version": "2.0.0",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/mute-stream/-/mute-stream-2.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "neo-async",
+    "version": "2.6.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/neo-async/-/neo-async-2.6.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "normalize-path",
+    "version": "3.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/normalize-path/-/normalize-path-3.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "object-hash",
+    "version": "3.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/object-hash/-/object-hash-3.0.0.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "one-time",
+    "version": "1.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/one-time/-/one-time-1.0.0.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "onetime",
+    "version": "7.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/onetime/-/onetime-7.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "ora",
+    "version": "8.2.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/ora/-/ora-8.2.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "emoji-regex",
+    "version": "10.6.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/emoji-regex/-/emoji-regex-10.6.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "string-width",
+    "version": "7.2.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/string-width/-/string-width-7.2.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "package-json-from-dist",
+    "version": "1.0.1",
+    "license": "BlueOak-1.0.0",
+    "source": "https://registry.npmjs.org/package-json-from-dist/-/package-json-from-dist-1.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "path-key",
+    "version": "3.1.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/path-key/-/path-key-3.1.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "path-parse",
+    "version": "1.0.7",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/path-parse/-/path-parse-1.0.7.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "path-scurry",
+    "version": "1.11.1",
+    "license": "BlueOak-1.0.0",
+    "source": "https://registry.npmjs.org/path-scurry/-/path-scurry-1.11.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "picomatch",
+    "version": "4.0.7",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/picomatch/-/picomatch-4.0.7.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "process",
+    "version": "0.11.10",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/process/-/process-0.11.10.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "process-nextick-args",
+    "version": "2.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/process-nextick-args/-/process-nextick-args-2.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "readable-stream",
+    "version": "4.7.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/readable-stream/-/readable-stream-4.7.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "readdir-glob",
+    "version": "1.1.3",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/readdir-glob/-/readdir-glob-1.1.3.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "minimatch",
+    "version": "5.1.9",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/minimatch/-/minimatch-5.1.9.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "require-from-string",
+    "version": "2.0.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/require-from-string/-/require-from-string-2.0.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "resolve",
+    "version": "1.22.12",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/resolve/-/resolve-1.22.12.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "restore-cursor",
+    "version": "5.1.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/restore-cursor/-/restore-cursor-5.1.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "rollup",
+    "version": "4.63.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/rollup/-/rollup-4.63.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "run-async",
+    "version": "4.0.6",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/run-async/-/run-async-4.0.6.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "rxjs",
+    "version": "7.8.2",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/rxjs/-/rxjs-7.8.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "safe-buffer",
+    "version": "5.2.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.2.1.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "safe-stable-stringify",
+    "version": "2.5.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/safe-stable-stringify/-/safe-stable-stringify-2.5.0.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "safer-buffer",
+    "version": "2.1.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/safer-buffer/-/safer-buffer-2.1.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "shebang-command",
+    "version": "2.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/shebang-command/-/shebang-command-2.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "shebang-regex",
+    "version": "3.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/shebang-regex/-/shebang-regex-3.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "signal-exit",
+    "version": "4.1.0",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/signal-exit/-/signal-exit-4.1.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "source-map",
+    "version": "0.6.1",
+    "license": "BSD-3-Clause",
+    "source": "https://registry.npmjs.org/source-map/-/source-map-0.6.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "stack-trace",
+    "version": "0.0.10",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/stack-trace/-/stack-trace-0.0.10.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "stdin-discarder",
+    "version": "0.2.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/stdin-discarder/-/stdin-discarder-0.2.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "streamx",
+    "version": "2.28.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/streamx/-/streamx-2.28.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "string_decoder",
+    "version": "1.3.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.3.0.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "string-width",
+    "version": "5.1.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/string-width/-/string-width-5.1.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "string-width",
+    "version": "4.2.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "ansi-regex",
+    "version": "5.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "emoji-regex",
+    "version": "8.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "strip-ansi",
+    "version": "6.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "strip-ansi",
+    "version": "7.2.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-7.2.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "strip-ansi",
+    "version": "6.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "ansi-regex",
+    "version": "5.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "supports-preserve-symlinks-flag",
+    "version": "1.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "tar-stream",
+    "version": "3.2.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/tar-stream/-/tar-stream-3.2.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "teex",
+    "version": "1.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/teex/-/teex-1.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "text-decoder",
+    "version": "1.2.7",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/text-decoder/-/text-decoder-1.2.7.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "text-hex",
+    "version": "1.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/text-hex/-/text-hex-1.0.0.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "triple-beam",
+    "version": "1.4.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/triple-beam/-/triple-beam-1.4.1.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "tslib",
+    "version": "2.8.1",
+    "license": "0BSD",
+    "source": "https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "uglify-js",
+    "version": "3.19.3",
+    "license": "BSD-2-Clause",
+    "source": "https://registry.npmjs.org/uglify-js/-/uglify-js-3.19.3.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "util-deprecate",
+    "version": "1.0.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "uuid",
+    "version": "11.1.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/uuid/-/uuid-11.1.1.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "which",
+    "version": "2.0.2",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/which/-/which-2.0.2.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "winston",
+    "version": "3.19.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/winston/-/winston-3.19.0.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "winston-daily-rotate-file",
+    "version": "5.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/winston-daily-rotate-file/-/winston-daily-rotate-file-5.0.0.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "winston-transport",
+    "version": "4.9.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/winston-transport/-/winston-transport-4.9.0.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "readable-stream",
+    "version": "3.6.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/readable-stream/-/readable-stream-3.6.2.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "readable-stream",
+    "version": "3.6.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/readable-stream/-/readable-stream-3.6.2.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "wordwrap",
+    "version": "1.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/wordwrap/-/wordwrap-1.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "wrap-ansi",
+    "version": "6.2.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-6.2.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "wrap-ansi",
+    "version": "7.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "ansi-regex",
+    "version": "5.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "emoji-regex",
+    "version": "8.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "string-width",
+    "version": "4.2.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "strip-ansi",
+    "version": "6.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "ansi-regex",
+    "version": "5.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "emoji-regex",
+    "version": "8.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "string-width",
+    "version": "4.2.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "strip-ansi",
+    "version": "6.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "ws",
+    "version": "8.21.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/ws/-/ws-8.21.3.tgz",
+    "scope": "runtime dependency (bundle/native)",
+    "installed": true
+  },
+  {
+    "name": "yoctocolors-cjs",
+    "version": "2.1.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/yoctocolors-cjs/-/yoctocolors-cjs-2.1.3.tgz",
+    "scope": "build/test only",
+    "installed": true
+  },
+  {
+    "name": "zip-stream",
+    "version": "6.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/zip-stream/-/zip-stream-6.0.1.tgz",
+    "scope": "build/test only",
+    "installed": true
+  }
+]

@@ -1,0 +1,7 @@
+ENIAC FlexDesigner SDK 1.0.9
+Official npm metadata declares license: MIT and author: eniac.
+Metadata source: https://registry.npmjs.org/@eniac/flexdesigner/1.0.9
+No independent upstream copyright statement/year is supplied. None is invented here.
+MIT-standard.txt preserves the standard MIT license template, including its placeholder line; that placeholder is not an upstream attribution.
+The official Plugin-Example bundles this SDK using Rollup and distributes .flexplugin assets. See ECOSYSTEM_RELEASE_COMPARISON.md for dated evidence.
+The README agreement reference remains upstream metadata ambiguity (H001), not a v1.0 release blocker under the adopted policy.

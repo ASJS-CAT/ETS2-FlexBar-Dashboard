@@ -1,0 +1,91 @@
+{
+  "status": "identity verified; complete embedded component inventory not established",
+  "registry": "https://registry.npmjs.org/@napi-rs/canvas-win32-x64-msvc/0.1.80",
+  "package": "@napi-rs/canvas-win32-x64-msvc",
+  "version": "0.1.80",
+  "gitHead": "dda1b258dac667b4c66b94bbd4d70aa79ea4503a",
+  "tarball": "https://registry.npmjs.org/@napi-rs/canvas-win32-x64-msvc/-/canvas-win32-x64-msvc-0.1.80.tgz",
+  "integrity": "sha512-Z8jPsM6df5V8B1HrCHB05+bDiCxjE9QA//3YrkKIdVDEwn5RKaqOxCJDRJkl48cJbylcrJbW4HxZbTte8juuPg==",
+  "binary": {
+    "filename": "skia.win32-x64-msvc.node",
+    "sha256": "30646342fc284109aa9542155287d37147c97132d5168cf621f851a9c69e0c99",
+    "size": 26272256
+  },
+  "upstreamReleaseAsset": {
+    "id": 292783032,
+    "name": "skia.win32-x64-msvc.node",
+    "size": 26272256,
+    "digest": "sha256:30646342fc284109aa9542155287d37147c97132d5168cf621f851a9c69e0c99",
+    "browser_download_url": "https://github.com/Brooooooklyn/canvas/releases/download/v0.1.80/skia.win32-x64-msvc.node",
+    "created_at": "2025-09-13T07:14:58Z"
+  },
+  "attestationsUrl": "https://registry.npmjs.org/-/npm/v1/attestations/@napi-rs%2fcanvas-win32-x64-msvc@0.1.80",
+  "attestation": {
+    "_type": "https://in-toto.io/Statement/v1",
+    "subject": [
+      {
+        "name": "pkg:npm/%40napi-rs/canvas-win32-x64-msvc@0.1.80",
+        "digest": {
+          "sha512": "67c8cfb0ce9d7f957c0751eb087074e7e6c3882c6313d400fffdd8ae42887550c4c27e5129aa8ec42243449925e3c7096f295cac96d6e07c596d3b5ef23bae3e"
+        }
+      }
+    ],
+    "predicateType": "https://slsa.dev/provenance/v1",
+    "predicate": {
+      "buildDefinition": {
+        "buildType": "https://slsa-framework.github.io/github-actions-buildtypes/workflow/v1",
+        "externalParameters": {
+          "workflow": {
+            "ref": "refs/heads/main",
+            "repository": "https://github.com/Brooooooklyn/canvas",
+            "path": ".github/workflows/CI.yaml"
+          }
+        },
+        "internalParameters": {
+          "github": {
+            "event_name": "push",
+            "repository_id": "291390714",
+            "repository_owner_id": "3468483"
+          }
+        },
+        "resolvedDependencies": [
+          {
+            "uri": "git+https://github.com/Brooooooklyn/canvas@refs/heads/main",
+            "digest": {
+              "gitCommit": "dda1b258dac667b4c66b94bbd4d70aa79ea4503a"
+            }
+          }
+        ]
+      },
+      "runDetails": {
+        "builder": {
+          "id": "https://github.com/actions/runner/github-hosted"
+        },
+        "metadata": {
+          "invocationId": "https://github.com/Brooooooklyn/canvas/actions/runs/17693234724/attempts/2"
+        }
+      }
+    }
+  },
+  "npmAuditSignatures": {
+    "exitCode": 0,
+    "registrySignaturesVerified": 203,
+    "attestationsVerified": 19
+  },
+  "sourceTree": "https://api.github.com/repos/Brooooooklyn/canvas/git/trees/dda1b258dac667b4c66b94bbd4d70aa79ea4503a?recursive=1",
+  "cargoLockPresent": false,
+  "workflowArtifacts": {
+    "total_count": 0,
+    "artifacts": []
+  },
+  "windowsJobLogs": {
+    "url": "https://api.github.com/repos/Brooooooklyn/canvas/actions/jobs/50289768165/logs",
+    "result": "HTTP 403 for unauthenticated request; not inspected"
+  },
+  "skia": {
+    "commit": "1fdbea293a53b270e3f5e74c92cc6670d68412ff",
+    "downloadTag": "skia-1fdbea29",
+    "mappingSource": "https://github.com/Brooooooklyn/canvas/blob/dda1b258dac667b4c66b94bbd4d70aa79ea4503a/scripts/utils.mjs",
+    "limitation": "Workflow downloads static libraries by release URL; a source-tag name is not itself a complete build/link inventory."
+  }
+}

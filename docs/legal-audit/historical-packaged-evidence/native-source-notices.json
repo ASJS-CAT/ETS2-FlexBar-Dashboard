@@ -1,0 +1,91 @@
+[
+  {
+    "component": "skia",
+    "source": "https://raw.githubusercontent.com/google/skia/1fdbea293a53b270e3f5e74c92cc6670d68412ff/LICENSE",
+    "notice": "docs/licenses/native/skia-LICENSE.txt",
+    "bytes": 1507
+  },
+  {
+    "component": "brotli",
+    "source": "https://raw.githubusercontent.com/google/brotli/6d03dfbedda1615c4cba1211f8d81735575209c8/LICENSE",
+    "notice": "docs/licenses/native/brotli-LICENSE.txt",
+    "bytes": 1084
+  },
+  {
+    "component": "expat",
+    "source": "https://raw.githubusercontent.com/libexpat/libexpat/8e49998f003d693213b538ef765814c7d21abada/COPYING",
+    "notice": "docs/licenses/native/expat-LICENSE.txt",
+    "bytes": 1144
+  },
+  {
+    "component": "freetype",
+    "source": "https://chromium.googlesource.com/chromium/src/third_party/freetype2/+/1518bc83d26b434031bd12c706ac3c7dab3902fd/docs/FTL.TXT?format=TEXT",
+    "notice": "docs/licenses/native/freetype-LICENSE.txt",
+    "bytes": 6743
+  },
+  {
+    "component": "harfbuzz",
+    "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/08b52ae2e44931eef163dbad71697f911fadc323/COPYING",
+    "notice": "docs/licenses/native/harfbuzz-LICENSE.txt",
+    "bytes": 1971
+  },
+  {
+    "component": "highway",
+    "source": "https://raw.githubusercontent.com/google/highway/424360251cdcfc314cfc528f53c872ecd63af0f0/LICENSE",
+    "notice": "docs/licenses/native/highway-LICENSE.txt",
+    "bytes": 11356
+  },
+  {
+    "component": "icu",
+    "source": "https://chromium.googlesource.com/chromium/deps/icu/+/364118a1d9da24bb5b770ac3d762ac144d6da5a4/LICENSE?format=TEXT",
+    "notice": "docs/licenses/native/icu-LICENSE.txt",
+    "bytes": 25185
+  },
+  {
+    "component": "jpeg",
+    "source": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/LICENSE.md?format=TEXT",
+    "notice": "docs/licenses/native/jpeg-LICENSE.txt",
+    "bytes": 5620
+  },
+  {
+    "component": "jxl",
+    "source": "https://raw.githubusercontent.com/libjxl/libjxl/a205468bc5d3a353fb15dae2398a101dff52f2d3/LICENSE",
+    "notice": "docs/licenses/native/jxl-LICENSE.txt",
+    "bytes": 1508
+  },
+  {
+    "component": "png",
+    "source": "https://skia.googlesource.com/third_party/libpng/+/ed217e3e601d8e462f7fd1e04bed43ac42212429/LICENSE?format=TEXT",
+    "notice": "docs/licenses/native/png-LICENSE.txt",
+    "bytes": 5345
+  },
+  {
+    "component": "webp",
+    "source": "https://chromium.googlesource.com/webm/libwebp/+/845d5476a866141ba35ac133f856fa62f0b7445f/COPYING?format=TEXT",
+    "notice": "docs/licenses/native/webp-LICENSE.txt",
+    "bytes": 1496
+  },
+  {
+    "component": "wuffs",
+    "source": "https://raw.githubusercontent.com/google/wuffs-mirror-release-c/e3f919ccfe3ef542cfc983a82146070258fb57f8/LICENSE",
+    "notice": "docs/licenses/native/wuffs-LICENSE.txt",
+    "bytes": 11358
+  },
+  {
+    "component": "zlib",
+    "source": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/LICENSE?format=TEXT",
+    "notice": "docs/licenses/native/zlib-LICENSE.txt",
+    "bytes": 910
+  },
+  {
+    "component": "napi",
+    "source": "https://raw.githubusercontent.com/napi-rs/napi-rs/napi%403.3.0/LICENSE",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "component": "base64-simd",
+    "source": "https://raw.githubusercontent.com/Nugine/simd/master/LICENSE",
+    "notice": "docs/licenses/native/base64-simd-LICENSE.txt",
+    "bytes": 1062
+  }
+]

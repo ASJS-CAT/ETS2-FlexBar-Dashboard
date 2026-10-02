@@ -1,0 +1,744 @@
+{
+  "policy": "practical-compliance-v1",
+  "materials": [
+    {
+      "source": "docs/legal-audit/licenses/canvas-0.1.80/LICENSE",
+      "target": "third-party-licenses/canvas-0.1.80/LICENSE",
+      "sha256": "8802fecf9da4367bc23bcf20b21cc143785fc6c92b152f3fa7fbe6ce08d344d6",
+      "origin": "https://registry.npmjs.org/@napi-rs/canvas/-/canvas-0.1.80.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/geometry-polyfill/LICENSE",
+      "target": "third-party-licenses/geometry-polyfill/LICENSE",
+      "sha256": "28165d2eefa987ce1b5ffec1e518def2ff6a1e495cdd3af1a2504aa10075bf0d",
+      "origin": "https://raw.githubusercontent.com/jarek-foksa/geometry-polyfill/f36bbc8f4bc43539d980687904ce46c8e915543d/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/libaom-3.11.0/LICENSE",
+      "target": "third-party-licenses/libaom-3.11.0/LICENSE",
+      "sha256": "4764a286d8b2faeaf42f4418e7d7a28d58fc8fd4d00a3d0a7f44b0a4099de7f2",
+      "origin": "https://aomedia.googlesource.com/aom/+/refs/tags/v3.11.0/LICENSE?format=TEXT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/libaom-3.11.0/PATENTS",
+      "target": "third-party-licenses/libaom-3.11.0/PATENTS",
+      "sha256": "661fb8e504744e95587b556b94a58343448300606a41bea8c7a9b97125696e61",
+      "origin": "https://aomedia.googlesource.com/aom/+/refs/tags/v3.11.0/PATENTS?format=TEXT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/microsoft-runtime/microsoft-buildtools.txt",
+      "target": "third-party-licenses/microsoft-runtime/microsoft-buildtools.txt",
+      "sha256": "ec67643422c7f472298558f3a8660ec6c6e55dd3080040acf4c9bd250b5d4e93",
+      "origin": "https://visualstudio.microsoft.com/wp-content/uploads/2025/10/Visual_Studio_2026-License-Diagnostic_and_Build_Tools_ENU.docx (plain text extraction; DOCX is authoritative)"
+    },
+    {
+      "source": "docs/legal-audit/licenses/microsoft-runtime/microsoft-redist.txt",
+      "target": "third-party-licenses/microsoft-runtime/microsoft-redist.txt",
+      "sha256": "fcd3649a1ea1ed04d849521aca4950ca3db98b3a69f542b51d94cf71f4f17b64",
+      "origin": "https://visualstudio.microsoft.com/wp-content/uploads/2025/10/Visual-C-V14-License-Redistributable_and_Runtime_ENU.docx (plain text extraction; DOCX is authoritative)"
+    },
+    {
+      "source": "docs/legal-audit/licenses/microsoft-stl/LICENSE.txt",
+      "target": "third-party-licenses/microsoft-stl/LICENSE.txt",
+      "sha256": "1fc6b6db121d4555d8f661937d7f6013693cd8fd67495d5e5d98c1d18fb83eda",
+      "origin": "https://raw.githubusercontent.com/microsoft/STL/219514876ea86491de191ceaa88632616bbc0f19/LICENSE.txt"
+    },
+    {
+      "source": "docs/legal-audit/licenses/native/brotli-LICENSE.txt",
+      "target": "third-party-licenses/native/brotli-LICENSE.txt",
+      "sha256": "3d180008e36922a4e8daec11c34c7af264fed5962d07924aea928c38e8663c94",
+      "origin": "https://raw.githubusercontent.com/google/brotli/6d03dfbedda1615c4cba1211f8d81735575209c8/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/native/expat-LICENSE.txt",
+      "target": "third-party-licenses/native/expat-LICENSE.txt",
+      "sha256": "31b15de82aa19a845156169a17a5488bf597e561b2c318d159ed583139b25e87",
+      "origin": "https://raw.githubusercontent.com/libexpat/libexpat/8e49998f003d693213b538ef765814c7d21abada/COPYING"
+    },
+    {
+      "source": "docs/legal-audit/licenses/native/freetype-LICENSE.txt",
+      "target": "third-party-licenses/native/freetype-LICENSE.txt",
+      "sha256": "5a5ee54c5001bbad1cdc1a57cc3dd4c42199b2da09d39c7ee41fab002d02967f",
+      "origin": "https://chromium.googlesource.com/chromium/src/third_party/freetype2/+/1518bc83d26b434031bd12c706ac3c7dab3902fd/docs/FTL.TXT?format=TEXT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/native/harfbuzz-LICENSE.txt",
+      "target": "third-party-licenses/native/harfbuzz-LICENSE.txt",
+      "sha256": "ba8f810f2455c2f08e2d56bb49b72f37fcf68f1f4fade38977cfd7372050ad64",
+      "origin": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/08b52ae2e44931eef163dbad71697f911fadc323/COPYING"
+    },
+    {
+      "source": "docs/legal-audit/licenses/native/icu-LICENSE.txt",
+      "target": "third-party-licenses/native/icu-LICENSE.txt",
+      "sha256": "17510cf7a58b4879b887ec05a45d72cf1b73544dd9ec7e72f20110ed104229ee",
+      "origin": "https://chromium.googlesource.com/chromium/deps/icu/+/364118a1d9da24bb5b770ac3d762ac144d6da5a4/LICENSE?format=TEXT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/native/jpeg-LICENSE.txt",
+      "target": "third-party-licenses/native/jpeg-LICENSE.txt",
+      "sha256": "96f5b328adbb78eeaaec6980d73fd558cb1e4d62560ed615646bc3cf5e532430",
+      "origin": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/LICENSE.md?format=TEXT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/native/jpeg-README.ijg.txt",
+      "target": "third-party-licenses/native/jpeg-README.ijg.txt",
+      "sha256": "75815e3bf6484201a3c3d17a1bbf10f2e8e3237f84df10a2357ea896db2a81d6",
+      "origin": "https://chromium.googlesource.com/chromium/deps/libjpeg_turbo/+/e14cbfaa85529d47f9f55b0f104a579c1061f9ad/README.ijg?format=TEXT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/native/jxl-LICENSE.txt",
+      "target": "third-party-licenses/native/jxl-LICENSE.txt",
+      "sha256": "8405932022a556380c2d8c272eff154a923feb197233f348ce5f7334fb0a5ede",
+      "origin": "https://raw.githubusercontent.com/libjxl/libjxl/a205468bc5d3a353fb15dae2398a101dff52f2d3/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/native/jxl-PATENTS",
+      "target": "third-party-licenses/native/jxl-PATENTS",
+      "sha256": "91915f8ae056a68a3c5bdf05d9f6f78bb6903e27a8ca3a8434c9e4ac87300575",
+      "origin": "https://raw.githubusercontent.com/libjxl/libjxl/a205468bc5d3a353fb15dae2398a101dff52f2d3/PATENTS"
+    },
+    {
+      "source": "docs/legal-audit/licenses/native/png-LICENSE.txt",
+      "target": "third-party-licenses/native/png-LICENSE.txt",
+      "sha256": "7317e078e2d3b5d7ba5a6159e650945153262b44b76f6700f8e9edb261c5143e",
+      "origin": "https://skia.googlesource.com/third_party/libpng/+/ed217e3e601d8e462f7fd1e04bed43ac42212429/LICENSE?format=TEXT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/native/skia-LICENSE.txt",
+      "target": "third-party-licenses/native/skia-LICENSE.txt",
+      "sha256": "5f787c1dee3c56547f09ccc2906ab5f5293c4d8dd6c8654e573216c38e908dbd",
+      "origin": "https://raw.githubusercontent.com/google/skia/1fdbea293a53b270e3f5e74c92cc6670d68412ff/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/native/webp-LICENSE.txt",
+      "target": "third-party-licenses/native/webp-LICENSE.txt",
+      "sha256": "5aec868f669e384a22372a4e8a1a6cd7d44c64cd451f960ca69cc170d1e13acf",
+      "origin": "https://chromium.googlesource.com/webm/libwebp/+/845d5476a866141ba35ac133f856fa62f0b7445f/COPYING?format=TEXT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/native/webp-PATENTS",
+      "target": "third-party-licenses/native/webp-PATENTS",
+      "sha256": "cc3273e0694ea5896145e0677699b53471b03ea43021ddc50e7923fbb9f5023c",
+      "origin": "https://chromium.googlesource.com/webm/libwebp/+/845d5476a866141ba35ac133f856fa62f0b7445f/PATENTS?format=TEXT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/native/wuffs-LICENSE.txt",
+      "target": "third-party-licenses/native/wuffs-LICENSE.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "origin": "https://raw.githubusercontent.com/google/wuffs-mirror-release-c/e3f919ccfe3ef542cfc983a82146070258fb57f8/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/native/wuffs-header.h",
+      "target": "third-party-licenses/native/wuffs-header.h",
+      "sha256": "ea8bab5b5040582d23b88d5c0432c23edc674587a077c16ce6a229bce17b5ddb",
+      "origin": "https://raw.githubusercontent.com/google/wuffs-mirror-release-c/e3f919ccfe3ef542cfc983a82146070258fb57f8/release/c/wuffs-v0.3.c"
+    },
+    {
+      "source": "docs/legal-audit/licenses/native/zlib-LICENSE.txt",
+      "target": "third-party-licenses/native/zlib-LICENSE.txt",
+      "sha256": "e1cfcc55c325b3f78cf55df9664abaa066e2271dffe8213347d9fccdfbac8f2c",
+      "origin": "https://chromium.googlesource.com/chromium/src/third_party/zlib/+/646b7f569718921d7d4b5b8e22572ff6c76f2596/LICENSE?format=TEXT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/async-3.2.6/LICENSE",
+      "target": "third-party-licenses/npm/async-3.2.6/LICENSE",
+      "sha256": "d9fed24f132985934fca621c4dc1dfb53e03377a24d0568d424383d7eaa9c0ac",
+      "origin": "https://registry.npmjs.org/async/-/async-3.2.6.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/colors__colors-1.6.0/LICENSE",
+      "target": "third-party-licenses/npm/colors__colors-1.6.0/LICENSE",
+      "sha256": "58597ded729a5e749cc323e2ae6e533a31be3622737b33e0239ba075ca14b515",
+      "origin": "https://registry.npmjs.org/@colors/colors/-/colors-1.6.0.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/dabh__diagnostics-2.0.9/LICENSE",
+      "target": "third-party-licenses/npm/dabh__diagnostics-2.0.9/LICENSE",
+      "sha256": "77cc8fe282841077c532a9d92bda47add7bd0e1f5f4d7e91a9f91bff69faa86a",
+      "origin": "https://registry.npmjs.org/@dabh/diagnostics/-/diagnostics-2.0.9.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/enabled-2.0.0/LICENSE",
+      "target": "third-party-licenses/npm/enabled-2.0.0/LICENSE",
+      "sha256": "77cc8fe282841077c532a9d92bda47add7bd0e1f5f4d7e91a9f91bff69faa86a",
+      "origin": "https://registry.npmjs.org/enabled/-/enabled-2.0.0.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/fecha-4.2.3/LICENSE",
+      "target": "third-party-licenses/npm/fecha-4.2.3/LICENSE",
+      "sha256": "382372d4059c129f65cc19770c463bf3820701e2ff3f8b88666d806cdc803b1c",
+      "origin": "https://registry.npmjs.org/fecha/-/fecha-4.2.3.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/file-stream-rotator-0.6.1/LICENSE.txt",
+      "target": "third-party-licenses/npm/file-stream-rotator-0.6.1/LICENSE.txt",
+      "sha256": "ad36955b4b1181d68432ccd0ac073b2eed2a9017538da5f0bf4c868d2e1f7c9e",
+      "origin": "https://registry.npmjs.org/file-stream-rotator/-/file-stream-rotator-0.6.1.tgz :: package/LICENSE.txt"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/fn.name-1.1.0/LICENSE",
+      "target": "third-party-licenses/npm/fn.name-1.1.0/LICENSE",
+      "sha256": "d12a751f8b027f264c79ae82adfa717be6e78feb57799edf8739667d7a0ef52d",
+      "origin": "https://registry.npmjs.org/fn.name/-/fn.name-1.1.0.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/inherits-2.0.4/LICENSE",
+      "target": "third-party-licenses/npm/inherits-2.0.4/LICENSE",
+      "sha256": "5ffe28e7ade7d8f10d85d5337a73fd793dac5c462fb9a28fbf8c5046c7fbca3b",
+      "origin": "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/is-stream-2.0.1/license",
+      "target": "third-party-licenses/npm/is-stream-2.0.1/license",
+      "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3",
+      "origin": "https://registry.npmjs.org/is-stream/-/is-stream-2.0.1.tgz :: package/license"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/kuler-2.0.0/LICENSE",
+      "target": "third-party-licenses/npm/kuler-2.0.0/LICENSE",
+      "sha256": "5a2d5efbffa24832919e9834f4edc11ce027790ee50a47a2c1904bf69c2a5c76",
+      "origin": "https://registry.npmjs.org/kuler/-/kuler-2.0.0.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/logform-2.7.0/LICENSE",
+      "target": "third-party-licenses/npm/logform-2.7.0/LICENSE",
+      "sha256": "ccf635c9ede66a9dba49dc14f29fba61bb41149f47d3f5cae1825061c327d1e0",
+      "origin": "https://registry.npmjs.org/logform/-/logform-2.7.0.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/minimist-1.2.8/LICENSE",
+      "target": "third-party-licenses/npm/minimist-1.2.8/LICENSE",
+      "sha256": "435a6722c786b0a56fbe7387028f1d9d3f3a2d0fb615bb8fee118727c3f59b7b",
+      "origin": "https://registry.npmjs.org/minimist/-/minimist-1.2.8.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/moment-2.31.0/LICENSE",
+      "target": "third-party-licenses/npm/moment-2.31.0/LICENSE",
+      "sha256": "64419cc68debfd9b7c27e9cd926c756181e0857709d2701094874e0fb1a41d28",
+      "origin": "https://registry.npmjs.org/moment/-/moment-2.31.0.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/ms-2.1.3/license.md",
+      "target": "third-party-licenses/npm/ms-2.1.3/license.md",
+      "sha256": "1662fae9b5314d11cf51284e2dcd1f006a354f7343f08712a730fcff9a359801",
+      "origin": "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz :: package/license.md"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/object-hash-3.0.0/LICENSE",
+      "target": "third-party-licenses/npm/object-hash-3.0.0/LICENSE",
+      "sha256": "ea9e6806c48a8a043ad8f2446527dc860617068265cffbef3efa4aaba39f18d8",
+      "origin": "https://registry.npmjs.org/object-hash/-/object-hash-3.0.0.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/one-time-1.0.0/LICENSE",
+      "target": "third-party-licenses/npm/one-time-1.0.0/LICENSE",
+      "sha256": "3b2a6a268aa815dec121d614245e03b5c68db1f044d5b525e36db7d5dc7fb9c3",
+      "origin": "https://registry.npmjs.org/one-time/-/one-time-1.0.0.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/readable-stream-3.6.2/LICENSE",
+      "target": "third-party-licenses/npm/readable-stream-3.6.2/LICENSE",
+      "sha256": "ec62dc96da0099b87f4511736c87309335527fb7031639493e06c95728dc8c54",
+      "origin": "https://registry.npmjs.org/readable-stream/-/readable-stream-3.6.2.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/safe-buffer-5.2.1/LICENSE",
+      "target": "third-party-licenses/npm/safe-buffer-5.2.1/LICENSE",
+      "sha256": "c7cc929b57080f4b9d0c6cf57669f0463fc5b39906344dfc8d3bc43426b30eac",
+      "origin": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.2.1.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/safe-stable-stringify-2.5.0/LICENSE",
+      "target": "third-party-licenses/npm/safe-stable-stringify-2.5.0/LICENSE",
+      "sha256": "3a6d6de49d284a36c5d271ef0e62eca1838cc460dd7630e3f2c347c8f5b2232a",
+      "origin": "https://registry.npmjs.org/safe-stable-stringify/-/safe-stable-stringify-2.5.0.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/so-ric__colorspace-1.1.6/LICENSE.md",
+      "target": "third-party-licenses/npm/so-ric__colorspace-1.1.6/LICENSE.md",
+      "sha256": "56dbea61ecd8a624c37c7a1c282a2ec4b72a4b2a03fbc6eeb7210bdc4ec25d75",
+      "origin": "https://registry.npmjs.org/@so-ric/colorspace/-/colorspace-1.1.6.tgz :: package/LICENSE.md"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/stack-trace-0.0.10/License",
+      "target": "third-party-licenses/npm/stack-trace-0.0.10/License",
+      "sha256": "c5ece09265dbd6335030832335dec72919b9ecfd4db126cb9bb9b8d023970304",
+      "origin": "https://registry.npmjs.org/stack-trace/-/stack-trace-0.0.10.tgz :: package/License"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/string_decoder-1.3.0/LICENSE",
+      "target": "third-party-licenses/npm/string_decoder-1.3.0/LICENSE",
+      "sha256": "11f2aafb37d06b3ee5bdaf06e9811141d0da05263c316f3d627f45c20d43261b",
+      "origin": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.3.0.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/triple-beam-1.4.1/LICENSE",
+      "target": "third-party-licenses/npm/triple-beam-1.4.1/LICENSE",
+      "sha256": "8774f6f7c9a92be674d3a2bc33c2781032bd932005fff4b9684f02ec2ea27649",
+      "origin": "https://registry.npmjs.org/triple-beam/-/triple-beam-1.4.1.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/util-deprecate-1.0.2/LICENSE",
+      "target": "third-party-licenses/npm/util-deprecate-1.0.2/LICENSE",
+      "sha256": "0154425673db15cdfa80ecba2c9b1f1a867f7197a006764712849bfc3a93cbb7",
+      "origin": "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/uuid-11.1.1/LICENSE.md",
+      "target": "third-party-licenses/npm/uuid-11.1.1/LICENSE.md",
+      "sha256": "beaa6b04fb82e41dd2ad679e19e27953afb5999b1abbb455b6564e78ebfeb332",
+      "origin": "https://registry.npmjs.org/uuid/-/uuid-11.1.1.tgz :: package/LICENSE.md"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/winston-3.19.0/LICENSE",
+      "target": "third-party-licenses/npm/winston-3.19.0/LICENSE",
+      "sha256": "e61f2ace04e689d21ba1a7bc54d933bcb6e35ebeb887fb5831b880be5de192a7",
+      "origin": "https://registry.npmjs.org/winston/-/winston-3.19.0.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/winston-daily-rotate-file-5.0.0/LICENSE",
+      "target": "third-party-licenses/npm/winston-daily-rotate-file-5.0.0/LICENSE",
+      "sha256": "7419f65a137a8eacbe532af8d489a3a6519c1bdfa82160a08c9ce46f04f62e1a",
+      "origin": "https://registry.npmjs.org/winston-daily-rotate-file/-/winston-daily-rotate-file-5.0.0.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/winston-transport-4.9.0/LICENSE",
+      "target": "third-party-licenses/npm/winston-transport-4.9.0/LICENSE",
+      "sha256": "9108281e9d40182f550b7330b3928f2d82fde8cf213a9e95f565df60bdf417c6",
+      "origin": "https://registry.npmjs.org/winston-transport/-/winston-transport-4.9.0.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/npm/ws-8.21.3/LICENSE",
+      "target": "third-party-licenses/npm/ws-8.21.3/LICENSE",
+      "sha256": "2b29dcfe0d6471f7e8c92c5fb38c9f93edee10330937055440192f1832b1ecef",
+      "origin": "https://registry.npmjs.org/ws/-/ws-8.21.3.tgz :: package/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust-standard-library/COPYRIGHT",
+      "target": "third-party-licenses/rust-standard-library/COPYRIGHT",
+      "sha256": "172020dbfd5b53a226dfde77616190a48dcff519b0bc0e6deb91a8450782c4af",
+      "origin": "https://raw.githubusercontent.com/rust-lang/rust/29483883eed69d5fb4db01964cdf2af4d86e9cb2/COPYRIGHT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust-standard-library/LICENSE-APACHE",
+      "target": "third-party-licenses/rust-standard-library/LICENSE-APACHE",
+      "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a",
+      "origin": "https://raw.githubusercontent.com/rust-lang/rust/29483883eed69d5fb4db01964cdf2af4d86e9cb2/LICENSE-APACHE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust-standard-library/LICENSE-MIT",
+      "target": "third-party-licenses/rust-standard-library/LICENSE-MIT",
+      "sha256": "b71bd43a069ca0641a9ecfe585ca7b3c53b5cc1608f8b68321168698e28b5ea1",
+      "origin": "https://raw.githubusercontent.com/rust-lang/rust/29483883eed69d5fb4db01964cdf2af4d86e9cb2/LICENSE-MIT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/aho-corasick-1.1.3/COPYING",
+      "target": "third-party-licenses/rust/aho-corasick-1.1.3/COPYING",
+      "sha256": "01c266bced4a434da0051174d6bee16a4c82cf634e2679b6155d40d75012390f",
+      "origin": "https://static.crates.io/crates/aho-corasick/aho-corasick-1.1.3.crate :: COPYING"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/aho-corasick-1.1.3/LICENSE-MIT",
+      "target": "third-party-licenses/rust/aho-corasick-1.1.3/LICENSE-MIT",
+      "sha256": "0f96a83840e146e43c0ec96a22ec1f392e0680e6c1226e6f3ba87e0740af850f",
+      "origin": "https://static.crates.io/crates/aho-corasick/aho-corasick-1.1.3.crate :: LICENSE-MIT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/base64-simd-0.8.0/LICENSE-upstream",
+      "target": "third-party-licenses/rust/base64-simd-0.8.0/LICENSE-upstream",
+      "sha256": "71674605ec4c087fe9eb534e3e4f9e26eb2e4aabcd76a29fd156c6a844d44b3d",
+      "origin": "https://raw.githubusercontent.com/Nugine/simd/d74c030d9dc4f3cae02146d1f497ff62726ef09a/LICENSE :: LICENSE-upstream"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/cfb-0.7.3/LICENSE",
+      "target": "third-party-licenses/rust/cfb-0.7.3/LICENSE",
+      "sha256": "ebaac853b53fec0ed475796f533ce676912a4df9ad9d8a621fa76d5060591e10",
+      "origin": "https://static.crates.io/crates/cfb/cfb-0.7.3.crate :: LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/cssparser-0.35.0/LICENSE",
+      "target": "third-party-licenses/rust/cssparser-0.35.0/LICENSE",
+      "sha256": "fab3dd6bdab226f1c08630b1dd917e11fcb4ec5e1e020e2c16f83a0a13863e85",
+      "origin": "https://static.crates.io/crates/cssparser/cssparser-0.35.0.crate :: LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/cssparser-color-0.3.0/LICENSE-upstream",
+      "target": "third-party-licenses/rust/cssparser-color-0.3.0/LICENSE-upstream",
+      "sha256": "fab3dd6bdab226f1c08630b1dd917e11fcb4ec5e1e020e2c16f83a0a13863e85",
+      "origin": "https://raw.githubusercontent.com/servo/rust-cssparser/3dd4f63639925438d9932dafc0d81395847f9be4/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/hashbrown-0.15.4/LICENSE-APACHE",
+      "target": "third-party-licenses/rust/hashbrown-0.15.4/LICENSE-APACHE",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+      "origin": "https://static.crates.io/crates/hashbrown/hashbrown-0.15.4.crate :: hashbrown-0.15.4/LICENSE-APACHE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/hashbrown-0.15.4/LICENSE-MIT",
+      "target": "third-party-licenses/rust/hashbrown-0.15.4/LICENSE-MIT",
+      "sha256": "ff8f68cb076caf8cefe7a6430d4ac086ce6af2ca8ce2c4e5a2004d4552ef52a2",
+      "origin": "https://static.crates.io/crates/hashbrown/hashbrown-0.15.4.crate :: hashbrown-0.15.4/LICENSE-MIT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/memchr-2.7.5/COPYING",
+      "target": "third-party-licenses/rust/memchr-2.7.5/COPYING",
+      "sha256": "01c266bced4a434da0051174d6bee16a4c82cf634e2679b6155d40d75012390f",
+      "origin": "https://static.crates.io/crates/memchr/memchr-2.7.5.crate :: COPYING"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/memchr-2.7.5/LICENSE-MIT",
+      "target": "third-party-licenses/rust/memchr-2.7.5/LICENSE-MIT",
+      "sha256": "0f96a83840e146e43c0ec96a22ec1f392e0680e6c1226e6f3ba87e0740af850f",
+      "origin": "https://static.crates.io/crates/memchr/memchr-2.7.5.crate :: LICENSE-MIT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/napi-3.3.0/LICENSE-upstream",
+      "target": "third-party-licenses/rust/napi-3.3.0/LICENSE-upstream",
+      "sha256": "3f1ce66533302df3a32edbfdfc0b78f0dd34659e4c1f5817162e5ea3c2297215",
+      "origin": "https://raw.githubusercontent.com/napi-rs/napi-rs/2cb9c17e1ca9333eba2c8a853f482f8efbea5fdd/LICENSE :: LICENSE-upstream"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/napi-sys-3.0.0/LICENSE-upstream",
+      "target": "third-party-licenses/rust/napi-sys-3.0.0/LICENSE-upstream",
+      "sha256": "3f1ce66533302df3a32edbfdfc0b78f0dd34659e4c1f5817162e5ea3c2297215",
+      "origin": "https://raw.githubusercontent.com/napi-rs/napi-rs/a9dc138aa036d75db790282ebf9bfe88670d9e7d/LICENSE :: LICENSE-upstream"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/nom-8.0.0/LICENSE",
+      "target": "third-party-licenses/rust/nom-8.0.0/LICENSE",
+      "sha256": "4dbda04344456f09a7a588140455413a9ac59b6b26a1ef7cdf9c800c012d87f0",
+      "origin": "https://static.crates.io/crates/nom/nom-8.0.0.crate :: LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/regex-1.11.2/LICENSE-APACHE",
+      "target": "third-party-licenses/rust/regex-1.11.2/LICENSE-APACHE",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+      "origin": "https://static.crates.io/crates/regex/regex-1.11.2.crate :: LICENSE-APACHE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/regex-1.11.2/LICENSE-MIT",
+      "target": "third-party-licenses/rust/regex-1.11.2/LICENSE-MIT",
+      "sha256": "6485b8ed310d3f0340bf1ad1f47645069ce4069dcc6bb46c7d5c6faf41de1fdb",
+      "origin": "https://static.crates.io/crates/regex/regex-1.11.2.crate :: LICENSE-MIT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/regex-automata-0.4.10/LICENSE-APACHE",
+      "target": "third-party-licenses/rust/regex-automata-0.4.10/LICENSE-APACHE",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+      "origin": "https://static.crates.io/crates/regex-automata/regex-automata-0.4.10.crate :: LICENSE-APACHE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/regex-automata-0.4.10/LICENSE-MIT",
+      "target": "third-party-licenses/rust/regex-automata-0.4.10/LICENSE-MIT",
+      "sha256": "6485b8ed310d3f0340bf1ad1f47645069ce4069dcc6bb46c7d5c6faf41de1fdb",
+      "origin": "https://static.crates.io/crates/regex-automata/regex-automata-0.4.10.crate :: LICENSE-MIT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/regex-syntax-0.8.6/LICENSE-APACHE",
+      "target": "third-party-licenses/rust/regex-syntax-0.8.6/LICENSE-APACHE",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+      "origin": "https://static.crates.io/crates/regex-syntax/regex-syntax-0.8.6.crate :: LICENSE-APACHE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/regex-syntax-0.8.6/LICENSE-MIT",
+      "target": "third-party-licenses/rust/regex-syntax-0.8.6/LICENSE-MIT",
+      "sha256": "6485b8ed310d3f0340bf1ad1f47645069ce4069dcc6bb46c7d5c6faf41de1fdb",
+      "origin": "https://static.crates.io/crates/regex-syntax/regex-syntax-0.8.6.crate :: LICENSE-MIT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/regex-syntax-0.8.6/LICENSE-UNICODE",
+      "target": "third-party-licenses/rust/regex-syntax-0.8.6/LICENSE-UNICODE",
+      "sha256": "74db5baf44a41b1000312c673544b3374e4198af5605c7f9080a402cec42cfa3",
+      "origin": "https://static.crates.io/crates/regex-syntax/regex-syntax-0.8.6.crate :: src/unicode_tables/LICENSE-UNICODE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/rustc-demangle-0.1.25/LICENSE-APACHE",
+      "target": "third-party-licenses/rust/rustc-demangle-0.1.25/LICENSE-APACHE",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+      "origin": "https://static.crates.io/crates/rustc-demangle/rustc-demangle-0.1.25.crate :: rustc-demangle-0.1.25/LICENSE-APACHE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/rustc-demangle-0.1.25/LICENSE-MIT",
+      "target": "third-party-licenses/rust/rustc-demangle-0.1.25/LICENSE-MIT",
+      "sha256": "378f5840b258e2779c39418f3f2d7b2ba96f1c7917dd6be0713f88305dbda397",
+      "origin": "https://static.crates.io/crates/rustc-demangle/rustc-demangle-0.1.25.crate :: rustc-demangle-0.1.25/LICENSE-MIT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/smallvec-1.15.1/LICENSE-APACHE",
+      "target": "third-party-licenses/rust/smallvec-1.15.1/LICENSE-APACHE",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+      "origin": "https://static.crates.io/crates/smallvec/smallvec-1.15.1.crate :: LICENSE-APACHE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/smallvec-1.15.1/LICENSE-MIT",
+      "target": "third-party-licenses/rust/smallvec-1.15.1/LICENSE-MIT",
+      "sha256": "0b28172679e0009b655da42797c03fd163a3379d5cfa67ba1f1655e974a2a1a9",
+      "origin": "https://static.crates.io/crates/smallvec/smallvec-1.15.1.crate :: LICENSE-MIT"
+    },
+    {
+      "source": "docs/legal-audit/licenses/rust/tokio-1.47.1/LICENSE",
+      "target": "third-party-licenses/rust/tokio-1.47.1/LICENSE",
+      "sha256": "253cd04c6714889df2d32f3f64d669179a1c95c76ac43c40882c52eb06bc3552",
+      "origin": "https://static.crates.io/crates/tokio/tokio-1.47.1.crate :: LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/scs-sdk-1.14/sdk_license.txt",
+      "target": "third-party-licenses/scs-sdk-1.14/sdk_license.txt",
+      "sha256": "da45ffca18f44f1fd26b4fb8da8767bbf0f052799c60838c1e8fbee4fbe07b50",
+      "origin": "https://download.eurotrucksimulator2.com/scs_sdk_1_14.zip :: sdk_license.txt"
+    },
+    {
+      "source": "docs/legal-audit/sources/cssparser-0.35.0.crate",
+      "target": "third-party-sources/cssparser-0.35.0.crate",
+      "sha256": "4e901edd733a1472f944a45116df3f846f54d37e67e68640ac8bb69689aca2aa",
+      "origin": "https://static.crates.io/crates/cssparser/cssparser-0.35.0.crate"
+    },
+    {
+      "source": "docs/legal-audit/sources/cssparser-color-0.3.0.crate",
+      "target": "third-party-sources/cssparser-color-0.3.0.crate",
+      "sha256": "6eeef9ae8c0e112edd89eb6406b3156ffa99c7e037b3baef1dbdf4158d35c324",
+      "origin": "https://static.crates.io/crates/cssparser-color/cssparser-color-0.3.0.crate"
+    },
+    {
+      "source": "docs/legal-audit/licenses/native/libavif-LICENSE.txt",
+      "target": "third-party-licenses/native/libavif-LICENSE.txt",
+      "sha256": "165abf92cc04b39e80d29cadea7a6a7e8fddf59407d4ad2616507a7ebe8216f9",
+      "origin": "https://raw.githubusercontent.com/AOMediaCodec/libavif/v1.2.1/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/native/mimalloc-LICENSE.txt",
+      "target": "third-party-licenses/native/mimalloc-LICENSE.txt",
+      "sha256": "19c99805e7a44a34b297a75d1edea9985e300066dfc024d5c99d4236d4573b5d",
+      "origin": "https://raw.githubusercontent.com/microsoft/mimalloc/v2.1.7/LICENSE"
+    },
+    {
+      "source": "docs/legal-audit/licenses/eniac-sdk/MIT-standard.txt",
+      "target": "third-party-licenses/eniac-sdk/MIT-standard.txt",
+      "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+      "origin": "https://raw.githubusercontent.com/spdx/license-list-data/v3.27.0/text/MIT.txt"
+    },
+    {
+      "source": "docs/legal-audit/licenses/eniac-sdk/ATTRIBUTION.txt",
+      "target": "third-party-licenses/eniac-sdk/ATTRIBUTION.txt",
+      "sha256": "307178c237903b373077f0949b794332ee8fdbeb60986aa6ff5dc3860c03e6c0",
+      "origin": "Official versioned npm metadata; project explanation"
+    },
+    {
+      "source": "docs/licenses/native/base64-simd-LICENSE.txt",
+      "target": "third-party-licenses/retained-native/base64-simd-LICENSE.txt",
+      "sha256": "71674605ec4c087fe9eb534e3e4f9e26eb2e4aabcd76a29fd156c6a844d44b3d",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/brotli-LICENSE.txt",
+      "target": "third-party-licenses/retained-native/brotli-LICENSE.txt",
+      "sha256": "3d180008e36922a4e8daec11c34c7af264fed5962d07924aea928c38e8663c94",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/expat-LICENSE.txt",
+      "target": "third-party-licenses/retained-native/expat-LICENSE.txt",
+      "sha256": "31b15de82aa19a845156169a17a5488bf597e561b2c318d159ed583139b25e87",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/freetype-LICENSE.txt",
+      "target": "third-party-licenses/retained-native/freetype-LICENSE.txt",
+      "sha256": "5a5ee54c5001bbad1cdc1a57cc3dd4c42199b2da09d39c7ee41fab002d02967f",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/harfbuzz-LICENSE.txt",
+      "target": "third-party-licenses/retained-native/harfbuzz-LICENSE.txt",
+      "sha256": "ba8f810f2455c2f08e2d56bb49b72f37fcf68f1f4fade38977cfd7372050ad64",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/highway-LICENSE.txt",
+      "target": "third-party-licenses/retained-native/highway-LICENSE.txt",
+      "sha256": "43070e2d4e532684de521b885f385d0841030efa2b1a20bafb76133a5e1379c1",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/icu-LICENSE.txt",
+      "target": "third-party-licenses/retained-native/icu-LICENSE.txt",
+      "sha256": "17510cf7a58b4879b887ec05a45d72cf1b73544dd9ec7e72f20110ed104229ee",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/jpeg-LICENSE.txt",
+      "target": "third-party-licenses/retained-native/jpeg-LICENSE.txt",
+      "sha256": "96f5b328adbb78eeaaec6980d73fd558cb1e4d62560ed615646bc3cf5e532430",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/jpeg-README.ijg.txt",
+      "target": "third-party-licenses/retained-native/jpeg-README.ijg.txt",
+      "sha256": "75815e3bf6484201a3c3d17a1bbf10f2e8e3237f84df10a2357ea896db2a81d6",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/jxl-LICENSE.txt",
+      "target": "third-party-licenses/retained-native/jxl-LICENSE.txt",
+      "sha256": "8405932022a556380c2d8c272eff154a923feb197233f348ce5f7334fb0a5ede",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/png-LICENSE.txt",
+      "target": "third-party-licenses/retained-native/png-LICENSE.txt",
+      "sha256": "7317e078e2d3b5d7ba5a6159e650945153262b44b76f6700f8e9edb261c5143e",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/skia-LICENSE.txt",
+      "target": "third-party-licenses/retained-native/skia-LICENSE.txt",
+      "sha256": "5f787c1dee3c56547f09ccc2906ab5f5293c4d8dd6c8654e573216c38e908dbd",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/webp-LICENSE.txt",
+      "target": "third-party-licenses/retained-native/webp-LICENSE.txt",
+      "sha256": "5aec868f669e384a22372a4e8a1a6cd7d44c64cd451f960ca69cc170d1e13acf",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/wuffs-LICENSE.txt",
+      "target": "third-party-licenses/retained-native/wuffs-LICENSE.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/zlib-LICENSE.txt",
+      "target": "third-party-licenses/retained-native/zlib-LICENSE.txt",
+      "sha256": "e1cfcc55c325b3f78cf55df9664abaa066e2271dffe8213347d9fccdfbac8f2c",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/aho-corasick-1.1.3/COPYING",
+      "target": "third-party-licenses/retained-native/aho-corasick-1.1.3/COPYING",
+      "sha256": "01c266bced4a434da0051174d6bee16a4c82cf634e2679b6155d40d75012390f",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/aho-corasick-1.1.3/LICENSE-MIT",
+      "target": "third-party-licenses/retained-native/aho-corasick-1.1.3/LICENSE-MIT",
+      "sha256": "0f96a83840e146e43c0ec96a22ec1f392e0680e6c1226e6f3ba87e0740af850f",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/base64-simd-0.8.0/LICENSE-upstream",
+      "target": "third-party-licenses/retained-native/base64-simd-0.8.0/LICENSE-upstream",
+      "sha256": "71674605ec4c087fe9eb534e3e4f9e26eb2e4aabcd76a29fd156c6a844d44b3d",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/cfb-0.7.3/LICENSE",
+      "target": "third-party-licenses/retained-native/cfb-0.7.3/LICENSE",
+      "sha256": "ebaac853b53fec0ed475796f533ce676912a4df9ad9d8a621fa76d5060591e10",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/cssparser-0.35.0/LICENSE",
+      "target": "third-party-licenses/retained-native/cssparser-0.35.0/LICENSE",
+      "sha256": "fab3dd6bdab226f1c08630b1dd917e11fcb4ec5e1e020e2c16f83a0a13863e85",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/memchr-2.7.5/COPYING",
+      "target": "third-party-licenses/retained-native/memchr-2.7.5/COPYING",
+      "sha256": "01c266bced4a434da0051174d6bee16a4c82cf634e2679b6155d40d75012390f",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/memchr-2.7.5/LICENSE-MIT",
+      "target": "third-party-licenses/retained-native/memchr-2.7.5/LICENSE-MIT",
+      "sha256": "0f96a83840e146e43c0ec96a22ec1f392e0680e6c1226e6f3ba87e0740af850f",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/napi-3.3.0/LICENSE-upstream",
+      "target": "third-party-licenses/retained-native/napi-3.3.0/LICENSE-upstream",
+      "sha256": "3f1ce66533302df3a32edbfdfc0b78f0dd34659e4c1f5817162e5ea3c2297215",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/napi-sys-3.0.0/LICENSE-upstream",
+      "target": "third-party-licenses/retained-native/napi-sys-3.0.0/LICENSE-upstream",
+      "sha256": "3f1ce66533302df3a32edbfdfc0b78f0dd34659e4c1f5817162e5ea3c2297215",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/nom-8.0.0/LICENSE",
+      "target": "third-party-licenses/retained-native/nom-8.0.0/LICENSE",
+      "sha256": "4dbda04344456f09a7a588140455413a9ac59b6b26a1ef7cdf9c800c012d87f0",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/regex-1.11.2/LICENSE-APACHE",
+      "target": "third-party-licenses/retained-native/regex-1.11.2/LICENSE-APACHE",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/regex-1.11.2/LICENSE-MIT",
+      "target": "third-party-licenses/retained-native/regex-1.11.2/LICENSE-MIT",
+      "sha256": "6485b8ed310d3f0340bf1ad1f47645069ce4069dcc6bb46c7d5c6faf41de1fdb",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/regex-automata-0.4.10/LICENSE-APACHE",
+      "target": "third-party-licenses/retained-native/regex-automata-0.4.10/LICENSE-APACHE",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/regex-automata-0.4.10/LICENSE-MIT",
+      "target": "third-party-licenses/retained-native/regex-automata-0.4.10/LICENSE-MIT",
+      "sha256": "6485b8ed310d3f0340bf1ad1f47645069ce4069dcc6bb46c7d5c6faf41de1fdb",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/regex-syntax-0.8.6/LICENSE-APACHE",
+      "target": "third-party-licenses/retained-native/regex-syntax-0.8.6/LICENSE-APACHE",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/regex-syntax-0.8.6/LICENSE-MIT",
+      "target": "third-party-licenses/retained-native/regex-syntax-0.8.6/LICENSE-MIT",
+      "sha256": "6485b8ed310d3f0340bf1ad1f47645069ce4069dcc6bb46c7d5c6faf41de1fdb",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/smallvec-1.15.1/LICENSE-APACHE",
+      "target": "third-party-licenses/retained-native/smallvec-1.15.1/LICENSE-APACHE",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/smallvec-1.15.1/LICENSE-MIT",
+      "target": "third-party-licenses/retained-native/smallvec-1.15.1/LICENSE-MIT",
+      "sha256": "0b28172679e0009b655da42797c03fd163a3379d5cfa67ba1f1655e974a2a1a9",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/tokio-1.47.1/LICENSE",
+      "target": "third-party-licenses/retained-native/tokio-1.47.1/LICENSE",
+      "sha256": "253cd04c6714889df2d32f3f64d669179a1c95c76ac43c40882c52eb06bc3552",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    },
+    {
+      "source": "docs/licenses/native/regex-syntax-0.8.6/src/unicode_tables/LICENSE-UNICODE",
+      "target": "third-party-licenses/retained-native/regex-syntax-0.8.6/src/unicode_tables/LICENSE-UNICODE",
+      "sha256": "74db5baf44a41b1000312c673544b3374e4198af5605c7f9080a402cec42cfa3",
+      "origin": "Previously retained exact-source notice; docs/licenses/native-source-notices.json or native-binary-crates.json"
+    }
+  ],
+  "canvas": {
+    "file": "com.local.ets2rally.plugin/backend/node_modules/@napi-rs/canvas-win32-x64-msvc/skia.win32-x64-msvc.node",
+    "filename": "skia.win32-x64-msvc.node",
+    "sha256": "30646342fc284109aa9542155287d37147c97132d5168cf621f851a9c69e0c99",
+    "size": 26272256
+  },
+  "projectLicenseSha256": "ffcca38841adb694b6f380647e15f17c446a4d1656fed51a1e2041d064c94cc8"
+}

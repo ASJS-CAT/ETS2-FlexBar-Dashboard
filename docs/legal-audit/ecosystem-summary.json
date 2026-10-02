@@ -1,0 +1,325 @@
+[
+  {
+    "repo": "ENIAC-Tech/Plugin-Example",
+    "commit": "ae35a4b060dd2e91c6d6ea2bb1c94e33107c0342",
+    "licensePaths": [],
+    "package": {
+      "scripts": {
+        "build": "rollup -c",
+        "dev": "npm-run-all plugin:unlink plugin:link -p plugin:watch plugin:debug",
+        "plugin:watch": "rollup -c -w --watch.onEnd=\"npm run plugin:restart\"",
+        "plugin:unlink": "flexcli plugin unlink --uuid com.eniac.example --silent",
+        "plugin:link": "flexcli plugin link --path com.eniac.example.plugin --uuid com.eniac.example --start false",
+        "plugin:restart": "flexcli plugin restart --uuid=com.eniac.example",
+        "plugin:debug": "flexcli plugin debug --uuid=com.eniac.example",
+        "plugin:validate": "flexcli plugin validate --path com.eniac.example.plugin",
+        "plugin:pack": "flexcli plugin pack --path com.eniac.example.plugin",
+        "plugin:install": "flexcli plugin install --path ./com.eniac.example.flexplugin --force"
+      },
+      "type": "commonjs",
+      "devDependencies": {
+        "@rollup/plugin-commonjs": "^28.0.0",
+        "@rollup/plugin-node-resolve": "^15.2.2",
+        "@rollup/plugin-terser": "^0.4.4",
+        "@rollup/plugin-typescript": "^12.1.0",
+        "@rollup/plugin-json": "^6.1.0",
+        "glob": "^11.0.1",
+        "npm-run-all": "^4.1.5",
+        "rollup": "^4.0.2"
+      },
+      "dependencies": {
+        "@napi-rs/canvas": "^0.1.65",
+        "@eniac/flexdesigner": "^1.0.5"
+      }
+    },
+    "releases": [
+      {
+        "tag": "v1.1.3",
+        "url": "https://github.com/ENIAC-Tech/Plugin-Example/releases/tag/v1.1.3",
+        "assets": [
+          {
+            "name": "com.eniac.example.flexplugin",
+            "size": 96970,
+            "url": "https://github.com/ENIAC-Tech/Plugin-Example/releases/download/v1.1.3/com.eniac.example.flexplugin"
+          }
+        ]
+      },
+      {
+        "tag": "v1.1.2",
+        "url": "https://github.com/ENIAC-Tech/Plugin-Example/releases/tag/v1.1.2",
+        "assets": [
+          {
+            "name": "com.eniac.example.flexplugin",
+            "size": 96030,
+            "url": "https://github.com/ENIAC-Tech/Plugin-Example/releases/download/v1.1.2/com.eniac.example.flexplugin"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "repo": "ENIAC-Tech/Plugin-ScreenMirror",
+    "commit": "c9488bd79112f5ca65ca2741b90e25ef9ec81830",
+    "licensePaths": [],
+    "package": {
+      "scripts": {
+        "build": "rollup -c",
+        "dev": "npm-run-all plugin:unlink plugin:link -p plugin:watch plugin:debug",
+        "plugin:watch": "rollup -c -w --watch.onEnd=\"npm run plugin:restart\"",
+        "plugin:unlink": "flexcli plugin unlink --uuid com.eniac.screen_mirror --silent",
+        "plugin:link": "flexcli plugin link --path com.eniac.screen_mirror.plugin --uuid com.eniac.screen_mirror --start false",
+        "plugin:restart": "flexcli plugin restart --uuid=com.eniac.screen_mirror",
+        "plugin:debug": "flexcli plugin debug --uuid=com.eniac.screen_mirror",
+        "plugin:validate": "flexcli plugin validate --path com.eniac.screen_mirror.plugin",
+        "plugin:pack": "flexcli plugin pack --path com.eniac.screen_mirror.plugin",
+        "plugin:install": "flexcli plugin install --path ./com.eniac.screen_mirror.flexplugin --force"
+      },
+      "type": "commonjs",
+      "devDependencies": {
+        "@rollup/plugin-commonjs": "^28.0.0",
+        "@rollup/plugin-json": "^6.1.0",
+        "@rollup/plugin-node-resolve": "^15.2.2",
+        "@rollup/plugin-terser": "^0.4.4",
+        "@rollup/plugin-typescript": "^12.1.0",
+        "glob": "^11.0.1",
+        "npm-run-all": "^4.1.5",
+        "rollup": "^4.0.2",
+        "rollup-plugin-copy": "^3.5.0"
+      },
+      "dependencies": {
+        "jimp": "^1.6.0",
+        "screenshot-desktop": "^1.15.1",
+        "@eniac/flexdesigner": "^1.0.3"
+      }
+    },
+    "releases": [
+      {
+        "tag": "v1.0.5",
+        "url": "https://github.com/ENIAC-Tech/Plugin-ScreenMirror/releases/tag/v1.0.5",
+        "assets": [
+          {
+            "name": "com.eniac.screen_mirror.flexplugin",
+            "size": 295325,
+            "url": "https://github.com/ENIAC-Tech/Plugin-ScreenMirror/releases/download/v1.0.5/com.eniac.screen_mirror.flexplugin"
+          }
+        ]
+      },
+      {
+        "tag": "v1.0.4",
+        "url": "https://github.com/ENIAC-Tech/Plugin-ScreenMirror/releases/tag/v1.0.4",
+        "assets": [
+          {
+            "name": "com.eniac.screen_mirror.flexplugin",
+            "size": 294229,
+            "url": "https://github.com/ENIAC-Tech/Plugin-ScreenMirror/releases/download/v1.0.4/com.eniac.screen_mirror.flexplugin"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "repo": "ENIAC-Tech/flex-plugin-template",
+    "commit": "3c665bae2c01529f19c42f59a29f87301b8bc2bf",
+    "licensePaths": [],
+    "package": {
+      "name": "your-plugin-name",
+      "version": "1.0.0",
+      "private": true,
+      "description": "A FlexStudio plugin",
+      "scripts": {
+        "build": "flexcli plugin-v2 build",
+        "dev": "flexcli plugin-v2 dev .",
+        "pack": "flexcli plugin-v2 pack",
+        "validate:renderer-state": "node scripts/validate-renderer-state.mjs",
+        "sync:plugin-skill-docs": "node scripts/sync-plugin-skill-docs.mjs",
+        "sync:plugin-skill-docs:check": "node scripts/sync-plugin-skill-docs.mjs --check"
+      },
+      "dependencies": {
+        "@flexsdk/runtime": "^2.1.1",
+        "@flexsdk/types": "^2.1.1"
+      },
+      "devDependencies": {
+        "@eniac/flexcli": "^1.0.7",
+        "@mdi/font": "^7.4.47",
+        "@types/node": "^20.0.0",
+        "@vitejs/plugin-vue": "^5.0.0",
+        "typescript": "^5.3.0",
+        "vite": "^5.0.0",
+        "vite-plugin-vuetify": "^2.0.0",
+        "vue": "^3.4.0",
+        "vuetify": "^3.6.0"
+      }
+    },
+    "releases": []
+  },
+  {
+    "repo": "ENIAC-Tech/SpotifyPlugin",
+    "commit": "1c54f0aac209d634c51c148a3ca032dd06088c52",
+    "licensePaths": [],
+    "package": {
+      "scripts": {
+        "build": "rollup -c",
+        "dev": "npm-run-all plugin:unlink plugin:link -p plugin:watch plugin:debug",
+        "plugin:watch": "rollup -c -w --watch.onEnd=\"npm run plugin:restart\"",
+        "plugin:unlink": "flexcli plugin unlink --uuid com.eniac.spotifyplugin --silent",
+        "plugin:link": "flexcli plugin link --path com.eniac.spotifyplugin.plugin --uuid com.eniac.spotifyplugin --start false",
+        "plugin:restart": "flexcli plugin restart --uuid=com.eniac.spotifyplugin",
+        "plugin:debug": "flexcli plugin debug --uuid=com.eniac.spotifyplugin",
+        "plugin:validate": "flexcli plugin validate --path com.eniac.spotifyplugin.plugin",
+        "plugin:pack": "flexcli plugin pack --path com.eniac.spotifyplugin.plugin",
+        "plugin:install": "flexcli plugin install --path ./com.eniac.spotifyplugin.flexplugin --force"
+      },
+      "type": "commonjs",
+      "devDependencies": {
+        "@rollup/plugin-commonjs": "^28.0.0",
+        "@rollup/plugin-json": "^6.1.0",
+        "@rollup/plugin-node-resolve": "^15.2.2",
+        "@rollup/plugin-terser": "^0.4.4",
+        "@rollup/plugin-typescript": "^12.1.0",
+        "glob": "^11.0.1",
+        "npm-run-all": "^4.1.5",
+        "rollup": "^4.0.2"
+      },
+      "dependencies": {
+        "@eniac/flexdesigner": "^1.0.1",
+        "@napi-rs/canvas": "^0.1.83"
+      }
+    },
+    "releases": [
+      {
+        "tag": "v1.0.0",
+        "url": "https://github.com/ENIAC-Tech/SpotifyPlugin/releases/tag/v1.0.0",
+        "assets": [
+          {
+            "name": "com.eniac.spotifyplugin.flexplugin",
+            "size": 104566,
+            "url": "https://github.com/ENIAC-Tech/SpotifyPlugin/releases/download/v1.0.0/com.eniac.spotifyplugin.flexplugin"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "repo": "TotallyInformation/FlexBar-MQTT-Plugin",
+    "commit": "8c2d1f34df9ec7ccc53a157c8a3a24dd3758da03",
+    "licensePaths": [
+      "LICENSE"
+    ],
+    "package": {
+      "scripts": {
+        "build": "rollup -c",
+        "dev": "npm-run-all plugin:unlink plugin:link -p plugin:watch plugin:debug",
+        "plugin:watch": "rollup -c -w --watch.onEnd=\"npm run plugin:restart\"",
+        "plugin:unlink": "flexcli plugin unlink --uuid com.totallyinformation.mqttplugin --silent",
+        "plugin:link": "flexcli plugin link --path com.totallyinformation.mqttplugin.plugin --uuid com.totallyinformation.mqttplugin --start false",
+        "plugin:restart": "flexcli plugin restart --uuid=com.totallyinformation.mqttplugin",
+        "plugin:debug": "flexcli plugin debug --uuid=com.totallyinformation.mqttplugin",
+        "plugin:validate": "flexcli plugin validate --path com.totallyinformation.mqttplugin.plugin",
+        "plugin:pack": "flexcli plugin pack --path com.totallyinformation.mqttplugin.plugin",
+        "plugin:install": "flexcli plugin install --path ./com.totallyinformation.mqttplugin.flexplugin --force"
+      },
+      "type": "commonjs",
+      "devDependencies": {
+        "@rollup/plugin-commonjs": "^28.0.0",
+        "@rollup/plugin-json": "^6.1.0",
+        "@rollup/plugin-node-resolve": "^15.2.2",
+        "@rollup/plugin-terser": "^0.4.4",
+        "@rollup/plugin-typescript": "^12.1.0",
+        "glob": "^11.0.1",
+        "npm-run-all": "^4.1.5",
+        "rollup": "^4.0.2"
+      },
+      "dependencies": {
+        "@eniac/flexdesigner": "^1.0.1",
+        "mqtt": "^5.12.0"
+      }
+    },
+    "releases": []
+  },
+  {
+    "repo": "ENERGYMT/FlexBar-Plugin-Spotify",
+    "commit": "2bceb03ff85cefae2dd044c318b26a4a2709133d",
+    "licensePaths": [],
+    "package": {
+      "scripts": {
+        "build": "rollup -c",
+        "dev": "npm-run-all plugin:unlink plugin:link -p plugin:watch plugin:debug",
+        "plugin:watch": "rollup -c -w --watch.onEnd=\"npm run plugin:restart\"",
+        "plugin:unlink": "flexcli plugin unlink --uuid com.energy.spotify_integration --silent",
+        "plugin:link": "flexcli plugin link --path com.energy.spotify_integration.plugin --uuid com.energy.spotify_integration --start false",
+        "plugin:restart": "flexcli plugin restart --uuid=com.energy.spotify_integration",
+        "plugin:debug": "flexcli plugin debug --uuid=com.energy.spotify_integration",
+        "plugin:validate": "flexcli plugin validate --path com.energy.spotify_integration.plugin",
+        "plugin:pack": "flexcli plugin pack --path com.energy.spotify_integration.plugin",
+        "plugin:install": "flexcli plugin install --path ./com.energy.spotify_integration.flexplugin --force"
+      },
+      "type": "commonjs",
+      "devDependencies": {
+        "@rollup/plugin-commonjs": "^28.0.0",
+        "@rollup/plugin-json": "^6.1.0",
+        "@rollup/plugin-node-resolve": "^15.2.2",
+        "@rollup/plugin-terser": "^0.4.4",
+        "@rollup/plugin-typescript": "^12.1.0",
+        "glob": "^10.3.10",
+        "npm-run-all": "^4.1.5",
+        "rollup": "^4.0.2",
+        "rollup-plugin-copy": "^3.5.0"
+      },
+      "dependencies": {
+        "@eniac/flexcli": "^1.0.6",
+        "@eniac/flexdesigner": "^1.0.7",
+        "@napi-rs/canvas": "^0.1.52",
+        "axios": "^1.11.0",
+        "express": "^4.21.2",
+        "open": "^10.1.0"
+      },
+      "engines": {
+        "node": ">=16"
+      }
+    },
+    "releases": [
+      {
+        "tag": "v1.0.8",
+        "url": "https://github.com/ENERGYMT/FlexBar-Plugin-Spotify/releases/tag/v1.0.8",
+        "assets": [
+          {
+            "name": "com.energy.spotify_integration.darwin.arm64.flexplugin",
+            "size": 23074409,
+            "url": "https://github.com/ENERGYMT/FlexBar-Plugin-Spotify/releases/download/v1.0.8/com.energy.spotify_integration.darwin.arm64.flexplugin"
+          },
+          {
+            "name": "com.energy.spotify_integration.linux.x64.flexplugin",
+            "size": 25999040,
+            "url": "https://github.com/ENERGYMT/FlexBar-Plugin-Spotify/releases/download/v1.0.8/com.energy.spotify_integration.linux.x64.flexplugin"
+          },
+          {
+            "name": "com.energy.spotify_integration.win32.x64.flexplugin",
+            "size": 29672625,
+            "url": "https://github.com/ENERGYMT/FlexBar-Plugin-Spotify/releases/download/v1.0.8/com.energy.spotify_integration.win32.x64.flexplugin"
+          }
+        ]
+      },
+      {
+        "tag": "v1.0.7",
+        "url": "https://github.com/ENERGYMT/FlexBar-Plugin-Spotify/releases/tag/v1.0.7",
+        "assets": [
+          {
+            "name": "com.energy.spotify_integration.darwin.arm64.flexplugin",
+            "size": 11445761,
+            "url": "https://github.com/ENERGYMT/FlexBar-Plugin-Spotify/releases/download/v1.0.7/com.energy.spotify_integration.darwin.arm64.flexplugin"
+          },
+          {
+            "name": "com.energy.spotify_integration.linux.x64.flexplugin",
+            "size": 14194572,
+            "url": "https://github.com/ENERGYMT/FlexBar-Plugin-Spotify/releases/download/v1.0.7/com.energy.spotify_integration.linux.x64.flexplugin"
+          },
+          {
+            "name": "com.energy.spotify_integration.win32.x64.flexplugin",
+            "size": 12315214,
+            "url": "https://github.com/ENERGYMT/FlexBar-Plugin-Spotify/releases/download/v1.0.7/com.energy.spotify_integration.win32.x64.flexplugin"
+          }
+        ]
+      }
+    ]
+  }
+]

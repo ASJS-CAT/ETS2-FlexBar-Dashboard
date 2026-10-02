@@ -1,0 +1,133 @@
+[
+  {
+    "component": "aho-corasick",
+    "version": "1.1.3",
+    "license": "Unlicense OR MIT",
+    "source": "https://static.crates.io/crates/aho-corasick/aho-corasick-1.1.3.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/aho-corasick-1.1.3/COPYING",
+      "docs/licenses/native/aho-corasick-1.1.3/LICENSE-MIT"
+    ]
+  },
+  {
+    "component": "base64-simd",
+    "version": "0.8.0",
+    "license": "MIT",
+    "source": "https://static.crates.io/crates/base64-simd/base64-simd-0.8.0.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": []
+  },
+  {
+    "component": "cfb",
+    "version": "0.7.3",
+    "license": "MIT",
+    "source": "https://static.crates.io/crates/cfb/cfb-0.7.3.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/cfb-0.7.3/LICENSE"
+    ]
+  },
+  {
+    "component": "cssparser",
+    "version": "0.35.0",
+    "license": "MPL-2.0",
+    "source": "https://static.crates.io/crates/cssparser/cssparser-0.35.0.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/cssparser-0.35.0/LICENSE"
+    ]
+  },
+  {
+    "component": "memchr",
+    "version": "2.7.5",
+    "license": "Unlicense OR MIT",
+    "source": "https://static.crates.io/crates/memchr/memchr-2.7.5.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/memchr-2.7.5/COPYING",
+      "docs/licenses/native/memchr-2.7.5/LICENSE-MIT"
+    ]
+  },
+  {
+    "component": "napi",
+    "version": "3.3.0",
+    "license": "MIT",
+    "source": "https://static.crates.io/crates/napi/napi-3.3.0.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": []
+  },
+  {
+    "component": "napi-sys",
+    "version": "3.0.0",
+    "license": "MIT",
+    "source": "https://static.crates.io/crates/napi-sys/napi-sys-3.0.0.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": []
+  },
+  {
+    "component": "nom",
+    "version": "8.0.0",
+    "license": "MIT",
+    "source": "https://static.crates.io/crates/nom/nom-8.0.0.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/nom-8.0.0/LICENSE"
+    ]
+  },
+  {
+    "component": "regex",
+    "version": "1.11.2",
+    "license": "MIT OR Apache-2.0",
+    "source": "https://static.crates.io/crates/regex/regex-1.11.2.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/regex-1.11.2/LICENSE-APACHE",
+      "docs/licenses/native/regex-1.11.2/LICENSE-MIT"
+    ]
+  },
+  {
+    "component": "regex-automata",
+    "version": "0.4.10",
+    "license": "MIT OR Apache-2.0",
+    "source": "https://static.crates.io/crates/regex-automata/regex-automata-0.4.10.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/regex-automata-0.4.10/LICENSE-APACHE",
+      "docs/licenses/native/regex-automata-0.4.10/LICENSE-MIT"
+    ]
+  },
+  {
+    "component": "regex-syntax",
+    "version": "0.8.6",
+    "license": "MIT OR Apache-2.0",
+    "source": "https://static.crates.io/crates/regex-syntax/regex-syntax-0.8.6.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/regex-syntax-0.8.6/LICENSE-APACHE",
+      "docs/licenses/native/regex-syntax-0.8.6/LICENSE-MIT",
+      "docs/licenses/native/regex-syntax-0.8.6/src/unicode_tables/LICENSE-UNICODE"
+    ]
+  },
+  {
+    "component": "smallvec",
+    "version": "1.15.1",
+    "license": "MIT OR Apache-2.0",
+    "source": "https://static.crates.io/crates/smallvec/smallvec-1.15.1.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/smallvec-1.15.1/LICENSE-APACHE",
+      "docs/licenses/native/smallvec-1.15.1/LICENSE-MIT"
+    ]
+  },
+  {
+    "component": "tokio",
+    "version": "1.47.1",
+    "license": "MIT",
+    "source": "https://static.crates.io/crates/tokio/tokio-1.47.1.crate",
+    "evidence": "version string in upstream native binary",
+    "notices": [
+      "docs/licenses/native/tokio-1.47.1/LICENSE"
+    ]
+  }
+]

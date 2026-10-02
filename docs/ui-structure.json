@@ -1,0 +1,764 @@
+{
+  "layout": {
+    "width": 2170,
+    "height": 60,
+    "selectorEnd": 110,
+    "gearStart": 340,
+    "rpmStart": 425,
+    "dataStart": 875,
+    "controlsStart": 1450
+  },
+  "manualPanels": {
+    "job": [
+      "job_overview",
+      "job_timing",
+      "job_distance"
+    ],
+    "trailer": [
+      "trailer_status",
+      "trailer_damage"
+    ]
+  },
+  "defaults": {
+    "language": "zh",
+    "dashboardLanguage": "en",
+    "rpmScaleMax": 2500,
+    "gearFontSize": 42,
+    "rpmScaleFormat": "full",
+    "rpmLabelCount": 6,
+    "warningRotationSeconds": 2,
+    "locationRotationSeconds": 8,
+    "refuelExitSeconds": 1.8,
+    "paymentSeconds": 3,
+    "controlOrder": [],
+    "hiddenControls": [],
+    "fps": 20,
+    "units": "kmh",
+    "theme": "rally",
+    "manualPageHoldCycles": 3,
+    "brakePageHoldSeconds": 3,
+    "overspeedMargin": 3,
+    "lowFuelPercent": 12,
+    "cycleSeconds": 15,
+    "cyclePanels": [
+      "fuel",
+      "route",
+      "systems"
+    ],
+    "digitStyle": "rally",
+    "airPressureFullPsi": 185,
+    "quickControlsMode": "dynamic",
+    "pinnedControls": [
+      "hazard",
+      "parking"
+    ],
+    "diffUpdate": false,
+    "bindingMode": false,
+    "wakeOnStart": true
+  },
+  "rules": [
+    {
+      "when": "PARKED",
+      "priority": 100,
+      "controls": [
+        "engine",
+        "parking",
+        "trailer",
+        "axle",
+        "diff",
+        "lights",
+        "map_job"
+      ]
+    },
+    {
+      "when": "REVERSING",
+      "priority": 90,
+      "controls": [
+        "camera",
+        "mirror",
+        "hazard",
+        "parking",
+        "trailer_info",
+        "lights"
+      ]
+    },
+    {
+      "when": "STOPPED",
+      "priority": 80,
+      "controls": [
+        "engine",
+        "parking",
+        "trailer",
+        "lights",
+        "hazard",
+        "axle",
+        "diff",
+        "trailer_info"
+      ]
+    },
+    {
+      "when": "TRAILER_ATTACHED",
+      "priority": 60,
+      "controls": [
+        "trailer_info",
+        "axle",
+        "trailer_brake",
+        "trailer"
+      ]
+    },
+    {
+      "when": "JOB_ACTIVE",
+      "priority": 30,
+      "controls": [
+        "map_job"
+      ]
+    },
+    {
+      "when": "DRIVING",
+      "priority": 10,
+      "controls": [
+        "hazard",
+        "parking",
+        "lights"
+      ]
+    }
+  ],
+  "static": [
+    "auto",
+    "brake_info",
+    "lights",
+    "wipers",
+    "cruise",
+    "hazard",
+    "retarder",
+    "horn"
+  ],
+  "binding": [
+    [
+      "lights",
+      "wipers",
+      "cruise",
+      "hazard",
+      "retarder",
+      "horn"
+    ],
+    [
+      "engine",
+      "parking",
+      "axle",
+      "diff",
+      "trailer_brake",
+      "trailer"
+    ],
+    [
+      "camera",
+      "mirror"
+    ]
+  ],
+  "inputs": {
+    "lights": 0,
+    "wipers": 1,
+    "cruise": 2,
+    "hazard": 3,
+    "retarder": 4,
+    "horn": 5,
+    "engine": 6,
+    "parking": 7,
+    "axle": 8,
+    "diff": 9,
+    "trailer": 10,
+    "mirror": 11,
+    "camera": 12,
+    "trailer_brake": 13
+  },
+  "capabilities": {
+    "lights": "stateful",
+    "wipers": "stateful",
+    "cruise": "stateful",
+    "hazard": "stateful",
+    "retarder": "stateful",
+    "engine": "stateful",
+    "parking": "stateful",
+    "axle": "stateful",
+    "diff": "stateful",
+    "horn": "momentary",
+    "mirror": "momentary",
+    "camera": "momentary",
+    "trailer_brake": "momentary",
+    "auto": "conditional_action",
+    "ack": "conditional_action",
+    "trailer": "conditional_action",
+    "trailer_info": "conditional_action",
+    "map_job": "conditional_action",
+    "brake_info": "conditional_action",
+    "bind_next": "conditional_action"
+  },
+  "scenarios": [
+    {
+      "name": "DRIVING",
+      "context": {
+        "DRIVING": true,
+        "STOPPED": false,
+        "PARKED": false,
+        "REVERSING": false,
+        "TRAILER_ATTACHED": false,
+        "JOB_ACTIVE": true
+      },
+      "controls": [
+        {
+          "id": "map_job",
+          "label": "JOB INFO",
+          "local": true,
+          "capability": "conditional_action",
+          "on": null,
+          "x": 1450,
+          "w": 180
+        },
+        {
+          "id": "hazard",
+          "label": "HAZARD",
+          "bit": 3,
+          "local": false,
+          "capability": "stateful",
+          "on": false,
+          "x": 1630,
+          "w": 180
+        },
+        {
+          "id": "parking",
+          "label": "PARK",
+          "bit": 7,
+          "local": false,
+          "capability": "stateful",
+          "on": false,
+          "x": 1810,
+          "w": 180
+        },
+        {
+          "id": "lights",
+          "label": "LOW BEAM",
+          "bit": 0,
+          "local": false,
+          "capability": "stateful",
+          "on": true,
+          "state": "LOW BEAM",
+          "x": 1990,
+          "w": 180
+        }
+      ]
+    },
+    {
+      "name": "STOPPED",
+      "context": {
+        "DRIVING": false,
+        "STOPPED": true,
+        "PARKED": false,
+        "REVERSING": false,
+        "TRAILER_ATTACHED": false,
+        "JOB_ACTIVE": true
+      },
+      "controls": [
+        {
+          "id": "engine",
+          "label": "ENGINE",
+          "bit": 6,
+          "local": false,
+          "capability": "stateful",
+          "on": true,
+          "holdMs": 800,
+          "x": 1450,
+          "w": 103
+        },
+        {
+          "id": "parking",
+          "label": "PARK",
+          "bit": 7,
+          "local": false,
+          "capability": "stateful",
+          "on": false,
+          "x": 1553,
+          "w": 103
+        },
+        {
+          "id": "lights",
+          "label": "LOW BEAM",
+          "bit": 0,
+          "local": false,
+          "capability": "stateful",
+          "on": true,
+          "state": "LOW BEAM",
+          "x": 1656,
+          "w": 103
+        },
+        {
+          "id": "hazard",
+          "label": "HAZARD",
+          "bit": 3,
+          "local": false,
+          "capability": "stateful",
+          "on": false,
+          "x": 1759,
+          "w": 102
+        },
+        {
+          "id": "axle",
+          "label": "AXLE",
+          "bit": 8,
+          "local": false,
+          "capability": "stateful",
+          "on": false,
+          "x": 1861,
+          "w": 103
+        },
+        {
+          "id": "diff",
+          "label": "DIFF",
+          "bit": 9,
+          "local": false,
+          "capability": "stateful",
+          "on": false,
+          "x": 1964,
+          "w": 103
+        },
+        {
+          "id": "map_job",
+          "label": "JOB INFO",
+          "local": true,
+          "capability": "conditional_action",
+          "on": null,
+          "x": 2067,
+          "w": 103
+        }
+      ]
+    },
+    {
+      "name": "PARKED",
+      "context": {
+        "DRIVING": false,
+        "STOPPED": true,
+        "PARKED": true,
+        "REVERSING": false,
+        "TRAILER_ATTACHED": false,
+        "JOB_ACTIVE": true
+      },
+      "controls": [
+        {
+          "id": "engine",
+          "label": "ENGINE",
+          "bit": 6,
+          "local": false,
+          "capability": "stateful",
+          "on": true,
+          "holdMs": 800,
+          "x": 1450,
+          "w": 103
+        },
+        {
+          "id": "parking",
+          "label": "PARK",
+          "bit": 7,
+          "local": false,
+          "capability": "stateful",
+          "on": true,
+          "x": 1553,
+          "w": 103
+        },
+        {
+          "id": "axle",
+          "label": "AXLE",
+          "bit": 8,
+          "local": false,
+          "capability": "stateful",
+          "on": false,
+          "x": 1656,
+          "w": 103
+        },
+        {
+          "id": "diff",
+          "label": "DIFF",
+          "bit": 9,
+          "local": false,
+          "capability": "stateful",
+          "on": false,
+          "x": 1759,
+          "w": 102
+        },
+        {
+          "id": "lights",
+          "label": "LOW BEAM",
+          "bit": 0,
+          "local": false,
+          "capability": "stateful",
+          "on": true,
+          "state": "LOW BEAM",
+          "x": 1861,
+          "w": 103
+        },
+        {
+          "id": "map_job",
+          "label": "JOB INFO",
+          "local": true,
+          "capability": "conditional_action",
+          "on": null,
+          "x": 1964,
+          "w": 103
+        },
+        {
+          "id": "hazard",
+          "label": "HAZARD",
+          "bit": 3,
+          "local": false,
+          "capability": "stateful",
+          "on": false,
+          "x": 2067,
+          "w": 103
+        }
+      ]
+    },
+    {
+      "name": "REVERSING",
+      "context": {
+        "DRIVING": false,
+        "STOPPED": false,
+        "PARKED": false,
+        "REVERSING": true,
+        "TRAILER_ATTACHED": false,
+        "JOB_ACTIVE": true
+      },
+      "controls": [
+        {
+          "id": "camera",
+          "label": "CAMERA",
+          "bit": 12,
+          "local": false,
+          "capability": "momentary",
+          "on": null,
+          "x": 1450,
+          "w": 144
+        },
+        {
+          "id": "mirror",
+          "label": "MIRROR",
+          "bit": 11,
+          "local": false,
+          "capability": "momentary",
+          "on": null,
+          "x": 1594,
+          "w": 144
+        },
+        {
+          "id": "hazard",
+          "label": "HAZARD",
+          "bit": 3,
+          "local": false,
+          "capability": "stateful",
+          "on": false,
+          "x": 1738,
+          "w": 144
+        },
+        {
+          "id": "parking",
+          "label": "PARK",
+          "bit": 7,
+          "local": false,
+          "capability": "stateful",
+          "on": false,
+          "x": 1882,
+          "w": 144
+        },
+        {
+          "id": "lights",
+          "label": "LOW BEAM",
+          "bit": 0,
+          "local": false,
+          "capability": "stateful",
+          "on": true,
+          "state": "LOW BEAM",
+          "x": 2026,
+          "w": 144
+        }
+      ]
+    },
+    {
+      "name": "TRAILER_ATTACHED",
+      "context": {
+        "DRIVING": true,
+        "STOPPED": false,
+        "PARKED": false,
+        "REVERSING": false,
+        "TRAILER_ATTACHED": true,
+        "JOB_ACTIVE": true
+      },
+      "controls": [
+        {
+          "id": "trailer_info",
+          "label": "T-INFO",
+          "local": true,
+          "capability": "conditional_action",
+          "on": null,
+          "x": 1450,
+          "w": 103
+        },
+        {
+          "id": "axle",
+          "label": "AXLE",
+          "bit": 8,
+          "local": false,
+          "capability": "stateful",
+          "on": false,
+          "x": 1553,
+          "w": 103
+        },
+        {
+          "id": "trailer_brake",
+          "label": "T-BRAKE",
+          "bit": 13,
+          "local": false,
+          "capability": "momentary",
+          "on": null,
+          "x": 1656,
+          "w": 103
+        },
+        {
+          "id": "map_job",
+          "label": "JOB INFO",
+          "local": true,
+          "capability": "conditional_action",
+          "on": null,
+          "x": 1759,
+          "w": 102
+        },
+        {
+          "id": "hazard",
+          "label": "HAZARD",
+          "bit": 3,
+          "local": false,
+          "capability": "stateful",
+          "on": false,
+          "x": 1861,
+          "w": 103
+        },
+        {
+          "id": "parking",
+          "label": "PARK",
+          "bit": 7,
+          "local": false,
+          "capability": "stateful",
+          "on": false,
+          "x": 1964,
+          "w": 103
+        },
+        {
+          "id": "lights",
+          "label": "LOW BEAM",
+          "bit": 0,
+          "local": false,
+          "capability": "stateful",
+          "on": true,
+          "state": "LOW BEAM",
+          "x": 2067,
+          "w": 103
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "auto",
+      "label": "AUTO",
+      "local": true,
+      "capability": "conditional_action",
+      "on": null,
+      "x": 1450,
+      "w": 90
+    },
+    {
+      "id": "brake_info",
+      "label": "BRAKE",
+      "local": true,
+      "capability": "conditional_action",
+      "on": null,
+      "x": 1540,
+      "w": 90
+    },
+    {
+      "id": "lights",
+      "label": "LOW BEAM",
+      "bit": 0,
+      "local": false,
+      "capability": "stateful",
+      "on": true,
+      "state": "LOW BEAM",
+      "x": 1630,
+      "w": 90
+    },
+    {
+      "id": "wipers",
+      "label": "WIPER",
+      "bit": 1,
+      "local": false,
+      "capability": "stateful",
+      "on": false,
+      "x": 1720,
+      "w": 90
+    },
+    {
+      "id": "cruise",
+      "label": "CRUISE",
+      "bit": 2,
+      "local": false,
+      "capability": "stateful",
+      "on": false,
+      "x": 1810,
+      "w": 90
+    },
+    {
+      "id": "hazard",
+      "label": "HAZARD",
+      "bit": 3,
+      "local": false,
+      "capability": "stateful",
+      "on": false,
+      "x": 1900,
+      "w": 90
+    },
+    {
+      "id": "retarder",
+      "label": "RET",
+      "bit": 4,
+      "local": false,
+      "capability": "stateful",
+      "on": false,
+      "x": 1990,
+      "w": 90
+    },
+    {
+      "id": "horn",
+      "label": "HORN",
+      "bit": 5,
+      "local": false,
+      "capability": "momentary",
+      "on": null,
+      "x": 2080,
+      "w": 90
+    },
+    {
+      "id": "ack",
+      "label": "ACK",
+      "local": true,
+      "capability": "conditional_action",
+      "on": null,
+      "x": 1450,
+      "w": 90
+    },
+    {
+      "id": "bind_next",
+      "label": "NEXT SET",
+      "local": true,
+      "capability": "conditional_action",
+      "on": null,
+      "x": 2067,
+      "w": 103
+    },
+    {
+      "id": "engine",
+      "label": "ENGINE",
+      "bit": 6,
+      "local": false,
+      "capability": "stateful",
+      "on": true,
+      "holdMs": 800,
+      "x": 1450,
+      "w": 90
+    },
+    {
+      "id": "parking",
+      "label": "PARK",
+      "bit": 7,
+      "local": false,
+      "capability": "stateful",
+      "on": false,
+      "x": 1540,
+      "w": 90
+    },
+    {
+      "id": "trailer",
+      "label": "DETACH",
+      "bit": 10,
+      "local": false,
+      "capability": "conditional_action",
+      "on": null,
+      "holdMs": 800,
+      "x": 1630,
+      "w": 90
+    },
+    {
+      "id": "axle",
+      "label": "AXLE",
+      "bit": 8,
+      "local": false,
+      "capability": "stateful",
+      "on": false,
+      "x": 1720,
+      "w": 90
+    },
+    {
+      "id": "diff",
+      "label": "DIFF",
+      "bit": 9,
+      "local": false,
+      "capability": "stateful",
+      "on": false,
+      "x": 1810,
+      "w": 90
+    },
+    {
+      "id": "map_job",
+      "label": "JOB INFO",
+      "local": true,
+      "capability": "conditional_action",
+      "on": null,
+      "x": 1990,
+      "w": 90
+    },
+    {
+      "id": "trailer_brake",
+      "label": "T-BRAKE",
+      "bit": 13,
+      "local": false,
+      "capability": "momentary",
+      "on": null,
+      "x": 1861,
+      "w": 103
+    },
+    {
+      "id": "camera",
+      "label": "CAMERA",
+      "bit": 12,
+      "local": false,
+      "capability": "momentary",
+      "on": null,
+      "x": 1450,
+      "w": 240
+    },
+    {
+      "id": "mirror",
+      "label": "MIRROR",
+      "bit": 11,
+      "local": false,
+      "capability": "momentary",
+      "on": null,
+      "x": 1690,
+      "w": 240
+    },
+    {
+      "id": "trailer_info",
+      "label": "T-INFO",
+      "local": true,
+      "capability": "conditional_action",
+      "on": null,
+      "x": 1630,
+      "w": 180
+    }
+  ]
+}

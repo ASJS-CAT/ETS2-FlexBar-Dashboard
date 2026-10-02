@@ -1,0 +1,23 @@
+name: Feature request / 功能建议
+description: Explain the driving use case / 说明驾驶使用场景
+title: '[Feature] '
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and use case / 问题与场景
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior / 建议行为
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and SDK evidence / 替代方式与 SDK 依据
+  - type: markdown
+    attributes:
+      value: 'Do not attach credentials, private logs or proprietary assets. 不附带凭据、私人日志或专有素材。'

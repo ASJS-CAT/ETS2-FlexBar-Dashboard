@@ -1,0 +1,94 @@
+{
+  "url": "https://download.eurotrucksimulator2.com/scs_sdk_1_14.zip",
+  "sha256": "c6c1f7376b7324994d9f9c567f3c4141fbbf305b6bf803bc4cfeef2437b2023a",
+  "files": [
+    {
+      "file": "readme.txt",
+      "match": true
+    },
+    {
+      "file": "sdk_license.txt",
+      "match": true
+    },
+    {
+      "file": "include/scssdk.h",
+      "match": true
+    },
+    {
+      "file": "include/scssdk_input.h",
+      "match": true
+    },
+    {
+      "file": "include/scssdk_input_device.h",
+      "match": true
+    },
+    {
+      "file": "include/scssdk_input_event.h",
+      "match": true
+    },
+    {
+      "file": "include/scssdk_telemetry.h",
+      "match": true
+    },
+    {
+      "file": "include/scssdk_telemetry_channel.h",
+      "match": true
+    },
+    {
+      "file": "include/scssdk_telemetry_event.h",
+      "match": true
+    },
+    {
+      "file": "include/scssdk_value.h",
+      "match": true
+    },
+    {
+      "file": "include/amtrucks/scssdk_ats.h",
+      "match": true
+    },
+    {
+      "file": "include/amtrucks/scssdk_input_ats.h",
+      "match": true
+    },
+    {
+      "file": "include/amtrucks/scssdk_telemetry_ats.h",
+      "match": true
+    },
+    {
+      "file": "include/common/scssdk_telemetry_common_channels.h",
+      "match": true
+    },
+    {
+      "file": "include/common/scssdk_telemetry_common_configs.h",
+      "match": true
+    },
+    {
+      "file": "include/common/scssdk_telemetry_common_gameplay_events.h",
+      "match": true
+    },
+    {
+      "file": "include/common/scssdk_telemetry_job_common_channels.h",
+      "match": true
+    },
+    {
+      "file": "include/common/scssdk_telemetry_trailer_common_channels.h",
+      "match": true
+    },
+    {
+      "file": "include/common/scssdk_telemetry_truck_common_channels.h",
+      "match": true
+    },
+    {
+      "file": "include/eurotrucks2/scssdk_eut2.h",
+      "match": true
+    },
+    {
+      "file": "include/eurotrucks2/scssdk_input_eut2.h",
+      "match": true
+    },
+    {
+      "file": "include/eurotrucks2/scssdk_telemetry_eut2.h",
+      "match": true
+    }
+  ]
+}

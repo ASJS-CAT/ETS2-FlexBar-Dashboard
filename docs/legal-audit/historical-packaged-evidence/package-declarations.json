@@ -1,0 +1,46 @@
+{
+  "@eniac/flexdesigner": {
+    "name": "@eniac/flexdesigner",
+    "version": "1.0.9",
+    "license": "MIT",
+    "author": "eniac",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/ENIAC-Tech/flexdesigner-sdk.git"
+    }
+  },
+  "@eniac/flexcli": {
+    "name": "@eniac/flexcli",
+    "version": "1.0.7",
+    "license": "MIT",
+    "author": "eniac",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/ENIAC-Tech/flexcli.git"
+    }
+  },
+  "@napi-rs/canvas": {
+    "name": "@napi-rs/canvas",
+    "version": "0.1.80",
+    "license": "MIT",
+    "author": null,
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Brooooooklyn/canvas.git"
+    }
+  },
+  "@napi-rs/canvas-win32-x64-msvc": {
+    "name": "@napi-rs/canvas-win32-x64-msvc",
+    "version": "0.1.80",
+    "license": "MIT",
+    "author": null,
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Brooooooklyn/canvas.git"
+    }
+  },
+  "binary": {
+    "file": "@napi-rs/canvas-win32-x64-msvc/skia.win32-x64-msvc.node",
+    "sha256": "30646342fc284109aa9542155287d37147c97132d5168cf621f851a9c69e0c99"
+  }
+}

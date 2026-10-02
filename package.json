@@ -1,0 +1,44 @@
+{
+  "name": "ets2-flexbar-rally",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DirectDraw dashboard for Euro Truck Simulator 2 on FlexBar, with SCS Telemetry and generic Input SDK controls",
+  "scripts": {
+    "build": "node scripts/build.cjs",
+    "test": "node --test --test-concurrency=1 test/*.test.cjs",
+    "preview": "node scripts/docs-assets.cjs",
+    "plugin:validate": "node scripts/flexcli.cjs plugin validate --path com.local.ets2rally.plugin",
+    "plugin:pack": "node scripts/audit-release.cjs && node scripts/flexcli.cjs plugin pack --path com.local.ets2rally.plugin",
+    "plugin:install": "node scripts/flexcli.cjs plugin install --path com.local.ets2rally.flexplugin",
+    "plugin:link": "node scripts/flexcli.cjs plugin link --path com.local.ets2rally.plugin --uuid com.local.ets2rally",
+    "docs": "node scripts/docs-assets.cjs",
+    "native:build": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-native.ps1",
+    "native:test": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-native.ps1 -Test",
+    "audit:release": "node scripts/audit-release.cjs",
+    "rc": "node scripts/stage-rc.cjs"
+  },
+  "engines": {
+    "node": ">=22.20.0"
+  },
+  "dependencies": {
+    "@eniac/flexdesigner": "1.0.9",
+    "@napi-rs/canvas": "0.1.80"
+  },
+  "devDependencies": {
+    "@eniac/flexcli": "1.0.7",
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "rollup": "^4.52.4"
+  },
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "author": "ASJS-CAT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ASJS-CAT/ETS2-FlexBar-Dashboard.git"
+  },
+  "homepage": "https://github.com/ASJS-CAT/ETS2-FlexBar-Dashboard#readme",
+  "bugs": {
+    "url": "https://github.com/ASJS-CAT/ETS2-FlexBar-Dashboard/issues"
+  }
+}

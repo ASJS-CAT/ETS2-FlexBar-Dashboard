@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "policy": "practical-compliance-v1",
+  "blockerCriteria": [
+    "prohibited-distribution",
+    "missing-required-license-text",
+    "missing-required-source-access",
+    "unknown-or-unauthorized-proprietary-component"
+  ],
+  "blockers": [],
+  "advisories": [
+    {
+      "id": "B001",
+      "status": "accepted-evidence-limit",
+      "summary": "Historical native link map/private patch history is not reconstructed; official Canvas asset hash, full retained notices and required MPL source access are checked.",
+      "evidence": "docs/legal-audit/PRACTICAL_COMPLIANCE.md"
+    },
+    {
+      "id": "H001",
+      "status": "upstream-metadata-ambiguity",
+      "summary": "SDK 1.0.9 declares MIT in official npm metadata. No standalone upstream notice; metadata, standard MIT text and official usage evidence retained.",
+      "evidence": "docs/legal-audit/PRACTICAL_COMPLIANCE.md"
+    }
+  ]
+}
