@@ -19,7 +19,10 @@ test('real DLL -> UDP -> built official SDK backend -> touch -> real Input SDK c
     bridge=spawn(host,[path.join(root,'build/ets2-flexbar-test.dll'),'--stream'],{windowsHide:true,env:{...process.env,ETS2_FLEXBAR_TEST_PORT_BASE:"39762"}});
     bridge.stdout.on('data',b=>hostOutput+=b);bridge.stderr.on('data',b=>hostOutput+=b);
     await until(()=>hostOutput.includes('READY'));
-    const dir=path.join(root,'com.local.ets2rally.plugin');
+    // Keep real backend/SDK logs outside the public plugin tree.
+    const runRoot=path.join(root,'build/test-run');fs.mkdirSync(runRoot,{recursive:true});
+    const dir=fs.mkdtempSync(path.join(runRoot,'chain-'));
+    fs.cpSync(path.join(root,'com.local.ets2rally.plugin'),dir,{recursive:true});
     backend=spawn(process.execPath,[path.join(dir,'backend/plugin.cjs'),`--port=${server.address().port}`,'--uid=com.local.ets2rally',`--dir=${dir}`],{windowsHide:true,env:{...process.env,ETS2_FLEXBAR_TEST_PORT_BASE:"39762"}});
     backend.stdout.on('data',b=>backendOutput+=b);backend.stderr.on('data',b=>backendOutput+=b);
     await until(()=>draws.length>0);await delay(200);

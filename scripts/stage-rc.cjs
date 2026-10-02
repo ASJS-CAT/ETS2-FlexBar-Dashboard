@@ -1,9 +1,16 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),{execFileSync}=require('node:child_process');
 const root=path.resolve(__dirname,'..');
+// Official FlexCLI writes to the source root. Move that generated artifact out
+// before re-auditing the public tree; do not exempt archives from the gate.
+const packed=path.join(root,'com.local.ets2rally.flexplugin');
+if(fs.existsSync(packed)){
+ fs.mkdirSync(path.join(root,'build'),{recursive:true});
+ fs.renameSync(packed,path.join(root,'build/com.local.ets2rally.flexplugin'));
+}
 execFileSync(process.execPath,[path.join(__dirname,'audit-release.cjs')],{cwd:root,stdio:'inherit'});
 const version=require('../package.json').version,out=path.join(root,'release-candidate',version);
-const inputs=['com.local.ets2rally.flexplugin','build/ets2-flexbar.dll','LICENSE','THIRD_PARTY_NOTICES.md','vendor/scs/sdk_license.txt'];
+const inputs=['build/com.local.ets2rally.flexplugin','build/ets2-flexbar.dll','LICENSE','THIRD_PARTY_NOTICES.md','vendor/scs/sdk_license.txt'];
 for(const file of inputs)if(!fs.existsSync(path.join(root,file)))throw Error('Missing RC input: '+file);
 fs.mkdirSync(out,{recursive:true});
 const sums=[];

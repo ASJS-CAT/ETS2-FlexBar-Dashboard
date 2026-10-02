@@ -5,17 +5,28 @@ const {reviewedSources}=require('./legal-materials.cjs');
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
 const pluginLogs='com.local.ets2rally.plugin/logs';
 function entryExists(file){try{fs.lstatSync(file);return true;}catch(e){if(e.code==='ENOENT')return false;throw e;}}
+// Native realpath expands Windows 8.3 names and junctions; path.relative also
+// handles Windows separators/case without treating POSIX paths as case-insensitive.
+const sameDirectory=(a,b)=>path.relative(fs.realpathSync.native(a),fs.realpathSync.native(b))==='';
 function auditGitPrivacy({root,gitDir}={}){
  root=path.resolve(root||path.join(__dirname,'..'));
  const findings=[],files=[],keywordReferences=[];
  const fail=(file,rule,line)=>findings.push({file,rule,...(line?{line}:{})});
  if(entryExists(path.join(root,pluginLogs)))fail(pluginLogs,'forbidden-directory-present-even-if-ignored-or-empty');
- const args=gitDir?['--git-dir',path.resolve(gitDir),'--work-tree',root]:[];
- const git=(...cmd)=>execFileSync('git',[...args,...cmd],{cwd:root,encoding:null,stdio:['pipe','pipe','pipe'],maxBuffer:64*1024*1024});
+ const repository=path.resolve(gitDir||path.join(root,'.git'));
+ const args=['--git-dir',repository,'--work-tree',root];
+ // An inherited index or object-store override must not change what is audited.
+ const env={...process.env};
+ for(const key of Object.keys(env))if(/^GIT_(?:DIR|WORK_TREE|INDEX_FILE|COMMON_DIR|OBJECT_DIRECTORY|ALTERNATE_OBJECT_DIRECTORIES|NAMESPACE)$/i.test(key))delete env[key];
+ const git=(...cmd)=>execFileSync('git',[...args,...cmd],{cwd:root,env,encoding:null,stdio:['pipe','pipe','pipe'],maxBuffer:64*1024*1024});
  let entries=[];
  try{
+  // Require a repository at the supplied root; never discover one in a parent.
+  if(!fs.statSync(repository).isDirectory())throw Error('missing repository directory');
+  if(git('rev-parse','--is-bare-repository').toString().trim()!=='false')throw Error('bare repository');
+  if(!sameDirectory(git('rev-parse','--absolute-git-dir').toString().trim(),repository))throw Error('wrong git directory');
   const top=git('rev-parse','--show-toplevel').toString().trim();
-  if(fs.realpathSync(top).toLowerCase()!==fs.realpathSync(root).toLowerCase())throw Error('wrong repository root');
+  if(!sameDirectory(top,root))throw Error('wrong repository root');
   entries=git('ls-files','--stage','-z').toString('utf8').split('\0').filter(Boolean);
   if(!entries.length)fail('.','empty-git-index');
  }catch{fail('.','git-index-unavailable-initialize-and-stage-source-first');}

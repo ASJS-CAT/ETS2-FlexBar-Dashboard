@@ -5,8 +5,12 @@ const {drive}=require('./fixtures.cjs');
 const delay=ms=>new Promise(r=>setTimeout(r,ms));
 async function until(fn,ms=7000){const end=Date.now()+ms;while(!fn()){if(Date.now()>end)throw Error('Timed out waiting for integration condition');await delay(20);}}
 test('built backend runs through real SDK WebSocket protocol and loopback telemetry', {timeout:20000},async()=>{
-  const root=path.resolve(__dirname,'..'),dir=path.join(root,'com.local.ets2rally.plugin');
-  assert.ok(fs.existsSync(path.join(dir,'backend/plugin.cjs')),'Run npm run build first');
+  const root=path.resolve(__dirname,'..'),sourceDir=path.join(root,'com.local.ets2rally.plugin');
+  assert.ok(fs.existsSync(path.join(sourceDir,'backend/plugin.cjs')),'Run npm run build first');
+  // Real SDK/bootstrap logging belongs to an isolated test copy, never the
+  // plugin directory that the subsequent source/package privacy gate audits.
+  const runRoot=path.join(root,'build/test-run');fs.mkdirSync(runRoot,{recursive:true});
+  const dir=fs.mkdtempSync(path.join(runRoot,'plugin-'));fs.cpSync(sourceDir,dir,{recursive:true});
   const server=new WebSocketServer({port:0,host:'127.0.0.1'});await new Promise(r=>server.once('listening',r));
   const udp=dgram.createSocket('udp4');await new Promise((r,j)=>{udp.once('error',j);udp.bind(39763,'127.0.0.1',r);});
   let client,draws=[],masks=[],output='',timer,child;

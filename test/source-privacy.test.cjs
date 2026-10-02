@@ -57,3 +57,32 @@ test('only the exact reviewed MPL source archive is allowed, not a changed or re
  f.put(name,bytes);f.put('unreviewed.crate',bytes);f.git('add','.');
  assert.ok(f.scan().findings.some(x=>x.file==='unreviewed.crate'&&x.rule==='unexpected-binary-or-non-utf8-content'));
 });
+
+test('a child directory cannot inherit its parent repository',t=>{
+ const f=fixture(t),child=path.join(f.root,'child');fs.mkdirSync(child);
+ const r=auditGitPrivacy({root:child});
+ assert.equal(r.pass,false);assert.equal(r.trackedFiles,0);
+ assert.ok(r.findings.some(x=>x.rule==='git-index-unavailable-initialize-and-stage-source-first'));
+});
+
+test('repository aliases resolve to the same staged index',t=>{
+ const f=fixture(t),alias=path.join(f.root,'alias');
+ fs.symlinkSync(f.root,alias,process.platform==='win32'?'junction':'dir');
+ try{
+  const expected=f.scan(),actual=auditGitPrivacy({root:alias});
+  assert.equal(actual.pass,true);assert.deepEqual(actual.files,expected.files);
+ }finally{fs.unlinkSync(alias);}
+});
+
+test('inherited Git index and work-tree overrides cannot hide staged private content',t=>{
+ const f=fixture(t),other=fixture(t);
+ f.put('private.txt','/home'+'/fixture/private');f.git('add','private.txt');
+ const names=['GIT_DIR','GIT_WORK_TREE','GIT_INDEX_FILE'];
+ const saved=Object.fromEntries(names.map(k=>[k,process.env[k]]));
+ try{
+  process.env.GIT_DIR=path.join(other.root,'.git');process.env.GIT_WORK_TREE=other.root;
+  process.env.GIT_INDEX_FILE=path.join(other.root,'.git/index');
+  const r=f.scan();assert.equal(r.pass,false);
+  assert.ok(r.findings.some(x=>x.file==='private.txt'&&x.rule==='personal-absolute-path'));
+ }finally{for(const k of names)if(saved[k]===undefined)delete process.env[k];else process.env[k]=saved[k];}
+});
