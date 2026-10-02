@@ -15,7 +15,7 @@ The initial launcher tap is a known DirectDraw host requirement. Dynamic Key mig
 ## Validation
 
 - Fresh build from Git-tracked source; dependency installation, build and native tests passed.
-- Automated tests: **133 passed, 0 failed, 0 skipped**.
+- Automated tests: **136 passed, 0 failed, 0 skipped**.
 - npm security audit: **0 vulnerabilities**.
 - Release gates, source privacy scan and package-content scan passed. B001/H001 remain non-blocking upstream metadata/provenance advisories.
 - Packaged using official FlexCLI; package validation and final FlexDesigner import passed. All 340 installed package files match the final archive.
