@@ -8,6 +8,14 @@ A DirectDraw dashboard for Euro Truck Simulator 2 and FlexBar on Windows x64. It
 
 First use: install the `.flexplugin` and game bridge DLL, add the plugin to a FlexBar page, then tap its launcher once. This tap is a current DirectDraw host limitation. The launcher means “enter dashboard”, not “offline”. Follow the [Quick Start](docs/QUICKSTART.md) · [Issues](https://github.com/ASJS-CAT/ETS2-FlexBar-Dashboard/issues).
 
+## Hardware Demo
+
+Real-world setup running ETS2 FlexBar Dashboard on a physical FlexBar.
+
+![ETS2 FlexBar Dashboard hardware demo](docs/assets/hardware-demo.png)
+
+The dashboard shown above is running on real FlexBar hardware with Euro Truck Simulator 2.
+
 ## Features
 
 - Speed, gear, RPM LEDs, speed limit, cruise and overlaid pedal tracks; fuel/AdBlue litres and percentages, trip average consumption, route and systems carousels.

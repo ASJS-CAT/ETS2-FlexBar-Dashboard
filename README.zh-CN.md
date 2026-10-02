@@ -8,6 +8,14 @@
 
 首次使用：安装 `.flexplugin`、安装随附游戏桥接 DLL、将插件添加到 FlexBar 页面，然后轻点入口一次。这个点击是当前 DirectDraw 宿主限制；入口图表示“进入仪表盘”，不是离线状态。详见 [Quick Start](docs/QUICKSTART.zh-CN.md) · [Issues](https://github.com/ASJS-CAT/ETS2-FlexBar-Dashboard/issues).
 
+## 实机展示
+
+ETS2 FlexBar Dashboard 在真实 FlexBar 设备上的运行效果。
+
+![ETS2 FlexBar Dashboard 实机展示](docs/assets/hardware-demo.png)
+
+上图为插件在真实 FlexBar 硬件配合 Euro Truck Simulator 2 运行时的实际效果。
+
 ## 功能
 
 - 车速、档位、RPM LED、限速、巡航与叠加踏板条；燃油/尿素升数和百分比、行程平均油耗、路线及系统数据轮询。
