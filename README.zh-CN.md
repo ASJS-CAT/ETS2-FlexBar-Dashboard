@@ -100,4 +100,6 @@ npm run plugin:pack
 
 ## 致谢与免责声明
 
+本项目由 ASJS-CAT 主导开发，感谢 OpenAI Codex 在代码实现、问题排查、回归测试及文档整理中的协助。需求设计、真实设备上的仪表校准和最终游戏内验收由 ASJS-CAT 完成。
+
 感谢 SCS Software 的 Telemetry/Input SDK、ENIAC 的 FlexDesigner SDK/FlexCLI、Canvas 及其他第三方组件作者。本项目为非官方社区项目，与 SCS Software 或 ENIAC 无隶属关系，亦未获其背书。产品名称仅用于识别兼容对象，项目配图不使用官方商标 Logo。

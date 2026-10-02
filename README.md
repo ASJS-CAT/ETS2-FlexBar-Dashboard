@@ -100,4 +100,6 @@ Free for personal and non-commercial use. Modification and redistribution are pe
 
 ## Credits and disclaimer
 
+Developed by ASJS-CAT with assistance from OpenAI Codex in implementation, debugging, regression testing and documentation. ASJS-CAT defined the requirements, calibrated the dashboard on real hardware and performed the final in-game acceptance testing.
+
 Thanks to SCS Software for the Telemetry/Input SDK, ENIAC for the FlexDesigner SDK/FlexCLI, and the authors of Canvas and other dependencies. This is an unofficial community project, not affiliated with or endorsed by SCS Software or ENIAC. Product names identify compatibility only; project artwork does not use official trademark logos.
