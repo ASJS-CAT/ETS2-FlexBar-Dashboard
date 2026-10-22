@@ -4,11 +4,11 @@ English | [简体中文](README.zh-CN.md)
 
 ![Dashboard](docs/assets/flexgate-cover.png)
 
-A DirectDraw dashboard for Euro Truck Simulator 2 and FlexBar on Windows x64. It displays SCS Telemetry SDK data and controls game bindings through an SCS Input SDK generic input device. **Version 1.0.1 — Touch and language hotfix (2026-10-02).** Restores DirectDraw touch controls and applies saved dashboard language immediately; the calibrated dashboard layout and game bridge are unchanged.
+A DirectDraw dashboard for Euro Truck Simulator 2 and FlexBar on Windows x64. It displays SCS Telemetry SDK data and controls game bindings through an SCS Input SDK generic input device. **Version 1.1.0 — Airport LED and carousel improvements (2026-10-23).** Adds optional 5×7 dot-matrix rendering and a hold-to-return gesture for job/trailer information. The game bridge DLL is unchanged.
 
 First use: install the `.flexplugin` and game bridge DLL, add the plugin to a FlexBar page, then tap its launcher once. This tap is a current DirectDraw host limitation. The launcher means “enter dashboard”, not “offline”. Follow the [Quick Start](docs/QUICKSTART.md) · [Issues](https://github.com/ASJS-CAT/ETS2-FlexBar-Dashboard/issues).
 
-**Upgrading from 1.0.0:** install 1.0.1, then unplug/reconnect FlexBar once and re-enter the dashboard if touch remains unresponsive. The launcher uses the built-in bilingual cover; active dashboards use only DirectDraw. Settings and dashboard language remain separately configurable.
+**Upgrading from 1.0.0:** install the latest plugin, then unplug/reconnect FlexBar once and re-enter the dashboard if touch remains unresponsive. The launcher uses the built-in bilingual cover; active dashboards use only DirectDraw. Settings and dashboard language remain separately configurable.
 
 ## Hardware Demo
 
@@ -44,7 +44,7 @@ Enable Binding Mode in plugin settings. Select the Flexbar Rally device in ETS2 
 
 ![Overview](docs/assets/overview-en.png)
 
-Tap the left theme/page indicator to cycle 01 Auto, 02 Controls, 03 Information and 04 Motion. Hold about 900 ms to reset the trip and peak G. Theme and page are independent. Tap the visible default, JOB INFO or T-INFO carousel to advance one item and restart its timer. Warning, braking and refueling overlays do not trigger carousel navigation.
+Tap the left theme/page indicator to cycle 01 Auto, 02 Controls, 03 Information and 04 Motion. Hold about 900 ms to reset the trip and peak G. Theme and page are independent. Tap the visible default, JOB INFO or T-INFO carousel to advance one item and restart its timer. Hold the JOB INFO or T-INFO information area to return to the truck-information carousel. Warning, braking and refueling overlays do not trigger carousel navigation.
 
 ## Themes
 
@@ -54,7 +54,15 @@ Tap the left theme/page indicator to cycle 01 Auto, 02 Controls, 03 Information 
 | el_mint | MINT |
 | el_amber | AMBER |
 
-Changing theme retains the page number. Seven-segment and font-based digits are selectable. System fonts and fallbacks are used; no commercial font files are distributed.
+Changing theme retains the page number. Seven-segment, font-based and Airport LED digits are selectable. System fonts and fallbacks are used; no commercial font files are distributed.
+
+### Airport LED
+
+![Airport LED on FlexBar](docs/assets/airport-led-flexbar.png)
+
+Choose **Airport LED** separately for **Speed and gear font** and **Other text style** in the existing plugin settings. All three themes share the same 5×7 glyphs, visible unlit dots and sharp edges. Fuel display offers **Double row / large**, **Single row / fit**, and **Single row / scroll**; scrolling can restart or loop continuously to the right. Units stay within the matrix. Speed has no leading zero padding; LED speed keeps three dark cells and gear keeps two.
+
+LED-specific size and position changes apply only when LED is selected. Very small labels and unsupported characters, including Chinese, retain the regular font for readability. Existing styles remain the default.
 
 ## Settings
 
@@ -90,7 +98,7 @@ npm run plugin:validate
 npm run plugin:pack
 ```
 
-Packaging uses the official FlexCLI filename `com.local.ets2rally.flexplugin`. Keep the `com.local.ets2rally.plugin` directory. The tag must be exactly `1.0.1`, matching the manifest. CI builds artifacts without automatically publishing a public Release.
+Packaging uses the official FlexCLI filename `com.local.ets2rally.flexplugin`. Keep the `com.local.ets2rally.plugin` directory. The tag must be exactly `1.1.0`, matching the manifest. CI builds artifacts without automatically publishing a public Release.
 
 [CONTRIBUTING](CONTRIBUTING.md) · [RELEASE_CHECKLIST](RELEASE_CHECKLIST.md) · [RELEASE_AUDIT](RELEASE_AUDIT.md)
 

@@ -3,7 +3,7 @@ const {GForce}=require('./driving-metrics.cjs');
 const MANUAL_PANELS=Object.freeze({job:Object.freeze(['job_overview','job_timing','job_distance']),trailer:Object.freeze(['trailer_status','trailer_damage'])});
 const {TelemetryState,DrivingContext,QuickControlResolver,PINNABLE,CAPABILITIES}=require('./quick-controls.cjs');
 const DEFAULTS = Object.freeze({ language:'zh',dashboardLanguage:'en',rpmScaleMax:2500,gearFontSize:42,rpmScaleFormat:'full',rpmLabelCount:6,warningRotationSeconds:2,locationRotationSeconds:8,refuelExitSeconds:1.8,paymentSeconds:3,controlOrder:[],hiddenControls:[], fps: 20, units: 'kmh', theme:'rally', manualPageHoldCycles:3, brakePageHoldSeconds:3,
-  overspeedMargin: 3, lowFuelPercent: 12, cycleSeconds: 15, cyclePanels:['fuel','route','systems'],digitStyle:'rally',
+  overspeedMargin: 3, lowFuelPercent: 12, cycleSeconds: 15, cyclePanels:['fuel','route','systems'],digitStyle:'rally',textStyle:'standard',digitMatrix:'5x7',textMatrix:'5x7',ledScrollMode:'restart',airportFuelLayout:'double_large',
   airPressureFullPsi:185,quickControlsMode:'dynamic',pinnedControls:['hazard','parking'],diffUpdate: false, bindingMode: false, wakeOnStart: true });
 function settings(raw = {}) {
   const number = (k, lo, hi) => raw[k]!==null&&raw[k]!==''&&Number.isFinite(Number(raw[k])) ? Math.min(hi, Math.max(lo, Number(raw[k]))) : DEFAULTS[k];
@@ -13,9 +13,12 @@ function settings(raw = {}) {
   const quickControlsMode=['static','dynamic','hybrid'].includes(raw.quickControlsMode)?raw.quickControlsMode:DEFAULTS.quickControlsMode;
   const holdCycles=[1,2,3,5].includes(Number(raw.manualPageHoldCycles))?Number(raw.manualPageHoldCycles):DEFAULTS.manualPageHoldCycles;
   const theme=raw.theme==='el'?'el_mint':['rally','el_mint','el_amber'].includes(raw.theme)?raw.theme:'rally';
-  const digit=raw.digitStyle==='font'?'rally':['rally','din','euro','narrow','tft','segment'].includes(raw.digitStyle)?raw.digitStyle:'rally';
+  const digit=raw.digitStyle==='font'?'rally':['rally','din','euro','narrow','tft','segment','airport_led'].includes(raw.digitStyle)?raw.digitStyle:'rally';
   return { language:raw.language==='en'?'en':'zh', dashboardLanguage:['follow','zh','en'].includes(raw.dashboardLanguage)?raw.dashboardLanguage:'en', fps: number('fps', 5, 25), units: raw.units === 'mph' ? 'mph' : 'kmh',theme,
-    digitStyle:digit,rpmScaleMax:number('rpmScaleMax',0,10000),gearFontSize:number('gearFontSize',24,48),rpmScaleFormat:raw.rpmScaleFormat==='x100'?'x100':'full',rpmLabelCount:[4,5,6].includes(Number(raw.rpmLabelCount))?Number(raw.rpmLabelCount):6,
+    digitStyle:digit,textStyle:raw.textStyle==='airport_led'?'airport_led':'standard',digitMatrix:DEFAULTS.digitMatrix,textMatrix:DEFAULTS.textMatrix,
+    ledScrollMode:raw.ledScrollMode==='loop_right'?'loop_right':DEFAULTS.ledScrollMode,
+    airportFuelLayout:['double_large','single_fit','single_scroll'].includes(raw.airportFuelLayout)?raw.airportFuelLayout:DEFAULTS.airportFuelLayout,
+    rpmScaleMax:number('rpmScaleMax',0,10000),gearFontSize:number('gearFontSize',24,48),rpmScaleFormat:raw.rpmScaleFormat==='x100'?'x100':'full',rpmLabelCount:[4,5,6].includes(Number(raw.rpmLabelCount))?Number(raw.rpmLabelCount):6,
     warningRotationSeconds:number('warningRotationSeconds',1,30),locationRotationSeconds:number('locationRotationSeconds',2,60),refuelExitSeconds:number('refuelExitSeconds',1,20),paymentSeconds:number('paymentSeconds',1,15),hiddenControls:Array.isArray(raw.hiddenControls)?[...new Set(raw.hiddenControls.filter(id=>id in CAPABILITIES))]:[],controlOrder:Array.isArray(raw.controlOrder)?[...new Set(raw.controlOrder.filter(id=>id in CAPABILITIES&&!['bind_next'].includes(id)))]:[],
     manualPageHoldCycles:holdCycles,brakePageHoldSeconds:number('brakePageHoldSeconds',1,20),airPressureFullPsi:number('airPressureFullPsi',120,250),
     overspeedMargin: number('overspeedMargin', 0, 20), lowFuelPercent: number('lowFuelPercent', 1, 50), cycleSeconds:number('cycleSeconds',3,120),
@@ -167,7 +170,9 @@ class Dashboard {
     const activeAlert=selectable[Math.floor(now/(cfg.warningRotationSeconds*1000))%selectable.length]||null;
     const telemetry=new TelemetryState(p,kmh,gear),context=this.context.update(telemetry,now),quick=this.quick.resolve(telemetry,context,{...cfg,bindingPage:this.bindingPage,section:this.section,ackAvailable:page==='alert'&&!!activeAlert,ackId:activeAlert?.id},now);
     const consumptionL100=p.paused?this.consumption.output:this.consumption.update(fuel,odo,p.seq);
-    return this.lastRendered={ now,page, p, kmh, rpm, gear, fuelPercent, alerts, alertId, urgent,carouselIndex,manualRevision:this.manualRevision,gForce:this.gForce.update(p),
+    // Display-only animation clock, derived from the existing page timer (including manual taps).
+    const panelElapsedMs=Math.max(0,MANUAL_PANELS[page]?this.manualElapsedMs-this.manualPanelEpoch:now-(this.carouselEpoch||0))%cycleMs;
+    return this.lastRendered={ now,page, p, kmh, rpm, gear, fuelPercent, alerts, alertId, urgent,carouselIndex,panelElapsedMs,manualRevision:this.manualRevision,gForce:this.gForce.update(p),
       mode: this.manual ? 'MANUAL' : 'AUTO', trip: odo === null ? null : Math.max(0, odo - this.tripBase),
       inputReady: fresh && p.input && (!p.paused || cfg.bindingMode),overspeed:this.overspeedActive,
       adblue,adbluePercent,adblueRefilling,acknowledgedWarnings:alerts.filter(a=>a.acknowledged),refueling,braking,brakeActive,brakeForce:brake,panel,context,quick,section:this.section,manualRemainingMs:this.manualRemainingMs,consumptionL100,warningQueue:alerts,activeAlert,warningIndex:activeAlert?alerts.indexOf(activeAlert)+1:0,tollNotice };

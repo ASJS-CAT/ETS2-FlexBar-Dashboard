@@ -46,6 +46,11 @@
       "systems"
     ],
     "digitStyle": "rally",
+    "textStyle": "standard",
+    "digitMatrix": "5x7",
+    "textMatrix": "5x7",
+    "ledScrollMode": "restart",
+    "airportFuelLayout": "double_large",
     "airPressureFullPsi": 185,
     "quickControlsMode": "dynamic",
     "pinnedControls": [

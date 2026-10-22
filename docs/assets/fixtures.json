@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "source": "src/render.cjs",
   "dimensions": [
     2170,
@@ -8,7 +8,7 @@
   "fixtures": [
     {
       "file": "dashboard-rally.png",
-      "sha256": "60b97166f370956b6fb567b24230fae5b223b01c37d9c0f5a823146e59fd42f7",
+      "sha256": "bee8401f5a4e6ad8158b840e0e484c36782513eeffed0db26bdf4bc9c1dc4a7c",
       "page": "drive",
       "panel": "fuel",
       "theme": "rally",
@@ -76,7 +76,7 @@
     },
     {
       "file": "dashboard-mint.png",
-      "sha256": "260e89ded676a36266f970620da9225bb01a913de98b3d7dc8ce8820f4af37b5",
+      "sha256": "4703f131ca2cf068a73625ef524f6951bfa116a85c2957f5144102444a1365c8",
       "page": "drive",
       "panel": "fuel",
       "theme": "el_mint",
@@ -144,7 +144,7 @@
     },
     {
       "file": "dashboard-amber.png",
-      "sha256": "b482b7bec7d7c8cb915cb5750d6d310cd51afb71edb6edf63f5d987482ab9afb",
+      "sha256": "c815a13e513122008b6dfe4a1ecbed6521069a37aa8502d2be3bccceeba5f9b3",
       "page": "drive",
       "panel": "fuel",
       "theme": "el_amber",
@@ -348,7 +348,7 @@
     },
     {
       "file": "dashboard-driving.png",
-      "sha256": "60b97166f370956b6fb567b24230fae5b223b01c37d9c0f5a823146e59fd42f7",
+      "sha256": "bee8401f5a4e6ad8158b840e0e484c36782513eeffed0db26bdf4bc9c1dc4a7c",
       "page": "drive",
       "panel": "fuel",
       "theme": "rally",
@@ -484,7 +484,7 @@
     },
     {
       "file": "dashboard-braking.png",
-      "sha256": "f473c20e1077c98f31e1850bd0f6ea698838e8cb37d904996fe0a947f02f46e6",
+      "sha256": "b1fa4c63505bd659e5cc799e0babec6f2bb9d1d701976bb849805e525408b3e7",
       "page": "braking",
       "panel": "braking",
       "theme": "rally",
@@ -552,7 +552,7 @@
     },
     {
       "file": "dashboard-job-info.png",
-      "sha256": "7e951b7cad8a86e5e4c46f87444fa69502671332445ddd46a7ba6eb9ae9d9f9e",
+      "sha256": "f2ffbab4105690ad200b32b851d3fb50f5d226ce87e76404378d52ab75e9d7d8",
       "page": "job",
       "panel": "job_overview",
       "theme": "rally",
@@ -620,7 +620,7 @@
     },
     {
       "file": "dashboard-trailer-info.png",
-      "sha256": "1b9b5d3c033cdc0f2497d20e80a04e22cffb7151e1633b807cc45347893c2531",
+      "sha256": "1f71efc0af03137b64491bf635e0d8bd7ecc619bbc1d1568c1781c20e75caef1",
       "page": "trailer",
       "panel": "trailer_status",
       "theme": "rally",
@@ -688,7 +688,7 @@
     },
     {
       "file": "dashboard-refueling.png",
-      "sha256": "c33484d74256f303875e17201cdf072b289a78a8a16ca159a5858660fce2bfe3",
+      "sha256": "89bc10fd2ff2a5d424d15d988238c690607ca08a7d4766ad830f42e3e2fa2c80",
       "page": "refueling",
       "panel": "fuel",
       "theme": "rally",

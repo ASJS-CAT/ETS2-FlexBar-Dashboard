@@ -9,13 +9,55 @@ const {pedalState}=require('./driving-metrics.cjs');
 const {themePageLabel,PALETTES,rpmColor,sevenSegment,sevenSegmentWidth,sevenSegmentInkBounds}=require('./themes.cjs');
 
 const {displayTranslator,dashboardLanguage}=require('./i18n.cjs');
+const airportLed=require('./airport-led.cjs');
+// Nominal maximum readout lengths, not telemetry limits. An unusually long real value grows
+// beyond this reservation (within its original field), and is never silently clipped to fit it.
+const LED_FIELD_CELLS=Object.freeze({
+  'OIL PSI':3,'OIL C':3,'COOLANT C':3,'BRAKE TEMP C':5,'TEMP':4,'BATTERY':5,'RETARDER':1,
+  'BRAKE':8,'PARK BRAKE':3,'TRAILER':13,'TRAILER AXLE':6,'LINK':9,'INPUT SDK':7,
+  'CARGO DAMAGE':6,'BODY WEAR':6,'CHASSIS WEAR':6,'WHEEL WEAR':6,'CARGO MASS':6,
+  'HEADING':6,'PITCH':7,'ROLL':7
+});
+const LED_LARGE_FIELDS=new Set(['OIL PSI','OIL C','COOLANT C','BRAKE TEMP C','TEMP','BATTERY','CARGO MASS']);
 function render(v,cfg,now=v.now||0){
   const translate=displayTranslator(dashboardLanguage(cfg));
   const el=cfg.theme==='el_mint'||cfg.theme==='el_amber',C=PALETTES[cfg.theme]||PALETTES.rally;
+  const airportDigits=cfg.digitStyle==='airport_led',airportText=cfg.textStyle==='airport_led';
+  const digitMatrix='5x7',textMatrix='5x7';
+  const digitRows=airportLed.rowCount(digitMatrix),textRows=airportLed.rowCount(textMatrix);
+  // Theme colors preserve semantic red/amber/green; normal Rally cyan becomes warm airport yellow.
+  const ledColor=color=>cfg.theme==='rally'&&color===C.cyan?C.amber:color;
+  const ledOptions={dim:cfg.theme==='el_mint'?'#213b2c':cfg.theme==='el_amber'?'#3c2e1a':'#282b29'};
+  const locationElapsed=new Map(),scrollTime=s=>cfg.ledScrollMode==='loop_right'?Math.max(0,now):Math.min(v.panelElapsedMs||0,locationElapsed.get(String(s))??Infinity);
   const canvas=createCanvas(WIDTH,HEIGHT),c=canvas.getContext('2d');c.imageSmoothingEnabled=false;
   const box=(x,y,w,h,color)=>{c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));};
-  const text=(s,x,y,size=16,color=C.white,weight='normal',max=Infinity,raw=false)=>{
-    if(!raw)s=translate(s);c.font=`${weight} ${size}px ${FONT_FAMILY}`;c.fillStyle=color;c.textBaseline='alphabetic';c.fillText(String(s),Math.round(x),Math.round(y),max);
+  const text=(s,x,y,size=16,color=C.white,weight='normal',max=Infinity,raw=false,scroll=false,minCells=0,ledPitch=0,align='left')=>{
+    if(!raw)s=translate(s);
+    // Tiny captions, Chinese/non-Latin strings, pictograms and safety banners retain the current font.
+    const ledField=airportText&&size>=14&&x>=RECTS.data.left&&(x<LAYOUT.controlsStart||v.page==='motion');
+    if(ledField){
+      const bound=Math.min(max,(v.page==='motion'?WIDTH:LAYOUT.controlsStart)-x-6);
+      const preferred=ledPitch||Math.max(2,Math.floor((size>=21?24:size)/textRows)),elapsedMs=scrollTime(s);
+      for(let pitch=preferred;pitch>=2;pitch--){
+        // Keep the same pitch across short/long states of a reserved readout.
+        // At minimum pitch the original field remains the hard width limit.
+        if(pitch>2&&minCells>0&&(minCells*6-1)*pitch>bound)continue;
+        if(airportLed.draw(c,s,{...ledOptions,x,y:y-textRows*pitch,pitch,matrix:textMatrix,shape:'square',maxWidth:bound,minCells,align,
+          scroll:scroll===true||scroll==='fit'&&pitch===2,scrollMode:cfg.ledScrollMode,elapsedMs,truncate:raw&&!scroll,color:ledColor(color)}))return;
+      }
+    }
+    c.font=`${weight} ${size}px ${FONT_FAMILY}`;c.fillStyle=color;c.textBaseline='alphabetic';
+    // Unsupported city alphabets keep their font, but still scroll inside the same viewport.
+    const overflow=ledField&&scroll&&Number.isFinite(max)?Math.ceil(c.measureText(String(s)).width-max):0;
+    if(overflow>0){
+      const elapsedMs=scrollTime(s);
+      c.save();c.beginPath();c.rect(x,y-size-2,max,size+5);c.clip();
+      if(cfg.ledScrollMode==='loop_right'){
+        const period=Math.ceil(c.measureText(String(s)).width)+32,offset=Math.floor(elapsedMs/45)%period;
+        for(const dx of [offset,offset-period])c.fillText(String(s),Math.round(x)+dx,Math.round(y));
+      }else c.fillText(String(s),Math.round(x)-airportLed.scrollOffset(elapsedMs,overflow,45),Math.round(y));
+      c.restore();
+    }else c.fillText(String(s),Math.round(x),Math.round(y),max);
   };
   const fontFamilies={rally:'Consolas, monospace',din:'"Bahnschrift Condensed", "Arial Narrow", sans-serif',euro:'Eurostile, Microgramma, Arial, sans-serif',narrow:'"Roboto Condensed", "Arial Narrow", sans-serif',tft:'"Segoe UI", Bahnschrift, sans-serif'};
   const numberText=(s,x,y,size,color,max=Infinity)=>{c.font=`bold ${size}px ${fontFamilies[cfg.digitStyle]||fontFamilies.rally}`;c.fillStyle=color;c.textBaseline='alphabetic';c.fillText(String(s),x,y,max);};
@@ -24,7 +66,14 @@ function render(v,cfg,now=v.now||0){
   const clockTime=minutes=>typeof minutes==='number'&&Number.isFinite(minutes)?`D${Math.floor(minutes/1440)+1} ${String(Math.floor(minutes/60)%24).padStart(2,'0')}:${String(Math.floor(minutes)%60).padStart(2,'0')}`:'N/A';
   const duration=minutes=>typeof minutes==='number'&&Number.isFinite(minutes)?`${Math.max(0,Math.floor(minutes/60))}H ${Math.max(0,Math.floor(minutes%60))}M`:'N/A';
   const bar=(x,y,w,p,color)=>{box(x,y,w,3,C.line);if(typeof p==='number')box(x,y,w*Math.max(0,Math.min(1,p)),3,color);};
-  const metric=(label,val,x,w,color=C.white,raw=false)=>{text(label,x+9,17,10,C.muted);text(val,x+9,45,21,color,'bold',w-18,raw&&val!=='N/A');};
+  const metric=(label,val,x,w,color=C.white,raw=false,scroll=false)=>{
+    const large=airportText&&LED_LARGE_FIELDS.has(label);
+    // Keep the unit in the same dot row; remove only its spacer to fit larger cells.
+    if(large)val=String(val).replace(/\s+([VTC])$/,'$1');
+    text(label,x+9,17,10,C.muted);
+    const brake=airportText&&label==='BRAKE';
+    text(val,x+9,large?51:45,brake?24:21,color,'bold',w-(brake?9:18),raw&&val!=='N/A',scroll,LED_FIELD_CELLS[label]||0,large?4:0);
+  };
   const edge=(x,color,reverse=false,width=18)=>{
     const m=/^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(color),clear=m?`rgba(${parseInt(m[1],16)},${parseInt(m[2],16)},${parseInt(m[3],16)},0)`:'rgba(0,0,0,0)';
     const g=c.createLinearGradient(reverse?x+width:x,0,reverse?x:x+width,0);g.addColorStop(0,color);g.addColorStop(.18,color);g.addColorStop(1,clear);
@@ -80,11 +129,23 @@ function render(v,cfg,now=v.now||0){
   text(v.quick?.binding?`BIND / ${v.quick.bindingPage+1}`:themePageLabel(cfg.theme,v.section||0),7,21,13,C.cyan,'bold');if(!v.quick?.binding)text('›',100,22,13,C.muted,'bold');
   text(v.acknowledgedWarnings?.length?'ACK / ACTIVE':v.mode||'AUTO',7,41,10,v.acknowledgedWarnings?.length?C.amber:C.muted);text((v.connectionState&&v.connectionState!=='CONNECTED'?v.connectionState:v.foreground===false?'BACKGROUND':v.page||'offline').toUpperCase(),10,55,9,C.muted);
 
-  const location=k=>{const names=[value(v.p,k),value(v.p,k+'.alternate')].filter(n=>typeof n==='string'&&n);return names.length?names[Math.floor(now/(cfg.locationRotationSeconds*1000))%names.length]:'N/A';};
+  const location=k=>{
+    const names=[value(v.p,k),value(v.p,k+'.alternate')].filter(n=>typeof n==='string'&&n),period=cfg.locationRotationSeconds*1000;
+    const name=names.length?names[Math.floor(now/period)%names.length]:'N/A';
+    locationElapsed.set(name,names.length>1?Math.max(0,now)%period:Infinity);return name;
+  };
   const p=v.p,moving=!!p&&v.page!=='paused';
   const speedLayout=SPEED;
-  const speed=v.kmh==null?null:v.kmh/(cfg.units==='mph'?1.609344:1),speedLabel=moving?fmt(speed).padStart(3,'0'):'---';
-  if(cfg.digitStyle==='segment'){const w=el?21:22,total=sevenSegmentWidth(speedLabel,w,4,el);sevenSegment(c,speedLabel,SPEED.numberCenter-total/2,SPEED.numberTop,w,SPEED.numberHeight,el?C.white:'#d8e5e8',el,el);}
+  const speed=v.kmh==null?null:v.kmh/(cfg.units==='mph'?1.609344:1),speedLabel=moving?fmt(speed):'---';
+  if(airportDigits){
+    // Keep all three physical digit cells; leading spaces leave only their dark LEDs lit.
+    const ledSpeedLabel=speedLabel.padStart(3,' ');
+    const pitch=Math.min(Math.floor(SPEED.numberHeight/digitRows),Math.floor(SPEED.numberWidth/(ledSpeedLabel.length*6-1))),plan=airportLed.layout(ledSpeedLabel,{pitch,matrix:digitMatrix});
+    // LED only: leave a clear gap below the unchanged throttle/brake tracks.
+    if(plan)airportLed.draw(c,ledSpeedLabel,{...ledOptions,x:SPEED.numberCenter-plan.width/2,y:SPEED.numberTop+3+(SPEED.numberHeight-plan.height)/2,pitch,matrix:digitMatrix,color:C.white});
+    else numberText(speedLabel,SPEED.numberX,SPEED.numberBaseline,42,C.white,SPEED.numberWidth);
+  }
+  else if(cfg.digitStyle==='segment'){const w=el?21:22,total=sevenSegmentWidth(speedLabel,w,4,el);sevenSegment(c,speedLabel,SPEED.numberCenter-total/2,SPEED.numberTop,w,SPEED.numberHeight,el?C.white:'#d8e5e8',el,el);}
   else numberText(speedLabel,SPEED.numberX,SPEED.numberBaseline,42,el?C.white:'#d8e5e8',SPEED.numberWidth);
   // Preserve both 140 x 3 px tracks: input stays visible on the top row,
   // lower two rows show effective throttle / actual deceleration (full = 1 g).
@@ -107,7 +168,13 @@ function render(v,cfg,now=v.now||0){
 
   const gear=v.gear==null?'—':v.gear<0?`R${Math.abs(v.gear)}`:v.gear===0?'N':String(v.gear);
   const gearRect={...RECTS.gear,left:RECTS.gear.left+8,width:RECTS.gear.width-16};
-  if(cfg.digitStyle==='segment'&&moving&&/^\d+$/.test(gear)){
+  if(airportDigits){
+    // Two 5-column digit cells plus one dark separator column. The empty tens cell stays unlit.
+    const label=(moving?gear:'-').padStart(2,' '),pitch=Math.min(7,Math.floor(cfg.gearFontSize/digitRows),Math.floor(gearRect.width/(label.length*6-1)));
+    const plan=airportLed.layout(label,{pitch,matrix:digitMatrix,maxWidth:gearRect.width});
+    if(plan)airportLed.draw(c,label,{...ledOptions,x:gearRect.left+(gearRect.width-plan.width)/2,y:gearRect.top+(gearRect.height-plan.height)/2,pitch,matrix:digitMatrix,color:v.gear<0?C.amber:el?C.white:C.amber});
+    else drawCenteredInk(c,label,gearRect,`bold ${cfg.gearFontSize}px ${fontFamilies.rally}`,v.gear<0?C.amber:C.green);
+  }else if(cfg.digitStyle==='segment'&&moving&&/^\d+$/.test(gear)){
     const w=el?25:28,h=cfg.gearFontSize,ink=sevenSegmentInkBounds(gear,w,h,el);
     c.save();c.beginPath();c.rect(RECTS.gear.left,2,RECTS.gear.width,58);c.clip();
     sevenSegment(c,gear,gearRect.left+gearRect.width/2-(ink.left+ink.right)/2,gearRect.top+gearRect.height/2-(ink.top+ink.bottom)/2,w,h,C.white,el,el);c.restore();
@@ -129,7 +196,9 @@ function render(v,cfg,now=v.now||0){
     const contentLeft=panelEdge(messageRect,C.amber,'#231d12');drawCenteredInk(c,translate(v.page==='braking'?'BRAKING':'BRAKE MONITOR'),{...messageRect,left:contentLeft,width:265,align:'left'},`bold 27px ${FONT_FAMILY}`,C.amber);
     text('FORCE',mx(300),16,9,C.muted);text(force==null?'N/A':`${fmt(force*100)}%`,mx(300),39,19,C.white,'bold');bar(mx(300),46,175,force,C.red);
     metric('TEMP',value(p,'truck.brake.temperature')==null?'N/A':`${fmt(value(p,'truck.brake.temperature'))} C`,mx(490),145,C.amber);
-    text('AIR',mx(640),16,9,C.muted);text(pressure==null?'N/A':`${fmt(airPct*100)}% / ${fmt(pressure)} PSI`,mx(640),39,17,C.cyan,'bold',215);bar(mx(640),46,205,airPct,C.cyan);
+    text('AIR',mx(640),16,9,C.muted);
+    text(pressure==null?'N/A':airportText?`${fmt(airPct*100)}%/${fmt(pressure)}PSI`:`${fmt(airPct*100)}% / ${fmt(pressure)} PSI`,mx(640),airportText?43:39,17,C.cyan,'bold',215,false,false,airportText?10:14,airportText?3:0);
+    bar(mx(640),airportText?48:46,205,airPct,C.cyan);
     metric('RETARDER',value(p,'truck.brake.retarder')==null?'N/A':fmt(value(p,'truck.brake.retarder')),messageRect.right-150,140,C.white);
   }else if(v.page==='notice'){
     const contentLeft=panelEdge(messageRect,C.cyan,'#102a28');text(({toll:'TOLL PAID',fine:'FINE',ferry:'FERRY PAID',train:'TRAIN PAID',cancel:'JOB PENALTY'})[v.tollNotice?.type]||'PAYMENT',contentLeft,31,24,C.cyan,'bold');text('PAYMENT',contentLeft,50,11,C.white);
@@ -148,15 +217,17 @@ function render(v,cfg,now=v.now||0){
       for(const [i,k]of ['heading','pitch','roll'].entries())metric(k.toUpperCase(),angle(k),875+i*165,165,C.cyan);
       const vector=(key,x,title,unit)=>{text(title,x+9,17,11,C.muted);const parts=['x','y','z'].map(k=>value(p,key+'.'+k));text(parts.map(n=>fmt(n,2)).join(' / '),x+9,43,21,C.white,'bold',255);text(unit,x+9,56,10,C.muted);};
       vector('truck.local.velocity.linear',1370,'VELOCITY X / Y / Z','M/S');vector('truck.local.acceleration.linear',1765,'ACCEL X / Y / Z','M/S²');
-      text('G NOW',1649,17,10,C.muted);text(v.gForce?.current==null?'N/A':`${fmt(v.gForce.current,2)} G`,1649,43,21,C.cyan,'bold',105);
-      text('G PEAK',2044,17,10,C.muted);text(v.gForce?.peak==null?'N/A':`${fmt(v.gForce.peak,2)} G`,2044,43,21,C.amber,'bold',116);
+      text('G NOW',1649,17,10,C.muted);text(v.gForce?.current==null?'N/A':`${fmt(v.gForce.current,2)} G`,1649,43,21,C.cyan,'bold',105,false,false,6);
+      text('G PEAK',2044,17,10,C.muted);text(v.gForce?.peak==null?'N/A':`${fmt(v.gForce.peak,2)} G`,2044,43,21,C.amber,'bold',116,false,false,6);
     }else if(v.panel==='route'){
       const distance=value(p,'truck.navigation.distance'),eta=value(p,'truck.navigation.time'),city=location('job.destination.city'),game=value(p,'game.time');
-      metric('DESTINATION',typeof city==='string'&&city?city:'N/A',875,170,C.amber,true);metric('DISTANCE',distance==null?'N/A':`${fmt(distance/1000,1)} KM`,1045,145,C.cyan);
-      metric('DRIVE TIME',eta==null?'N/A':duration(eta/60),1190,135);metric('ARRIVAL ETA',eta==null||game==null?'N/A':clockTime(game+eta/60),1325,125,C.cyan);
+      metric('DESTINATION',typeof city==='string'&&city?city:'N/A',875,170,C.amber,true,true);
+      metric('DISTANCE',distance==null?'N/A':`${fmt(distance/1000,1)} KM`,1045,145,C.cyan,false,true);
+      metric('DRIVE TIME',eta==null?'N/A':duration(eta/60),1190,135);
+      metric('ARRIVAL ETA',eta==null||game==null?'N/A':clockTime(game+eta/60),1325,125,C.cyan,false,true);
     }else if(v.panel==='job_overview'){
-      metric('CARGO',value(p,'job.cargo')||'N/A',875,170,C.amber,true);metric('FROM',location('job.source.city')||'N/A',1045,135,C.white,true);
-      metric('TO',location('job.destination.city')||'N/A',1180,135,C.cyan,true);const income=value(p,'job.income');metric('REWARD',income==null?'N/A':`€ ${fmt(income)}`,1315,135,C.green);
+      metric('CARGO',value(p,'job.cargo')||'N/A',875,170,C.amber,true);metric('FROM',location('job.source.city')||'N/A',1045,135,C.white,true,true);
+      metric('TO',location('job.destination.city')||'N/A',1180,135,C.cyan,true,true);const income=value(p,'job.income');metric('REWARD',income==null?'N/A':`€ ${fmt(income)}`,1315,135,C.green);
     }else if(v.panel==='job_timing'){
       const game=value(p,'game.time'),deadline=value(p,'job.delivery.time'),remaining=game==null||deadline==null?null:deadline-game,damage=value(p,'job.cargo.damage');
       metric('GAME TIME',clockTime(game),875,145,C.cyan);metric('DEADLINE',clockTime(deadline),1020,145,C.amber);
@@ -179,19 +250,59 @@ function render(v,cfg,now=v.now||0){
       metric('COOLANT C',fmt(value(p,'truck.water.temperature')),1155,155);metric('BATTERY',value(p,'truck.battery.voltage')==null?'N/A':`${fmt(value(p,'truck.battery.voltage'),1)} V`,1310,140,C.cyan);
     }else if(v.panel==='systems_brake'){
       const pressure=value(p,'truck.brake.air.pressure'),airPct=pressure==null?null:Math.max(0,Math.min(1,pressure/cfg.airPressureFullPsi)),effective=value(p,'truck.effective.brake');
-      metric('BRAKE TEMP C',fmt(value(p,'truck.brake.temperature')),875,160,C.amber);metric('BRAKE',yes(p,'truck.brake.parking')?'PARKED':effective==null?'N/A':effective>.05?'APPLIED':'RELEASED',1035,150,C.cyan);
-      text('AIR PSI',1194,17,10,C.muted);text(pressure==null?'N/A':`${fmt(pressure)}  ${fmt(airPct*100)}%`,1194,39,18,C.white,'bold',155);bar(1194,45,145,airPct,pressure!=null&&yes(p,'truck.brake.air.pressure.warning')?C.red:C.cyan);
+      // Use fuel-page columns, with a 10px BRAKE inset to balance the neighbouring LED gaps.
+      const brakeX=airportText?1021:1035,airX=airportText?1200:1194,airWidth=airportText?125:155;
+      metric('BRAKE TEMP C',`${fmt(value(p,'truck.brake.temperature'))}${airportText?'°C':''}`,875,airportText?136:160,C.amber);metric('BRAKE',yes(p,'truck.brake.parking')?'PARKED':effective==null?'N/A':effective>.05?'APPLIED':'RELEASED',brakeX,150,C.cyan);
+      text('AIR PSI',airX,17,10,C.muted);
+      text(pressure==null?'N/A':`${fmt(pressure)}${airportText?' ':'  '}${fmt(airPct*100)}%`,airX,airportText?45:39,18,C.white,'bold',airWidth,false,false,airportText?7:9,airportText?3:0);
+      bar(airX,airportText?51:45,airportText?125:145,airPct,pressure!=null&&yes(p,'truck.brake.air.pressure.warning')?C.red:C.cyan);
       const parkingBrake=value(p,'truck.brake.parking');
-      metric('PARK BRAKE',parkingBrake==null?'N/A':parkingBrake?'ON':'OFF',1345,105,parkingBrake?C.amber:C.cyan);
+      metric('PARK BRAKE',parkingBrake==null?'N/A':parkingBrake?'ON':'OFF',airportText?1326:1345,airportText?124:105,parkingBrake?C.amber:C.cyan);
     }else{
       const ad=value(p,'truck.adblue'),adCap=value(p,'adblue.capacity'),adPct=ad!=null&&adCap>0?ad/adCap:null;
       const l100=v.consumptionL100;
       if(v.page==='refueling')panelEdge(RECTS.data,C.green);
-      const fuel=value(p,'truck.fuel.amount');text(v.refueling?'REFUELING':'FUEL',RECTS.data.contentLeft,14,9,v.refueling?C.green:C.muted,'bold');text(`${fmt(v.fuelPercent)}%`,884,35,20,C.cyan,'bold',50);text(fuel==null?'N/A':`${fmt(fuel,1)} L`,941,35,14,C.cyan,'bold',64);bar(RECTS.data.contentLeft,43,122,v.fuelPercent==null?null:v.fuelPercent/100,C.cyan);
-      text('TRIP AVERAGE',1020,14,9,C.muted);text(l100==null?'CALCULATING':`${fmt(l100,1)} L/100`,1020,35,l100==null?11:17,C.white,'bold');bar(1020,43,165,l100==null?null:l100/60,C.amber);
-      text(v.adblueRefilling?'ADBLUE REFILLING':'ADBLUE',1200,14,9,v.adblueRefilling?C.green:C.muted,'bold',122);text(adPct==null?'--':`${fmt(adPct*100)}%`,1200,35,18,C.white,'bold',50);text(ad==null?'N/A':`${fmt(ad,1)} L`,1257,35,14,C.cyan,'bold',64);bar(1200,43,120,adPct,C.cyan);
-      text('RANGE',1335,14,9,C.muted);text(`${fmt(value(p,'truck.fuel.range'))} KM`,1335,39,16,C.white,'bold',105);
-      if(v.refueling){pump(1418,16,C.green);text('FILL',1405,54,8,C.green,'bold');}
+      const fuel=value(p,'truck.fuel.amount');
+      if(airportText&&['single_fit','single_scroll'].includes(cfg.airportFuelLayout)){
+        const scroll=cfg.airportFuelLayout==='single_scroll'?true:'fit';
+        const fields=[
+          [v.refueling?'REFUELING':'FUEL',`${fmt(v.fuelPercent)}% ${fuel==null?'N/A':`${fmt(fuel,1)}L`}`,884,126,C.cyan,v.fuelPercent==null?null:v.fuelPercent/100],
+          ['TRIP AVERAGE',l100==null?'CALCULATING':`${fmt(l100,1)}L/100`,1020,165,C.white,l100==null?null:l100/60],
+          [v.adblueRefilling?'ADBLUE REFILLING':'ADBLUE',`${adPct==null?'--':`${fmt(adPct*100)}%`} ${ad==null?'N/A':`${fmt(ad,1)}L`}`,1200,122,C.cyan,adPct],
+          ['RANGE',`${fmt(value(p,'truck.fuel.range'))}KM`,1335,105,C.white,undefined]
+        ];
+        for(const [title,label,x,width,color,fraction]of fields){
+          text(title,x,14,9,C.muted,'normal',width);
+          text(label,x,45,label==='CALCULATING'?11:21,color,'bold',width,false,scroll,0,3);
+          if(fraction!==undefined)bar(x,51,width,fraction,title==='TRIP AVERAGE'?C.amber:C.cyan);
+        }
+      }else if(airportText){
+        // Two readout rows stay inside each existing fuel/AdBlue column at 3px pitch,
+        // including the L unit, without reducing numeric precision.
+        text(v.refueling?'REFUELING':'FUEL',RECTS.data.contentLeft,14,9,v.refueling?C.green:C.muted,'bold',52);
+        text(`${fmt(v.fuelPercent)}%`,941,30,20,C.cyan,'bold',69,false,false,4,3,'right');
+        text(fuel==null?'N/A':`${fmt(fuel,1)}L`,884,55,21,C.cyan,'bold',126,false,false,7,3,'right');
+        bar(RECTS.data.contentLeft,57,122,v.fuelPercent==null?null:v.fuelPercent/100,C.cyan);
+        text('TRIP AVERAGE',1020,14,9,C.muted);
+        text(l100==null?'CALCULATING':`${fmt(l100,1)}L/100`,1020,40,l100==null?11:21,C.white,'bold',165,false,false,9,3,'right');
+        bar(1020,43,165,l100==null?null:l100/60,C.amber);
+        text(v.adblueRefilling?'ADBLUE REFILLING':'ADBLUE',1200,14,9,v.adblueRefilling?C.green:C.muted,'bold',48);
+        text(adPct==null?'--':`${fmt(adPct*100)}%`,1253,30,18,C.white,'bold',69,false,false,4,3,'right');
+        text(ad==null?'N/A':`${fmt(ad,1)}L`,1200,55,21,C.cyan,'bold',122,false,false,6,3,'right');
+        bar(1200,57,120,adPct,C.cyan);
+        text('RANGE',1335,14,9,C.muted);
+        text(`${fmt(value(p,'truck.fuel.range'))}KM`,1335,45,21,C.white,'bold',105,false,false,6,3,'right');
+      }else{
+        text(v.refueling?'REFUELING':'FUEL',RECTS.data.contentLeft,14,9,v.refueling?C.green:C.muted,'bold');text(`${fmt(v.fuelPercent)}%`,884,35,20,C.cyan,'bold',50);text(fuel==null?'N/A':`${fmt(fuel,1)} L`,941,35,14,C.cyan,'bold',64);bar(RECTS.data.contentLeft,43,122,v.fuelPercent==null?null:v.fuelPercent/100,C.cyan);
+        text('TRIP AVERAGE',1020,14,9,C.muted);text(l100==null?'CALCULATING':`${fmt(l100,1)} L/100`,1020,35,l100==null?11:17,C.white,'bold');bar(1020,43,165,l100==null?null:l100/60,C.amber);
+        text(v.adblueRefilling?'ADBLUE REFILLING':'ADBLUE',1200,14,9,v.adblueRefilling?C.green:C.muted,'bold',122);text(adPct==null?'--':`${fmt(adPct*100)}%`,1200,35,18,C.white,'bold',50);text(ad==null?'N/A':`${fmt(ad,1)} L`,1257,35,14,C.cyan,'bold',64);bar(1200,43,120,adPct,C.cyan);
+        text('RANGE',1335,14,9,C.muted);text(`${fmt(value(p,'truck.fuel.range'))} KM`,1335,39,16,C.white,'bold',105);
+      }
+      if(v.refueling){
+        if(airportText){c.save();c.translate(1426,4);c.scale(.5,.5);pump(0,0,C.green);c.restore();}
+        else pump(1418,16,C.green);
+        text('FILL',1405,54,8,C.green,'bold');
+      }
     }
   }
 
@@ -202,7 +313,10 @@ function render(v,cfg,now=v.now||0){
       const enabled=b.local||b.bit===undefined||v.inputReady,on=b.capability==='stateful'&&b.on===true,pressed=v.pressed?.id===b.id;
       box(b.x+2,5,b.w-4,51,on?(el?'#163524':'#1b3037'):pressed?'#263b45':C.panel);box(b.x+2,54,b.w-4,2,on?C.cyan:pressed?C.amber:C.line);
       icon(b.id,b.x+b.w/2,25,enabled?(on?C.cyan:pressed?C.amber:C.white):'#52606a');
-      c.save();c.beginPath();c.rect(b.x+3,38,b.w-6,15);c.clip();centered(b.label,b.x+b.w/2,50,11,enabled?C.muted:'#46515a');c.restore();
+      c.save();c.beginPath();c.rect(b.x+3,38,b.w-6,15);c.clip();
+      const label=translate(b.label),ledLabel=airportText&&textRows*2<=15&&airportLed.layout(label,{pitch:2,matrix:textMatrix,maxWidth:b.w-8});
+      if(ledLabel)airportLed.draw(c,label,{...ledOptions,x:b.x+(b.w-ledLabel.width)/2,y:38,pitch:2,matrix:textMatrix,color:enabled?C.white:'#46515a'});
+      else centered(b.label,b.x+b.w/2,50,11,enabled?C.muted:'#46515a');c.restore();
       if(b.id==='lights'&&yes(p,'truck.light.beam.high')){box(b.x+7,9,8,3,C.cyan);box(b.x+7,14,8,3,C.cyan);}
       if(v.hold?.id===b.id)box(b.x+2,55,(b.w-4)*v.hold.value,2,v.hold.value>=1?C.green:C.amber);
     }c.restore();};

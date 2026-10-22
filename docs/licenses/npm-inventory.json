@@ -1025,9 +1025,9 @@
   },
   {
     "name": "handlebars",
-    "version": "4.7.9",
+    "version": "4.7.10",
     "license": "MIT",
-    "source": "https://registry.npmjs.org/handlebars/-/handlebars-4.7.9.tgz",
+    "source": "https://registry.npmjs.org/handlebars/-/handlebars-4.7.10.tgz",
     "scope": "build/test only",
     "installed": true
   },

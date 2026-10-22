@@ -107,7 +107,13 @@ function startRuntime(plugin,logger,options={}) {
     if(action.id==='section_next') {if(action.long)rally.resetTrip();else s.dash.nextSection();}
     else if(action.id==='carousel_next'){
       if(s.carouselDown?.dashboard!==rally.dash||!sameCarousel(v,s.carouselDown.view))return;
-      s.dash.nextInformationPage(rally.now,cfg,s.carouselDown.view);s.carouselDown=null;
+      if(action.long&&['job','trailer'].includes(v.page)){
+        // 长按退出当前手动信息页；沿用默认轮询数据源，并给返回页完整的展示时间。
+        if(s.dash.manual!==v.page||s.carouselDown.view.manualRevision!==s.dash.manualRevision)return;
+        s.dash.carouselOffset=s.dash.carouselIndex(rally.now,cfg);s.dash.carouselEpoch=rally.now;
+        s.dash.auto();
+      }else s.dash.nextInformationPage(rally.now,cfg,s.carouselDown.view);
+      s.carouselDown=null;
     }
     else if(action.id==='bind_next')s.dash.nextBinding();
     else if(action.id==='auto') s.dash.auto();
@@ -133,7 +139,7 @@ function startRuntime(plugin,logger,options={}) {
       rally:rally.status(),lifecycle:{hostConnected,views:[...savedViews].map(([serial,s])=>({serial,uid:s.key.uid,active:sessions.has(serial),uiMode:s.view?.page,section:rally.dash.section})),transitions},
       paused:packet?.paused, input:packet?.input, activeSessions:sessions.size,config:cfg,udpBound:ready,
       host:options.getDiagnostics?.()||null,fonts:require('./fonts.cjs').fontDiagnostics,telemetryText:Object.fromEntries(Object.entries(packet?.values||{}).filter(([k,v])=>typeof v==='string')),lights:Object.fromEntries(Object.entries(packet?.values||{}).filter(([k])=>k.startsWith('truck.light.'))),
-      stats:{...stats},rpm:{sdkLimit:packet?.values?.['rpm.limit']??null,dialMax:cfg.rpmScaleMax||packet?.values?.['rpm.limit']||2500},version:'1.0.1',lastPacketAgeMs:Number.isFinite(received)?Math.round(clock()-received):null});
+      stats:{...stats},rpm:{sdkLimit:packet?.values?.['rpm.limit']??null,dialMax:cfg.rpmScaleMax||packet?.values?.['rpm.limit']||2500},version:'1.1.0',lastPacketAgeMs:Number.isFinite(received)?Math.round(clock()-received):null});
     if(p.action==='status')return options.refreshDiagnostics?options.refreshDiagnostics().then(status):status();
     return {error:'Unknown action'};
   });

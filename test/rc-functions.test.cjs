@@ -130,6 +130,36 @@ test('an overlay appearing during the gesture cancels a pending carousel tap',as
 });
 
 for(const [page,panels]of [['job',['job_overview','job_timing','job_distance']],['trailer',['trailer_status','trailer_damage']]]){
+ test(`${page} long press returns to truck carousel, resets its timer and retains section/trip`,async()=>{
+  const h=harness({cycleSeconds:3,cyclePanels:['fuel','route']});try{
+   await h.mount();const d=h.runtime.rally.dash;d.section=2;d.consumption.output=31;
+   d.select(page,0,settings({cycleSeconds:3}));h.receive(100);await h.paint();
+   h.touch('down',110);h.touch('up',1010);
+   assert.equal(d.manual,null);assert.equal(h.runtime.rally.cached.page,'drive');
+   assert.equal(d.section,2);assert.equal(d.consumption.output,31);assert.equal(h.runtime.rally.dash,d);
+   assert.equal(d.carouselEpoch,h.runtime.rally.now);assert.equal(h.runtime.rally.cached.panel,'fuel');
+   const epoch=d.carouselEpoch;h.touch('up',1050);assert.equal(d.carouselEpoch,epoch,'duplicate release cannot advance default carousel');
+   for(const t of [1500,2500,3500,4009])h.receive(t);
+   assert.equal(h.runtime.rally.cached.panel,'fuel','return page gets a full cycle');
+   h.receive(4010);assert.equal(h.runtime.rally.cached.panel,'route');
+  }finally{h.runtime.stop();}
+ });
+ test(`${page} long press is cancelled by overlay, pause, page replacement or swipe`,async()=>{
+  for(const interrupt of ['warning','braking','refueling','pause','reselect','swipe']){
+   const h=harness();try{
+    await h.mount();const d=h.runtime.rally.dash;d.select(page,0,settings());h.receive(100);await h.paint();
+    h.touch('down',110);
+    if(interrupt==='warning')h.p.values['truck.brake.air.pressure.warning']=1;
+    if(interrupt==='braking')h.p.values['truck.input.brake']=.5;
+    if(interrupt==='refueling')d.refuelUntil=10000;
+    if(interrupt==='pause')h.p.paused=true;
+    if(interrupt==='reselect')d.select(page,h.runtime.rally.now,settings());
+    if(interrupt==='swipe')h.touch('pressing',200,1200);
+    h.receive(900);h.touch('up',1010);
+    assert.equal(d.manual,page,interrupt);assert.equal(d.carouselEpoch,undefined,interrupt);
+   }finally{h.runtime.stop();}
+  }
+ });
  test(`${page} tap advances its own panels exactly once and restarts page and hold timers`,async()=>{
   const h=harness({cycleSeconds:3,manualPageHoldCycles:3});try{
    await h.mount();const d=h.runtime.rally.dash;d.select(page,0,settings({cycleSeconds:3,manualPageHoldCycles:3}));

@@ -1,3 +1,11 @@
+# 1.1.0 — 2026-10-23
+
+- Optional Airport LED: independent speed/gear and other-text selection; shared 5×7 glyphs across all three themes. / 新增可选点阵风格，数字与文本独立设置，三主题统一 5×7。
+- Larger LED readouts, bounded dark grids, in-matrix units, fuel layout choices and restart/continuous scrolling. LED-only positioning preserves other font layouts. / 优化点阵可读性、暗底板长度、单位、燃油布局及滚动；点阵专用排版不影响其他字体。
+- Remove speed leading-zero padding; LED speed/gear retain fixed dark cells. / 速度不补前导零，点阵速度和档位保留固定暗字格。
+- Hold job/trailer information to return to the truck-information carousel. / 长按工作或挂车信息返回卡车轮询。
+- Reuse the unchanged 1.0.1 bridge DLL; experimental BSM remains outside the public package. / 沿用原 DLL；实验性盲区检测不包含在公开包中。
+
 # 1.0.1 — 2026-10-02
 
 - Stop ordinary key redraws from replacing the active DirectDraw touch surface; retain the built-in bilingual launcher. / 停止普通按键重绘破坏 DirectDraw 触摸状态，保留内置双语入口。
