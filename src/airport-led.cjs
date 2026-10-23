@@ -79,7 +79,7 @@ function layout(label,{pitch=2,matrix='5x7',maxWidth=Infinity,truncate=false,pad
  return {text:shown,cells,columns,rows,matrix,pitch,align:align==='right'?'right':'left',contentOffset:align==='right'&&!scrolling?(cells-shown.length)*6:0,width:width(cells,pitch),height:pitch*rows,truncated:shown!==text,
   offset:loopColumns?Math.floor(Math.max(0,elapsedMs||0)/scrollStepMs(120,scrollSpeed))%loopColumns:scrolling?scrollOffset(elapsedMs,text.length*6-1-columns,120,scrollSpeed):0,loopColumns,scrolling};
 }
-function draw(c,label,{x,y,color='#ffd783',dim='#252a27',background='#080b0a',shape='round',...options}){
+function draw(c,label,{x,y,color='#ffd783',colorSpans=[],dim='#252a27',background='#080b0a',shape='round',...options}){
  const plan=layout(label,options);if(!plan)return false;
  c.save();c.shadowBlur=0;c.shadowColor='transparent';
  if(plan.align==='right'&&Number.isFinite(options.maxWidth))x+=options.maxWidth-plan.width;
@@ -89,9 +89,11 @@ function draw(c,label,{x,y,color='#ffd783',dim='#252a27',background='#080b0a',sh
  // Physical LEDs stay in place. Scrolling changes their lit pattern, never the dark backplate.
  for(let col=0;col<plan.columns;col++){
   const unwrapped=col+plan.offset-plan.contentOffset,source=plan.loopColumns?((unwrapped%plan.loopColumns)+plan.loopColumns)%plan.loopColumns:unwrapped;
-  const letter=glyphs[plan.text[Math.floor(source/6)]||' '],glyphColumn=source%6;
+  const character=Math.floor(source/6),letter=glyphs[plan.text[character]||' '],glyphColumn=source%6;
+  // Optional numeric suffix color follows its source characters through marquee wrapping.
+  const litColor=colorSpans.find(span=>character>=span.start&&character<span.end)?.color||color;
   for(let row=0;row<plan.rows;row++){
-   c.fillStyle=glyphColumn<5&&letter[row][glyphColumn]==='1'?color:dim;
+   c.fillStyle=glyphColumn<5&&letter[row][glyphColumn]==='1'?litColor:dim;
    const px=x+col*plan.pitch,py=y+row*plan.pitch;
    // Small readouts use crisp square pixels; large speed/gear digits use round LEDs.
    if(plan.pitch===2||shape==='square')c.fillRect(px,py,plan.pitch-1,plan.pitch-1);

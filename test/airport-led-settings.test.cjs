@@ -55,7 +55,7 @@ test('new display settings keep existing defaults and reject unsupported styles 
 test('Airport LED dropdown and readability guidance have Chinese and English translations',()=>{
   const {source,component}=loadSettings();
   assert.doesNotMatch(source.split('<script>')[0],/5\s*[×x]\s*8|v-model="modelValue\.config\.(digitMatrix|textMatrix)"/);
-  for(const [language,label]of [['en','Airport LED'],['zh','机场 LED 点阵']]){
+  for(const [language,label]of [['en','Dot Matrix LED'],['zh','点阵 LED']]){
     const ctx={modelValue:{config:{language}}};ctx.t=component.methods.t.bind(ctx);
     for(const field of ['digitStyle','textStyle']){
       const options=source.match(new RegExp('<v-select v-model="modelValue\\.config\\.'+field+'" :items="([^"]+)"'))[1];
@@ -70,7 +70,7 @@ test('Airport LED dropdown and readability guidance have Chinese and English tra
       assert.equal(ctx.t('settings.'+key),dictionary[language]['settings.'+key]);
     }
   }
-  assert.equal(createTranslator('unknown')('settings.airport_led'),'Airport LED');
+  assert.equal(createTranslator('unknown')('settings.airport_led'),'Dot Matrix LED');
 });
 
 test('scroll settings migrate the old loop direction and bound speed identically in model and settings UI',()=>{

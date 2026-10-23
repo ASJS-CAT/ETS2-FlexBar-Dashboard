@@ -34,6 +34,70 @@ function recorded(v,cfg,now=0){
 const boardX=call=>Math.round(call.x+(call.align==='right'?call.maxWidth-call.plan.width:0));
 const readout=(result,label,left,right)=>result.dotCalls.find(c=>c.label.trim()===label&&boardX(c)>=left&&boardX(c)+c.plan.width<=right);
 const geometry=call=>({x:boardX(call),y:call.y,pitch:call.pitch,width:call.plan.width,height:call.plan.height,cells:call.plan.cells});
+function assertDotColors(result,call,litColor){
+ const p=call.plan,data=pixels(result.canvas,boardX(call),Math.round(call.y),p.width,p.height);
+ for(let column=0;column<p.columns;column++){
+  let source=column+p.offset-p.contentOffset;if(p.loopColumns)source=(source+p.loopColumns)%p.loopColumns;
+  const character=Math.floor(source/6),glyph=led.GLYPHS[p.text[character]||' '],glyphColumn=source%6;
+  for(let row=0;row<p.rows;row++){
+   const lit=glyphColumn>=0&&glyphColumn<5&&glyph[row][glyphColumn]==='1',i=(row*p.pitch*p.width+column*p.pitch)*4;
+   assert.deepEqual([...data.subarray(i,i+3)],color(lit?litColor(character):call.dim),`${call.label}: character ${character}, dot ${glyphColumn}/${row}`);
+  }
+ }
+}
+
+test('all Airport fuel layouts keep percentages white and color each liquid only below its configured thresholds',()=>{
+ const cases=[
+  [12,11.99,65,'red','white'],[12,12,11.99,'amber','red'],[12,23.99,24,'amber','white'],[12,24,12,'white','amber'],
+  [20,19.99,20,'red','amber'],[20,20,39.99,'amber','amber'],[20,40,39.99,'white','amber'],[50,100,99.99,'white','amber']
+ ];
+ for(const theme of themes)for(const airportFuelLayout of ['double_large','single_fit','single_scroll'])for(const [lowFuelPercent,fuelPercent,adbluePercent,fuelState,adblueState]of cases){
+  const v={...view(),fuelPercent},palette=PALETTES[theme];
+  Object.assign(v.p.values,{'truck.fuel.amount':fuelPercent,'truck.adblue':adbluePercent,'adblue.capacity':100});
+  const result=recorded(v,settings({theme,textStyle:'airport_led',airportFuelLayout,lowFuelPercent,dashboardLanguage:'en'}));
+  for(const [x,percentageX,state]of [[884,941,fuelState],[1200,1253,adblueState]]){
+   const call=result.at(x);assert.ok(call);
+   if(airportFuelLayout==='double_large'){
+    assertDotColors(result,result.at(percentageX),()=>palette.white);assertDotColors(result,call,()=>palette[state]);
+   }else{
+    const suffixStart=call.label.indexOf(' ')+1;
+    assertDotColors(result,call,index=>index<suffixStart?palette.white:palette[state]);
+   }
+  }
+ }
+});
+
+test('liquid warning colors follow the complete amount through both marquee modes while the percentage stays white',()=>{
+ for(const theme of themes)for(const airportFuelLayout of ['single_fit','single_scroll'])for(const ledScrollMode of ['restart','loop_left']){
+  const palette=PALETTES[theme],v={...view(),fuelPercent:5};
+  Object.assign(v.p.values,{'truck.fuel.amount':12345.6,'truck.adblue':18000,'adblue.capacity':100000});
+  const cfg=settings({theme,textStyle:'airport_led',airportFuelLayout,ledScrollMode,dashboardLanguage:'en'});
+  for(const elapsed of [0,2100,7200,15000]){
+   const result=recorded({...v,panelElapsedMs:elapsed},cfg,elapsed);
+   for(const [x,state]of [[884,'red'],[1200,'amber']]){
+    const call=result.at(x);assert.equal(call.plan.scrolling,true);assert.equal(call.plan.truncated,false);
+    const suffixStart=call.label.indexOf(' ')+1;
+    assertDotColors(result,call,index=>index<suffixStart?palette.white:palette[state]);
+   }
+  }
+ }
+});
+
+test('unknown liquid levels remain neutral and warning thresholds do not change standard rendering',()=>{
+ for(const theme of themes)for(const airportFuelLayout of ['double_large','single_fit','single_scroll']){
+  const palette=PALETTES[theme],cfg=settings({theme,textStyle:'airport_led',airportFuelLayout,dashboardLanguage:'en'});
+  for(const missing of ['amount','percentage']){
+   const v={...view(),fuelPercent:5};v.p.values['truck.adblue']=5;v.p.values['adblue.capacity']=100;
+   if(missing==='amount'){delete v.p.values['truck.fuel.amount'];delete v.p.values['truck.adblue'];}
+   else{v.fuelPercent=null;delete v.p.values['adblue.capacity'];}
+   const result=recorded(v,cfg);
+   for(const x of airportFuelLayout==='double_large'?[884,941,1200,1253]:[884,1200])assertDotColors(result,result.at(x),()=>palette.white);
+  }
+  const v={...view(),fuelPercent:5};v.p.values['truck.fuel.amount']=30;v.p.values['truck.adblue']=4;
+  const before=render(v,{...cfg,textStyle:'standard',lowFuelPercent:1}),after=render(v,{...cfg,textStyle:'standard',lowFuelPercent:50});
+  assert.deepEqual(pixels(before,0,0,2170,60),pixels(after,0,0,2170,60),'Airport thresholds never recolor standard mode');
+ }
+});
 
 test('double-large fuel values remain right-aligned on fixed dim boards as their length changes',()=>{
  const cfg=settings({textStyle:'airport_led',airportFuelLayout:'double_large',dashboardLanguage:'en'}),samples=[];
@@ -94,8 +158,8 @@ test('single-scroll fuel rows use large dots and the selected marquee mode insid
 test('selected engine and brake values use larger LED rows while captions keep their original position',()=>{
  for(const textMatrix of matrices){
   const cfg=settings({textStyle:'airport_led',textMatrix,dashboardLanguage:'en'}),engine=recorded(view('systems_engine'),cfg);
-  for(const [x,label]of [[884,'52'],[1029,'94'],[1164,'86'],[1319,'28.2V']]){
-   const call=engine.at(x,label);assert.ok(call,label);assert.equal(call.pitch,4);
+  for(const [x,label,pitch]of [[884,'52PSI',3],[1029,'94°C',4],[1164,'86°C',4],[1319,'28.2V',4]]){
+   const call=engine.at(x,label);assert.ok(call,label);assert.equal(call.pitch,pitch);
    assert.equal(call.y+call.plan.height,51);assert.ok(call.y>=19,'dot row remains below caption baseline 17');
    assert.ok(call.plan.width<=call.maxWidth);assert.equal(call.plan.truncated,false);
   }
@@ -106,6 +170,20 @@ test('selected engine and brake values use larger LED rows while captions keep t
   assert.ok(mass);assert.equal(mass.pitch,3);assert.equal(mass.y+mass.plan.height,51);
   assert.equal(mass.plan.truncated,false);assert.ok(mass.plan.width<=112);
   assert.ok(![...engine.plainCalls,...cargo.plainCalls].some(c=>['V','T'].includes(c.label)),'units remain part of the LED string');
+ }
+});
+
+test('engine pressure and temperatures retain complete PSI and Celsius units without changing standard values',()=>{
+ const fields=[['truck.oil.pressure',884,1029,'PSI'],['truck.oil.temperature',1029,1164,'°C'],['truck.water.temperature',1164,1319,'°C']];
+ for(const dashboardLanguage of ['en','zh'])for(const values of [[53,97,93],[1000,-12,-1234],[null,null,null]]){
+  const v=view('systems_engine');fields.forEach(([key],i)=>{if(values[i]===null)delete v.p.values[key];else v.p.values[key]=values[i];});
+  const cfg=settings({textStyle:'airport_led',dashboardLanguage}),result=recorded(v,cfg),standard=recorded(v,{...cfg,textStyle:'standard'});
+  fields.forEach(([,x,right,unit],i)=>{
+   const raw=values[i]===null?'--':String(values[i]),call=result.at(x,raw+unit);assert.ok(call,`${dashboardLanguage}/${raw+unit}`);
+   assert.equal(call.plan.text,raw+unit);assert.equal(call.plan.truncated,false);assert.equal(call.plan.scrolling,false);
+   assert.ok(call.plan.width<=call.maxWidth);assert.ok(boardX(call)+call.plan.width<right);
+   assert.ok(standard.plainCalls.some(c=>c.label===raw&&c.x===x&&c.y===45),'standard keeps its original unitless numeric readout');
+  });
  }
 });
 
@@ -126,7 +204,7 @@ test('brake temperature includes the Celsius unit in the dot row for both UI lan
 test('fuel page uses two legible 5x7 LED rows including litre units in all themes',()=>{
  for(const theme of themes)for(const textMatrix of matrices){
   const result=recorded(view(),settings({theme,textStyle:'airport_led',textMatrix,dashboardLanguage:'en'}));
-  for(const [x,label,bottom]of [[941,'65%',30],[884,'390.0L',55],[1253,'65%',30],[1200,'52.0L',55],[1020,'32.5L/100',40],[1335,'1020KM',45]]){
+  for(const [x,label,bottom]of [[941,'65%',30],[884,'390.0L',55],[1253,'65%',30],[1200,'52.0L',55],[1020,'32.5L/100',55],[1335,'1020KM',45]]){
    const call=result.at(x,label);assert.ok(call,`${theme}/${textMatrix}/${label}`);
    assert.equal(call.pitch,3);assert.equal(call.y+call.plan.height,bottom);assert.equal(call.plan.truncated,false);
    assert.equal(call.plan.text,label);assert.ok(call.plan.width<=call.maxWidth);
@@ -138,6 +216,25 @@ test('fuel page uses two legible 5x7 LED rows including litre units in all theme
   assert.ok(!result.plainCalls.some(c=>['L','KM','L/100'].includes(c.label)),'units are not split into tiny footnotes');
   assert.equal(result.canvas.width,2170);assert.equal(result.canvas.height,60);
  }
+});
+
+test('double-large trip average aligns with the litres and their bars without moving other layout modes',()=>{
+ const cfg=settings({textStyle:'airport_led',airportFuelLayout:'double_large',dashboardLanguage:'en'}),result=recorded(view(),cfg);
+ for(const x of [884,1020,1200]){
+  const call=result.at(x);assert.equal(call.y+call.plan.height,55);
+  assert.deepEqual(rgb(result.canvas,x+3,57),color(x===1020?PALETTES.rally.amber:PALETTES.rally.cyan));
+ }
+ assert.ok(result.plainCalls.some(c=>c.label==='TRIP AVERAGE'&&c.x===1020&&c.y===14));
+ const calculating=recorded({...view(),consumptionL100:null},cfg);
+ assert.ok(calculating.plainCalls.some(c=>c.label==='CALCULATING'&&c.x===1020&&c.y===55));
+ for(const airportFuelLayout of ['single_fit','single_scroll']){
+  const single=recorded(view(),{...cfg,airportFuelLayout});
+  const call=single.at(1020);assert.equal(call.y+call.plan.height,45);
+  assert.deepEqual(rgb(single.canvas,1023,51),color(PALETTES.rally.amber));
+ }
+ const standard=recorded(view(),{...cfg,textStyle:'standard'});
+ assert.ok(standard.plainCalls.some(c=>c.label==='32.5 L/100'&&c.x===1020&&c.y===35));
+ assert.deepEqual(rgb(standard.canvas,1023,43),color(PALETTES.rally.amber));
 });
 
 test('refilling captions and indicators stay clear of larger readouts and their bars',()=>{

@@ -27,12 +27,12 @@ function recorded(v,cfg,now=0){
 
 test('numeric background reserves nominal readout capacity instead of filling the whole field',()=>{
  const v=view(),cfg=settings({textStyle:'airport_led',dashboardLanguage:'en'}),result=recorded(v,cfg);
- for(const x of [884,1029,1164]){
-  const call=result.at(x);assert.equal(call.minCells,3);assert.equal(call.plan.cells,3);
-  assert.equal(call.plan.width,68);assert.ok(call.plan.width<call.maxWidth);
-  // The unused third digit has real dim LEDs; the unused remainder of the field does not.
-  assert.deepEqual(rgb(result.canvas,x+48,call.y),[40,43,41]);
-  assert.deepEqual(rgb(result.canvas,x+72,call.y),[8,11,14]);
+ for(const [x,cells,width]of [[884,6,105],[1029,5,116],[1164,5,116]]){
+  const call=result.at(x);assert.equal(call.minCells,cells);assert.equal(call.plan.cells,cells);
+  assert.equal(call.plan.width,width);assert.ok(call.plan.width<call.maxWidth);
+  // One reserved unused cell has dim LEDs; the remainder of the field has no extra board.
+  assert.deepEqual(rgb(result.canvas,x+call.label.length*6*call.pitch,call.y),[40,43,41]);
+  assert.deepEqual(rgb(result.canvas,x+width+1,call.y),[8,11,14]);
  }
  assert.equal(result.at(1319).plan.cells,5,'battery keeps its numeric value and V unit without a spacer');
 });
@@ -42,8 +42,8 @@ test('nominal digit reservations do not truncate negative temperatures or four-d
  for(const sample of [-12,-1234,1000]){
   const v=view();v.p.values['truck.oil.temperature']=sample;
   const call=recorded(v,cfg).at(1029);
-  assert.equal(call.label,String(sample));assert.equal(call.plan.text,String(sample));
-  assert.equal(call.plan.cells,Math.max(3,String(sample).length));assert.equal(call.plan.truncated,false);
+  assert.equal(call.label,`${sample}°C`);assert.equal(call.plan.text,`${sample}°C`);
+  assert.equal(call.plan.cells,Math.max(5,`${sample}°C`.length));assert.equal(call.plan.truncated,false);
  }
  const v=view('systems_brake');v.p.values['truck.brake.temperature']=1000;
  const call=recorded(v,cfg).at(884);assert.equal(call.plan.text,'1000°C');assert.equal(call.plan.cells,6);
@@ -283,6 +283,7 @@ test('remaining distance uses the largest fitting LED pitch without losing digit
   assert.equal(call.label,label);assert.equal(call.plan.text,label);assert.equal(call.pitch,pitch);
   assert.equal(call.plan.truncated,false);assert.equal(call.plan.scrolling,false);
   assert.equal(call.maxWidth,143);assert.ok(call.plan.width<=143,'complete value stays in its original column');
+  assert.equal(call.y,24,'remaining readout aligns with PLANNED regardless of pitch');
  }
  const proto=Object.getPrototypeOf(createCanvas(1,1).getContext('2d')),original=proto.fillText,calls=[];
  try{
@@ -293,14 +294,16 @@ test('remaining distance uses the largest fitting LED pitch without losing digit
  assert.deepEqual(calls,[{label:'128.4 KM',x:1029,y:45,maxWidth:137}]);
 });
 
-test('drive time enlarges complete hours and minutes while standard text keeps its spacing and position',()=>{
+test('drive time keeps fixed 3px dots and an aligned top, scrolling only extreme lengths while standard text stays unchanged',()=>{
  const cfg=settings({textStyle:'airport_led',dashboardLanguage:'en'}),v=view('route');
- for(const [seconds,label,pitch]of [[6300,'1H45M',4],[38700,'10H45M',3],[362700,'100H45M',3]]){
+ for(const [seconds,label,scrolling]of [[6300,'1H45M',false],[38700,'10H45M',false],[362700,'100H45M',false],[3602700,'1000H45M',true]]){
   v.p.values['truck.navigation.time']=seconds;
   const call=recorded(v,cfg).at(1199);assert.ok(call);
-  assert.equal(call.label,label);assert.equal(call.plan.text,label);assert.equal(call.pitch,pitch);
-  assert.equal(call.plan.truncated,false);assert.equal(call.plan.scrolling,false);
+  assert.equal(call.label,label);assert.equal(call.plan.text,label);assert.equal(call.pitch,3);
+  assert.equal(call.y,24);assert.equal(call.plan.height,21);
+  assert.equal(call.plan.truncated,false);assert.equal(call.plan.scrolling,scrolling);
   assert.equal(call.maxWidth,123);assert.ok(call.plan.width<=123,'full time including both units fits before the ETA field');
+  if(scrolling)assert.ok(recorded({...v,panelElapsedMs:2100},cfg,2100).at(1199).plan.offset>0,'extreme hours move without shrinking the digits');
  }
  const proto=Object.getPrototypeOf(createCanvas(1,1).getContext('2d')),original=proto.fillText,calls=[];
  try{
@@ -309,4 +312,23 @@ test('drive time enlarges complete hours and minutes while standard text keeps i
   render(v,settings({textStyle:'standard',dashboardLanguage:'en'}));
  }finally{proto.fillText=original;}
  assert.deepEqual(calls,[{label:'1H 45M',x:1199,y:45,maxWidth:117}]);
+});
+
+test('all four job-distance LED boards align at y24 across pitches and scrolling without changing standard baselines',()=>{
+ const v=view('job_distance'),cfg=settings({textStyle:'airport_led',dashboardLanguage:'en'});
+ Object.assign(v.p.values,{'job.source.company':'TRANSINET INTERNATIONAL LOGISTICS','job.destination.company':'EUROGOODIES DISTRIBUTION CENTRE'});
+ for(const [planned,remaining]of [[128,500],[128,128400],[123456,12345600]]){
+  v.p.values['job.planned.distance.km']=planned;v.p.values['truck.navigation.distance']=remaining;
+  const result=recorded({...v,panelElapsedMs:2100},cfg,2100);
+  for(const x of [884,1029,1184,1329]){
+   const call=result.at(x);assert.ok(call);assert.equal(call.y,24);assert.ok(call.y+call.plan.height<=52);
+   assert.equal(call.plan.truncated,false);
+  }
+ }
+ const proto=Object.getPrototypeOf(createCanvas(1,1).getContext('2d')),original=proto.fillText,calls=[];
+ try{
+  proto.fillText=function(label,x,y,...rest){if([884,1029,1184,1329].includes(x)&&y!==17)calls.push(y);return original.call(this,label,x,y,...rest);};
+  render(v,{...cfg,textStyle:'standard'});
+ }finally{proto.fillText=original;}
+ assert.deepEqual(calls,[45,45,45,45]);
 });

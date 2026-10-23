@@ -13,12 +13,12 @@ const airportLed=require('./airport-led.cjs');
 // Nominal maximum readout lengths, not telemetry limits. An unusually long real value grows
 // beyond this reservation (within its original field), and is never silently clipped to fit it.
 const LED_FIELD_CELLS=Object.freeze({
-  'OIL PSI':3,'OIL C':3,'COOLANT C':3,'BRAKE TEMP C':5,'TEMP':4,'BATTERY':5,'RETARDER':1,
+  'OIL PSI':6,'OIL C':5,'COOLANT C':5,'BRAKE TEMP C':5,'TEMP':4,'BATTERY':5,'RETARDER':1,
   'BRAKE':8,'PARK BRAKE':3,'TRAILER':13,'TRAILER AXLE':6,'LINK':9,'INPUT SDK':7,
   'CARGO DAMAGE':6,'BODY WEAR':6,'CHASSIS WEAR':6,'WHEEL WEAR':6,'CARGO MASS':6,
   'HEADING':6,'PITCH':7,'ROLL':7
 });
-const LED_LARGE_FIELDS=new Set(['OIL PSI','OIL C','COOLANT C','BRAKE TEMP C','TEMP','BATTERY','CARGO MASS','REMAINING','DRIVE TIME']);
+const LED_LARGE_FIELDS=new Set(['OIL PSI','OIL C','COOLANT C','BRAKE TEMP C','TEMP','BATTERY','CARGO MASS','REMAINING']);
 function render(v,cfg,now=v.now||0){
   const translate=displayTranslator(dashboardLanguage(cfg));
   const el=cfg.theme==='el_mint'||cfg.theme==='el_amber',C=PALETTES[cfg.theme]||PALETTES.rally;
@@ -32,7 +32,7 @@ function render(v,cfg,now=v.now||0){
   const locationElapsed=new Map(),scrollTime=s=>scrollMode==='loop_left'?Math.max(0,now):Math.min(v.panelElapsedMs||0,locationElapsed.get(String(s))??Infinity);
   const canvas=createCanvas(WIDTH,HEIGHT),c=canvas.getContext('2d');c.imageSmoothingEnabled=false;
   const box=(x,y,w,h,color)=>{c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));};
-  const text=(s,x,y,size=16,color=C.white,weight='normal',max=Infinity,raw=false,scroll=false,minCells=0,ledPitch=0,align='left')=>{
+  const text=(s,x,y,size=16,color=C.white,weight='normal',max=Infinity,raw=false,scroll=false,minCells=0,ledPitch=0,align='left',colorSpans=[],ledTop=null)=>{
     if(!raw)s=translate(s);
     // Tiny captions, Chinese/non-Latin strings, pictograms and safety banners retain the current font.
     const ledField=airportText&&size>=14&&x>=RECTS.data.left&&(x<LAYOUT.controlsStart||v.page==='motion');
@@ -43,8 +43,9 @@ function render(v,cfg,now=v.now||0){
         // Keep the same pitch across short/long states of a reserved readout.
         // At minimum pitch the original field remains the hard width limit.
         if(pitch>2&&minCells>0&&(minCells*6-1)*pitch>bound)continue;
-        if(airportLed.draw(c,s,{...ledOptions,x,y:y-textRows*pitch,pitch,matrix:textMatrix,shape:'square',maxWidth:bound,minCells,align,
-          scroll:scroll===true||scroll==='fit'&&pitch===2,scrollMode,scrollSpeed:cfg.ledScrollSpeed,elapsedMs,truncate:raw&&!scroll,color:ledColor(color)}))return;
+        if(airportLed.draw(c,s,{...ledOptions,x,y:ledTop??y-textRows*pitch,pitch,matrix:textMatrix,shape:'square',maxWidth:bound,minCells,align,
+          scroll:scroll===true||scroll==='fit'&&pitch===2,scrollMode,scrollSpeed:cfg.ledScrollSpeed,elapsedMs,truncate:raw&&!scroll,color:ledColor(color),
+          colorSpans:colorSpans.map(span=>({...span,color:ledColor(span.color)}))}))return;
       }
     }
     c.font=`${weight} ${size}px ${FONT_FAMILY}`;c.fillStyle=color;c.textBaseline='alphabetic';
@@ -69,13 +70,16 @@ function render(v,cfg,now=v.now||0){
   const bar=(x,y,w,p,color)=>{box(x,y,w,3,C.line);if(typeof p==='number')box(x,y,w*Math.max(0,Math.min(1,p)),3,color);};
   const metric=(label,val,x,w,color=C.white,raw=false,scroll=false)=>{
     const large=airportText&&LED_LARGE_FIELDS.has(label);
+    if(airportText&&label==='OIL PSI')val=`${val}PSI`;
+    if(airportText&&(label==='OIL C'||label==='COOLANT C'))val=`${val}°C`;
     // Keep the unit in the same dot row; remove only its spacer to fit larger cells.
     if(large)val=String(val).replace(/\s+(V|T|C|KM)$/,'$1');
-    const compactJourney=airportText&&(label==='REMAINING'||label==='DRIVE TIME');
-    if(airportText&&label==='DRIVE TIME')val=String(val).replace(/H\s+(?=\d+M$)/,'H');
+    const driveTime=airportText&&label==='DRIVE TIME',compactJourney=airportText&&label==='REMAINING'||driveTime;
+    if(driveTime)val=String(val).replace(/H\s+(?=\d+M$)/,'H');
     text(label,x+9,17,10,C.muted);
     const brake=airportText&&label==='BRAKE';
-    text(val,x+9,large?51:45,brake?24:21,color,'bold',w-(brake?9:compactJourney?12:18),raw&&val!=='N/A',scroll,LED_FIELD_CELLS[label]||0,large?4:0);
+    const ledTop=airportText&&(label==='DRIVE TIME'||v.panel==='job_distance'&&['PLANNED','REMAINING','PICKUP','DELIVERY'].includes(label))?24:null;
+    text(val,x+9,large?51:45,brake?24:21,color,'bold',w-(brake?9:compactJourney?12:18),raw&&val!=='N/A',scroll||driveTime,LED_FIELD_CELLS[label]||0,driveTime?3:large?4:0,'left',[],ledTop);
   };
   const edge=(x,color,reverse=false,width=18)=>{
     const m=/^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(color),clear=m?`rgba(${parseInt(m[1],16)},${parseInt(m[2],16)},${parseInt(m[3],16)},0)`:'rgba(0,0,0,0)';
@@ -270,32 +274,36 @@ function render(v,cfg,now=v.now||0){
       const l100=v.consumptionL100;
       if(v.page==='refueling')panelEdge(RECTS.data,C.green);
       const fuel=value(p,'truck.fuel.amount');
+      const liquidColor=(percent,amount)=>Number.isFinite(percent)&&percent>=0&&Number.isFinite(amount)&&amount>=0
+        ?percent<cfg.lowFuelPercent?C.red:percent<Math.min(100,2*cfg.lowFuelPercent)?C.amber:C.white:C.white;
+      const fuelColor=liquidColor(v.fuelPercent,fuel),adblueColor=liquidColor(adPct==null?null:adPct*100,ad);
       if(airportText&&['single_fit','single_scroll'].includes(cfg.airportFuelLayout)){
         const scroll=cfg.airportFuelLayout==='single_scroll'?true:'fit';
         const fields=[
-          [v.refueling?'REFUELING':'FUEL',`${fmt(v.fuelPercent)}% ${fuel==null?'N/A':`${fmt(fuel,1)}L`}`,884,126,C.cyan,v.fuelPercent==null?null:v.fuelPercent/100],
+          [v.refueling?'REFUELING':'FUEL',`${fmt(v.fuelPercent)}% ${fuel==null?'N/A':`${fmt(fuel,1)}L`}`,884,126,C.white,v.fuelPercent==null?null:v.fuelPercent/100,fuelColor],
           ['TRIP AVERAGE',l100==null?'CALCULATING':`${fmt(l100,1)}L/100`,1020,165,C.white,l100==null?null:l100/60],
-          [v.adblueRefilling?'ADBLUE REFILLING':'ADBLUE',`${adPct==null?'--':`${fmt(adPct*100)}%`} ${ad==null?'N/A':`${fmt(ad,1)}L`}`,1200,122,C.cyan,adPct],
+          [v.adblueRefilling?'ADBLUE REFILLING':'ADBLUE',`${adPct==null?'--':`${fmt(adPct*100)}%`} ${ad==null?'N/A':`${fmt(ad,1)}L`}`,1200,122,C.white,adPct,adblueColor],
           ['RANGE',`${fmt(value(p,'truck.fuel.range'))}KM`,1335,105,C.white,undefined]
         ];
-        for(const [title,label,x,width,color,fraction]of fields){
+        for(const [title,label,x,width,color,fraction,litreColor]of fields){
           text(title,x,14,9,C.muted,'normal',width);
-          text(label,x,45,label==='CALCULATING'?11:21,color,'bold',width,false,scroll,0,3);
+          const colorSpans=litreColor?[{start:label.indexOf(' ')+1,end:label.length,color:litreColor}]:[];
+          text(label,x,45,label==='CALCULATING'?11:21,color,'bold',width,false,scroll,0,3,'left',colorSpans);
           if(fraction!==undefined)bar(x,51,width,fraction,title==='TRIP AVERAGE'?C.amber:C.cyan);
         }
       }else if(airportText){
         // Two readout rows stay inside each existing fuel/AdBlue column at 3px pitch,
         // including the L unit, without reducing numeric precision.
         text(v.refueling?'REFUELING':'FUEL',RECTS.data.contentLeft,14,9,v.refueling?C.green:C.muted,'bold',52);
-        text(`${fmt(v.fuelPercent)}%`,941,30,20,C.cyan,'bold',69,false,false,4,3,'right');
-        text(fuel==null?'N/A':`${fmt(fuel,1)}L`,884,55,21,C.cyan,'bold',126,false,false,7,3,'right');
+        text(`${fmt(v.fuelPercent)}%`,941,30,20,C.white,'bold',69,false,false,4,3,'right');
+        text(fuel==null?'N/A':`${fmt(fuel,1)}L`,884,55,21,fuelColor,'bold',126,false,false,7,3,'right');
         bar(RECTS.data.contentLeft,57,122,v.fuelPercent==null?null:v.fuelPercent/100,C.cyan);
         text('TRIP AVERAGE',1020,14,9,C.muted);
-        text(l100==null?'CALCULATING':`${fmt(l100,1)}L/100`,1020,40,l100==null?11:21,C.white,'bold',165,false,false,9,3,'right');
-        bar(1020,43,165,l100==null?null:l100/60,C.amber);
+        text(l100==null?'CALCULATING':`${fmt(l100,1)}L/100`,1020,55,l100==null?11:21,C.white,'bold',165,false,false,9,3,'right');
+        bar(1020,57,165,l100==null?null:l100/60,C.amber);
         text(v.adblueRefilling?'ADBLUE REFILLING':'ADBLUE',1200,14,9,v.adblueRefilling?C.green:C.muted,'bold',48);
         text(adPct==null?'--':`${fmt(adPct*100)}%`,1253,30,18,C.white,'bold',69,false,false,4,3,'right');
-        text(ad==null?'N/A':`${fmt(ad,1)}L`,1200,55,21,C.cyan,'bold',122,false,false,6,3,'right');
+        text(ad==null?'N/A':`${fmt(ad,1)}L`,1200,55,21,adblueColor,'bold',122,false,false,6,3,'right');
         bar(1200,57,120,adPct,C.cyan);
         text('RANGE',1335,14,9,C.muted);
         text(`${fmt(value(p,'truck.fuel.range'))}KM`,1335,45,21,C.white,'bold',105,false,false,6,3,'right');
