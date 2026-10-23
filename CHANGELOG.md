@@ -1,3 +1,9 @@
+# 1.1.1 — 2026-10-23
+
+- Correct continuous Airport LED scrolling to move from right to left; migrate existing continuous-scroll settings. / 修正连续点阵滚动方向为从右向左，自动兼容旧设置。
+- Add 50%–200% scrolling speed in plugin settings. Both scroll modes and unsupported-character font fallback follow this speed; fixed dot backplates and carousel timing remain unchanged. / 新增 50%–200% 滚动速度，两种滚动模式及非点阵字形回退均适用；暗底板与轮询时间不变。
+- Reuse the existing bridge DLL. / 沿用原桥接 DLL。
+
 # 1.1.0 — 2026-10-23
 
 - Optional Airport LED: independent speed/gear and other-text selection; shared 5×7 glyphs across all three themes. / 新增可选点阵风格，数字与文本独立设置，三主题统一 5×7。

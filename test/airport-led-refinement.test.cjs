@@ -128,14 +128,14 @@ test('single gear keeps the same two-cell board and unit position, with a dark t
  }
 });
 
-test('loop-right shifts one LED column right per step, wraps continuously and leaves the board fixed',()=>{
- const label='NEWCASTLE UPON TYNE',opts={pitch:3,maxWidth:126,scroll:true,scrollMode:'loop_right',shape:'square',color:'#ffffff',dim:'#222222'};
+test('loop-left shifts one LED column left per step, wraps continuously and leaves the board fixed',()=>{
+ const label='NEWCASTLE UPON TYNE',opts={pitch:3,maxWidth:126,scroll:true,scrollMode:'loop_left',shape:'square',color:'#ffffff',dim:'#222222'};
  const plan=led.layout(label,opts),period=(label.length*6+12)*120;
  const draw=ms=>{const c=createCanvas(160,28);led.draw(c.getContext('2d'),label,{...opts,x:2,y:2,elapsedMs:ms});return c;};
  const first=draw(0),next=draw(120),wrapped=draw(period),again=draw(period+120),previous=draw(period-120);
- assert.equal(led.layout(label,{...opts,elapsedMs:120}).offset,-1);
- assert.deepEqual(pixels(next,5,2,plan.width-3,plan.height),pixels(first,2,2,plan.width-3,plan.height),'lit pattern moves right exactly one column');
- assert.deepEqual(pixels(first,5,2,plan.width-3,plan.height),pixels(previous,2,2,plan.width-3,plan.height),'period boundary also moves right one column');
+ assert.equal(led.layout(label,{...opts,elapsedMs:120}).offset,1);
+ assert.deepEqual(pixels(next,2,2,plan.width-3,plan.height),pixels(first,5,2,plan.width-3,plan.height),'lit pattern moves left exactly one column');
+ assert.deepEqual(pixels(first,2,2,plan.width-3,plan.height),pixels(previous,5,2,plan.width-3,plan.height),'period boundary also moves left one column');
  assert.deepEqual(pixels(first,0,0,160,28),pixels(wrapped,0,0,160,28));
  assert.deepEqual(pixels(next,0,0,160,28),pixels(again,0,0,160,28));
  for(const picture of [first,next,wrapped,previous]){
@@ -147,12 +147,59 @@ test('loop-right shifts one LED column right per step, wraps continuously and le
  assert.ok(led.layout(label,{...opts,scrollMode:'restart',elapsedMs:2100}).offset>0,'default mode retains head pause then leftward scroll');
 });
 
-test('runtime view passes loop-right to long destination and ETA without resetting it at carousel epoch',()=>{
+test('runtime view passes loop-left to long destination and ETA without resetting it at carousel epoch',()=>{
  const v=view('route');v.p.values['job.destination.city']='NEWCASTLE UPON TYNE';
- const cfg=settings({textStyle:'airport_led',ledScrollMode:'loop_right',dashboardLanguage:'en'});
+ const cfg=settings({textStyle:'airport_led',ledScrollMode:'loop_left',dashboardLanguage:'en'});
  const before=recorded({...v,panelElapsedMs:14999},cfg,14999),after=recorded({...v,panelElapsedMs:0},cfg,15000);
  for(const x of [884,1334]){
-  assert.equal(before.at(x).scrollMode,'loop_right');assert.equal(after.at(x).scrollMode,'loop_right');
-  assert.equal(after.at(x).elapsedMs,15000);assert.ok(after.at(x).plan.offset<0);
+  assert.equal(before.at(x).scrollMode,'loop_left');assert.equal(after.at(x).scrollMode,'loop_left');
+  assert.equal(after.at(x).elapsedMs,15000);assert.ok(after.at(x).plan.offset>0);
+ }
+});
+
+test('scroll speed scales leftward travel in both modes while preserving restart pauses and short text',()=>{
+ const label='NEWCASTLE UPON TYNE',opts={pitch:3,maxWidth:126,scroll:true};
+ for(const scrollMode of ['restart','loop_left','loop_right'])for(const scrollSpeed of [50,100,200]){
+  const elapsedMs=(scrollMode==='restart'?900:0)+480;
+  const plan=led.layout(label,{...opts,scrollMode,scrollSpeed,elapsedMs});
+  assert.equal(plan.offset,4*scrollSpeed/100,`${scrollMode}/${scrollSpeed}`);
+  assert.equal(led.layout('PARIS',{...opts,scrollMode,scrollSpeed,elapsedMs}).offset,0);
+  assert.equal(led.layout(label,{...opts,scrollMode:'restart',scrollSpeed,elapsedMs:850}).offset,0,'head pause remains 900ms');
+ }
+ for(const [speed,expectedStep]of [[undefined,120],[null,120],['',120],[' ',120],[NaN,120],[Infinity,120],['bad',120],[false,120],[{},120],[-1,240],[999,60],['150',80]]){
+  assert.equal(led.scrollStepMs(120,speed),expectedStep,`${String(speed)} uses a bounded/default speed`);
+ }
+});
+
+test('numeric and city scrolling consume the same selected speed without changing the carousel clock',()=>{
+ const v=view('route');v.p.values['job.destination.city']='NEWCASTLE UPON TYNE';
+ for(const ledScrollMode of ['restart','loop_left']){
+  const elapsed=ledScrollMode==='restart'?1380:480;
+  const cfg=settings({textStyle:'airport_led',ledScrollMode,ledScrollSpeed:200,dashboardLanguage:'en'});
+  const result=recorded({...v,panelElapsedMs:elapsed},cfg,elapsed);
+  for(const x of [884,1334]){
+   assert.equal(result.at(x).scrollSpeed,200);assert.equal(result.at(x).plan.offset,8);
+  }
+  assert.equal(cfg.cycleSeconds,15);
+ }
+});
+
+test('Chinese and Cyrillic font fallback scrolls left at the selected speed and leaves short text still',()=>{
+ const proto=Object.getPrototypeOf(createCanvas(1,1).getContext('2d')),original=proto.fillText;
+ function positions(city,ledScrollMode,ledScrollSpeed,elapsed){
+  const v=view('route');v.p.values['job.destination.city']=city;
+  const cfg=settings({textStyle:'airport_led',ledScrollMode,ledScrollSpeed,dashboardLanguage:'en'}),xs=[];
+  try{
+   proto.fillText=function(label,x,...args){if(String(label)===city)xs.push(x);return original.call(this,label,x,...args);};
+   render({...v,panelElapsedMs:elapsed},cfg,elapsed);
+  }finally{proto.fillText=original;}
+  return xs;
+ }
+ for(const mode of ['restart','loop_left','loop_right']){
+  const elapsed=(mode==='restart'?900:0)+90;
+  for(const city of ['中华人民共和国上海国际物流中心','Санкт-Петербург Международный аэропорт'])for(const speed of [50,100,200]){
+   assert.equal(positions(city,mode,speed,elapsed)[0],884-2*speed/100,`${mode}/${city}/${speed}`);
+  }
+  assert.deepEqual(positions('北京',mode,200,elapsed),[884]);
  }
 });

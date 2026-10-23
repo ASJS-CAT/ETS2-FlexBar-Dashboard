@@ -56,12 +56,17 @@ const width=(count,pitch)=>count?((count*6)-1)*pitch:0;
 const rowCount=()=>7;
 // A tiny deterministic marquee: one LED column per step, with a readable pause at each end.
 // It uses the existing page clock; there is no extra timer, frame queue or scrolling service.
-function scrollOffset(elapsedMs,maxOffset,stepMs=120){
+function scrollStepMs(stepMs,speed=100){
+ const numeric=typeof speed==='number'||typeof speed==='string'&&speed.trim()!==''?Number(speed):NaN;
+ return stepMs*100/(Number.isFinite(numeric)?Math.min(200,Math.max(50,numeric)):100);
+}
+function scrollOffset(elapsedMs,maxOffset,stepMs=120,speed=100){
  if(maxOffset<=0)return 0;
+ stepMs=scrollStepMs(stepMs,speed);
  const hold=900,travel=maxOffset*stepMs,phase=Math.max(0,elapsedMs||0)%(travel+hold*2);
  return Math.min(maxOffset,Math.max(0,Math.floor((phase-hold)/stepMs)));
 }
-function layout(label,{pitch=2,matrix='5x7',maxWidth=Infinity,truncate=false,pad=false,minCells=0,align='left',scroll=false,scrollMode='restart',elapsedMs=0}={}){
+function layout(label,{pitch=2,matrix='5x7',maxWidth=Infinity,truncate=false,pad=false,minCells=0,align='left',scroll=false,scrollMode='restart',scrollSpeed=100,elapsedMs=0}={}){
  matrix='5x7';
  const text=normalize(label);
  if(!Number.isInteger(pitch)||pitch<2||pitch>7||!text||[...text].some(ch=>!GLYPHS[ch]))return null;
@@ -70,9 +75,9 @@ function layout(label,{pitch=2,matrix='5x7',maxWidth=Infinity,truncate=false,pad
  const scrolling=scroll&&text.length>capacity;
  const shown=text.length>capacity&&!scrolling?text.slice(0,capacity-3)+'...':text;
  const cells=pad||scrolling?capacity:Math.min(capacity,Math.max(shown.length,Math.floor(minCells)||0)),columns=cells*6-1,rows=rowCount(matrix);
- const loopColumns=scrolling&&scrollMode==='loop_right'?text.length*6+12:0;
+ const loopColumns=scrolling&&['loop_left','loop_right'].includes(scrollMode)?text.length*6+12:0;
  return {text:shown,cells,columns,rows,matrix,pitch,align:align==='right'?'right':'left',contentOffset:align==='right'&&!scrolling?(cells-shown.length)*6:0,width:width(cells,pitch),height:pitch*rows,truncated:shown!==text,
-  offset:loopColumns?-(Math.floor(Math.max(0,elapsedMs||0)/120)%loopColumns):scrolling?scrollOffset(elapsedMs,text.length*6-1-columns):0,loopColumns,scrolling};
+  offset:loopColumns?Math.floor(Math.max(0,elapsedMs||0)/scrollStepMs(120,scrollSpeed))%loopColumns:scrolling?scrollOffset(elapsedMs,text.length*6-1-columns,120,scrollSpeed):0,loopColumns,scrolling};
 }
 function draw(c,label,{x,y,color='#ffd783',dim='#252a27',background='#080b0a',shape='round',...options}){
  const plan=layout(label,options);if(!plan)return false;
@@ -95,4 +100,4 @@ function draw(c,label,{x,y,color='#ffd783',dim='#252a27',background='#080b0a',sh
  }
  c.restore();return true;
 }
-module.exports={GLYPHS,rowCount,scrollOffset,layout,draw};
+module.exports={GLYPHS,rowCount,scrollStepMs,scrollOffset,layout,draw};

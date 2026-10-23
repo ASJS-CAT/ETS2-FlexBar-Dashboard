@@ -28,7 +28,8 @@ function render(v,cfg,now=v.now||0){
   // Theme colors preserve semantic red/amber/green; normal Rally cyan becomes warm airport yellow.
   const ledColor=color=>cfg.theme==='rally'&&color===C.cyan?C.amber:color;
   const ledOptions={dim:cfg.theme==='el_mint'?'#213b2c':cfg.theme==='el_amber'?'#3c2e1a':'#282b29'};
-  const locationElapsed=new Map(),scrollTime=s=>cfg.ledScrollMode==='loop_right'?Math.max(0,now):Math.min(v.panelElapsedMs||0,locationElapsed.get(String(s))??Infinity);
+  const scrollMode=['loop_left','loop_right'].includes(cfg.ledScrollMode)?'loop_left':'restart';
+  const locationElapsed=new Map(),scrollTime=s=>scrollMode==='loop_left'?Math.max(0,now):Math.min(v.panelElapsedMs||0,locationElapsed.get(String(s))??Infinity);
   const canvas=createCanvas(WIDTH,HEIGHT),c=canvas.getContext('2d');c.imageSmoothingEnabled=false;
   const box=(x,y,w,h,color)=>{c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));};
   const text=(s,x,y,size=16,color=C.white,weight='normal',max=Infinity,raw=false,scroll=false,minCells=0,ledPitch=0,align='left')=>{
@@ -43,7 +44,7 @@ function render(v,cfg,now=v.now||0){
         // At minimum pitch the original field remains the hard width limit.
         if(pitch>2&&minCells>0&&(minCells*6-1)*pitch>bound)continue;
         if(airportLed.draw(c,s,{...ledOptions,x,y:y-textRows*pitch,pitch,matrix:textMatrix,shape:'square',maxWidth:bound,minCells,align,
-          scroll:scroll===true||scroll==='fit'&&pitch===2,scrollMode:cfg.ledScrollMode,elapsedMs,truncate:raw&&!scroll,color:ledColor(color)}))return;
+          scroll:scroll===true||scroll==='fit'&&pitch===2,scrollMode,scrollSpeed:cfg.ledScrollSpeed,elapsedMs,truncate:raw&&!scroll,color:ledColor(color)}))return;
       }
     }
     c.font=`${weight} ${size}px ${FONT_FAMILY}`;c.fillStyle=color;c.textBaseline='alphabetic';
@@ -52,10 +53,10 @@ function render(v,cfg,now=v.now||0){
     if(overflow>0){
       const elapsedMs=scrollTime(s);
       c.save();c.beginPath();c.rect(x,y-size-2,max,size+5);c.clip();
-      if(cfg.ledScrollMode==='loop_right'){
-        const period=Math.ceil(c.measureText(String(s)).width)+32,offset=Math.floor(elapsedMs/45)%period;
-        for(const dx of [offset,offset-period])c.fillText(String(s),Math.round(x)+dx,Math.round(y));
-      }else c.fillText(String(s),Math.round(x)-airportLed.scrollOffset(elapsedMs,overflow,45),Math.round(y));
+      if(scrollMode==='loop_left'){
+        const period=Math.ceil(c.measureText(String(s)).width)+32,offset=Math.floor(elapsedMs/airportLed.scrollStepMs(45,cfg.ledScrollSpeed))%period;
+        for(const dx of [-offset,period-offset])c.fillText(String(s),Math.round(x)+dx,Math.round(y));
+      }else c.fillText(String(s),Math.round(x)-airportLed.scrollOffset(elapsedMs,overflow,45,cfg.ledScrollSpeed),Math.round(y));
       c.restore();
     }else c.fillText(String(s),Math.round(x),Math.round(y),max);
   };

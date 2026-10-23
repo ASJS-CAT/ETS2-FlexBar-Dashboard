@@ -4,7 +4,7 @@ English | [简体中文](README.zh-CN.md)
 
 ![Dashboard](docs/assets/flexgate-cover.png)
 
-A DirectDraw dashboard for Euro Truck Simulator 2 and FlexBar on Windows x64. It displays SCS Telemetry SDK data and controls game bindings through an SCS Input SDK generic input device. **Version 1.1.0 — Airport LED and carousel improvements (2026-10-23).** Adds optional 5×7 dot-matrix rendering and a hold-to-return gesture for job/trailer information. The game bridge DLL is unchanged.
+A DirectDraw dashboard for Euro Truck Simulator 2 and FlexBar on Windows x64. It displays SCS Telemetry SDK data and controls game bindings through an SCS Input SDK generic input device. **Version 1.1.1 — Airport LED and carousel improvements (2026-10-23).** Adds optional 5×7 dot-matrix rendering and a hold-to-return gesture for job/trailer information. The game bridge DLL is unchanged.
 
 First use: install the `.flexplugin` and game bridge DLL, add the plugin to a FlexBar page, then tap its launcher once. This tap is a current DirectDraw host limitation. The launcher means “enter dashboard”, not “offline”. Follow the [Quick Start](docs/QUICKSTART.md) · [Issues](https://github.com/ASJS-CAT/ETS2-FlexBar-Dashboard/issues).
 
@@ -60,7 +60,7 @@ Changing theme retains the page number. Seven-segment, font-based and Airport LE
 
 ![Airport LED on FlexBar](docs/assets/airport-led-flexbar.png)
 
-Choose **Airport LED** separately for **Speed and gear font** and **Other text style** in the existing plugin settings. All three themes share the same 5×7 glyphs, visible unlit dots and sharp edges. Fuel display offers **Double row / large**, **Single row / fit**, and **Single row / scroll**; scrolling can restart or loop continuously to the right. Units stay within the matrix. Speed has no leading zero padding; LED speed keeps three dark cells and gear keeps two.
+Choose **Airport LED** separately for **Speed and gear font** and **Other text style** in the existing plugin settings. All three themes share the same 5×7 glyphs, visible unlit dots and sharp edges. Fuel display offers **Double row / large**, **Single row / fit**, and **Single row / scroll**; scrolling moves from right to left and can restart or loop continuously. Set **Dot-matrix scroll speed** from **50% to 200%** (100% is the default). Saved continuous-scroll settings migrate automatically to the corrected direction. Units stay within the matrix. Speed has no leading zero padding; LED speed keeps three dark cells and gear keeps two.
 
 LED-specific size and position changes apply only when LED is selected. Very small labels and unsupported characters, including Chinese, retain the regular font for readability. Existing styles remain the default.
 
@@ -98,7 +98,7 @@ npm run plugin:validate
 npm run plugin:pack
 ```
 
-Packaging uses the official FlexCLI filename `com.local.ets2rally.flexplugin`. Keep the `com.local.ets2rally.plugin` directory. The tag must be exactly `1.1.0`, matching the manifest. CI builds artifacts without automatically publishing a public Release.
+Packaging uses the official FlexCLI filename `com.local.ets2rally.flexplugin`. Keep the `com.local.ets2rally.plugin` directory. The tag must be exactly `1.1.1`, matching the manifest. CI builds artifacts without automatically publishing a public Release.
 
 [CONTRIBUTING](CONTRIBUTING.md) · [RELEASE_CHECKLIST](RELEASE_CHECKLIST.md) · [RELEASE_AUDIT](RELEASE_AUDIT.md)
 

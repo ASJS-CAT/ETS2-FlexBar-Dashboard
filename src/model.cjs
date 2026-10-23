@@ -3,7 +3,7 @@ const {GForce}=require('./driving-metrics.cjs');
 const MANUAL_PANELS=Object.freeze({job:Object.freeze(['job_overview','job_timing','job_distance']),trailer:Object.freeze(['trailer_status','trailer_damage'])});
 const {TelemetryState,DrivingContext,QuickControlResolver,PINNABLE,CAPABILITIES}=require('./quick-controls.cjs');
 const DEFAULTS = Object.freeze({ language:'zh',dashboardLanguage:'en',rpmScaleMax:2500,gearFontSize:42,rpmScaleFormat:'full',rpmLabelCount:6,warningRotationSeconds:2,locationRotationSeconds:8,refuelExitSeconds:1.8,paymentSeconds:3,controlOrder:[],hiddenControls:[], fps: 20, units: 'kmh', theme:'rally', manualPageHoldCycles:3, brakePageHoldSeconds:3,
-  overspeedMargin: 3, lowFuelPercent: 12, cycleSeconds: 15, cyclePanels:['fuel','route','systems'],digitStyle:'rally',textStyle:'standard',digitMatrix:'5x7',textMatrix:'5x7',ledScrollMode:'restart',airportFuelLayout:'double_large',
+  overspeedMargin: 3, lowFuelPercent: 12, cycleSeconds: 15, cyclePanels:['fuel','route','systems'],digitStyle:'rally',textStyle:'standard',digitMatrix:'5x7',textMatrix:'5x7',ledScrollMode:'restart',ledScrollSpeed:100,airportFuelLayout:'double_large',
   airPressureFullPsi:185,quickControlsMode:'dynamic',pinnedControls:['hazard','parking'],diffUpdate: false, bindingMode: false, wakeOnStart: true });
 function settings(raw = {}) {
   const number = (k, lo, hi) => raw[k]!==null&&raw[k]!==''&&Number.isFinite(Number(raw[k])) ? Math.min(hi, Math.max(lo, Number(raw[k]))) : DEFAULTS[k];
@@ -16,7 +16,8 @@ function settings(raw = {}) {
   const digit=raw.digitStyle==='font'?'rally':['rally','din','euro','narrow','tft','segment','airport_led'].includes(raw.digitStyle)?raw.digitStyle:'rally';
   return { language:raw.language==='en'?'en':'zh', dashboardLanguage:['follow','zh','en'].includes(raw.dashboardLanguage)?raw.dashboardLanguage:'en', fps: number('fps', 5, 25), units: raw.units === 'mph' ? 'mph' : 'kmh',theme,
     digitStyle:digit,textStyle:raw.textStyle==='airport_led'?'airport_led':'standard',digitMatrix:DEFAULTS.digitMatrix,textMatrix:DEFAULTS.textMatrix,
-    ledScrollMode:raw.ledScrollMode==='loop_right'?'loop_right':DEFAULTS.ledScrollMode,
+    ledScrollMode:['loop_left','loop_right'].includes(raw.ledScrollMode)?'loop_left':DEFAULTS.ledScrollMode,
+    ledScrollSpeed:typeof raw.ledScrollSpeed==='number'||typeof raw.ledScrollSpeed==='string'&&raw.ledScrollSpeed.trim()!==''?number('ledScrollSpeed',50,200):DEFAULTS.ledScrollSpeed,
     airportFuelLayout:['double_large','single_fit','single_scroll'].includes(raw.airportFuelLayout)?raw.airportFuelLayout:DEFAULTS.airportFuelLayout,
     rpmScaleMax:number('rpmScaleMax',0,10000),gearFontSize:number('gearFontSize',24,48),rpmScaleFormat:raw.rpmScaleFormat==='x100'?'x100':'full',rpmLabelCount:[4,5,6].includes(Number(raw.rpmLabelCount))?Number(raw.rpmLabelCount):6,
     warningRotationSeconds:number('warningRotationSeconds',1,30),locationRotationSeconds:number('locationRotationSeconds',2,60),refuelExitSeconds:number('refuelExitSeconds',1,20),paymentSeconds:number('paymentSeconds',1,15),hiddenControls:Array.isArray(raw.hiddenControls)?[...new Set(raw.hiddenControls.filter(id=>id in CAPABILITIES))]:[],controlOrder:Array.isArray(raw.controlOrder)?[...new Set(raw.controlOrder.filter(id=>id in CAPABILITIES&&!['bind_next'].includes(id)))]:[],

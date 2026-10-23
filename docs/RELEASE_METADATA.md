@@ -7,8 +7,8 @@
 - Issues: https://github.com/ASJS-CAT/ETS2-FlexBar-Dashboard/issues
 - Manifest UUID: com.local.ets2rally
 - Plugin folder: com.local.ets2rally.plugin
-- Version and exact tag: 1.1.0 (no v prefix / 无 v 前缀)
-- Suggested title: ETS2 FlexBar Dashboard 1.1.0
+- Version and exact tag: 1.1.1 (no v prefix / 无 v 前缀)
+- Suggested title: ETS2 FlexBar Dashboard 1.1.1
 - Platform: Windows x64
 - Manifest minimum FlexDesigner: 2.0.6
 - SDK / CLI: @eniac/flexdesigner 1.0.9 / @eniac/flexcli 1.0.7

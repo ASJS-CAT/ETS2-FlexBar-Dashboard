@@ -75,7 +75,7 @@ test('single-fit fuel rows retain complete values and units while adapting pitch
 
 test('single-scroll fuel rows use large dots and the selected marquee mode inside their original columns',()=>{
  const v={...view(),fuelPercent:65};
- for(const theme of themes)for(const ledScrollMode of ['restart','loop_right']){
+ for(const theme of themes)for(const ledScrollMode of ['restart','loop_left']){
   const cfg=settings({theme,textStyle:'airport_led',airportFuelLayout:'single_scroll',ledScrollMode,dashboardLanguage:'en'});
   const first=recorded(v,cfg,0),later=recorded({...v,panelElapsedMs:2100},cfg,2100);
   for(const [label,left,right]of [['65% 390.0L',884,1010],['65% 52.0L',1200,1322]]){
@@ -83,7 +83,7 @@ test('single-scroll fuel rows use large dots and the selected marquee mode insid
    assert.ok(start,label);assert.ok(moved,label);assert.equal(start.pitch,3);assert.equal(moved.pitch,3);
    assert.equal(start.plan.scrolling,true);assert.equal(start.plan.truncated,false);assert.equal(start.plan.text,label);
    assert.equal(start.scrollMode,ledScrollMode);assert.deepEqual(geometry(start),geometry(moved));
-   assert.ok(ledScrollMode==='loop_right'?moved.plan.offset<0:moved.plan.offset>0);
+   assert.ok(moved.plan.offset>0,'both modes move text from right to left');
    assert.notDeepEqual(pixels(first.canvas,start.x,start.y,start.plan.width,start.plan.height),pixels(later.canvas,moved.x,moved.y,moved.plan.width,moved.plan.height));
   }
   assert.deepEqual(pixels(first.canvas,0,0,875,60),pixels(later.canvas,0,0,875,60));
@@ -173,7 +173,7 @@ test('standard text retains original fuel labels, readout coordinates and bar pi
  for(const theme of themes){
   const cfg=settings({theme,dashboardLanguage:'en'}),standard=recorded(v,cfg);
   for(const airportFuelLayout of ['double_large','single_fit','single_scroll']){
-   const inactiveOptions=render(v,{...cfg,airportFuelLayout,textMatrix:'5x8',digitMatrix:'5x8',ledScrollMode:'loop_right'},0);
+   const inactiveOptions=render(v,{...cfg,airportFuelLayout,textMatrix:'5x8',digitMatrix:'5x8',ledScrollMode:'loop_left'},0);
    assert.deepEqual(pixels(standard.canvas,0,0,2170,60),pixels(inactiveOptions,0,0,2170,60));
   }
   assert.equal(standard.dotCalls.length,0);
@@ -203,7 +203,7 @@ test('switching Airport on then off restores every standard font and calibrated 
   if(panel==='braking'){v.page='braking';v.brakeForce=.5;}
   v.p.values['job.destination.city']='NEWCASTLE UPON TYNE INTERNATIONAL';
   const before=render(v,cfg,2100);
-  Object.assign(cfg,{digitStyle:'airport_led',textStyle:'airport_led',airportFuelLayout:'single_scroll',ledScrollMode:'loop_right'});
+  Object.assign(cfg,{digitStyle:'airport_led',textStyle:'airport_led',airportFuelLayout:'single_scroll',ledScrollMode:'loop_left'});
   const enabled=render(v,cfg,2100);
   assert.notDeepEqual(pixels(before,0,0,2170,60),pixels(enabled,0,0,2170,60),'Airport mode actually renders before switching back');
   Object.assign(cfg,{digitStyle,textStyle:'standard'});
