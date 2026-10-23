@@ -1,3 +1,12 @@
+# 1.1.2 — 2026-10-23
+
+- Long pickup and delivery company names now scroll inside their Airport LED fields instead of being truncated with an ellipsis. They use the existing scrolling mode and speed, including the regular-font fallback for non-Latin names.
+- 发货公司和收货公司的长名称接入现有点阵滚动方式与速度，不再截成省略号；中文等普通字形回退同样支持。短名称和非点阵样式保持原样。
+
+- Enlarge LED remaining-distance and driving-time readouts with compact in-row units and width-adaptive dots; standard typography stays unchanged. / 点阵剩余距离和行驶时间放大，单位同排紧凑显示并按宽度适配；普通字体保持原样。
+
+- Keep system air pressure and percentage in one compact, complete LED row at 3px pitch even at 100%. / 气压与百分比以紧凑单行完整显示，100% 时仍保留 3px 点距，不再整体缩成小字。
+
 # 1.1.1 — 2026-10-23
 
 - Correct continuous Airport LED scrolling to move from right to left; migrate existing continuous-scroll settings. / 修正连续点阵滚动方向为从右向左，自动兼容旧设置。

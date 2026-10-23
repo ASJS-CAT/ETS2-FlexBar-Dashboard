@@ -18,7 +18,7 @@ const LED_FIELD_CELLS=Object.freeze({
   'CARGO DAMAGE':6,'BODY WEAR':6,'CHASSIS WEAR':6,'WHEEL WEAR':6,'CARGO MASS':6,
   'HEADING':6,'PITCH':7,'ROLL':7
 });
-const LED_LARGE_FIELDS=new Set(['OIL PSI','OIL C','COOLANT C','BRAKE TEMP C','TEMP','BATTERY','CARGO MASS']);
+const LED_LARGE_FIELDS=new Set(['OIL PSI','OIL C','COOLANT C','BRAKE TEMP C','TEMP','BATTERY','CARGO MASS','REMAINING','DRIVE TIME']);
 function render(v,cfg,now=v.now||0){
   const translate=displayTranslator(dashboardLanguage(cfg));
   const el=cfg.theme==='el_mint'||cfg.theme==='el_amber',C=PALETTES[cfg.theme]||PALETTES.rally;
@@ -70,10 +70,12 @@ function render(v,cfg,now=v.now||0){
   const metric=(label,val,x,w,color=C.white,raw=false,scroll=false)=>{
     const large=airportText&&LED_LARGE_FIELDS.has(label);
     // Keep the unit in the same dot row; remove only its spacer to fit larger cells.
-    if(large)val=String(val).replace(/\s+([VTC])$/,'$1');
+    if(large)val=String(val).replace(/\s+(V|T|C|KM)$/,'$1');
+    const compactJourney=airportText&&(label==='REMAINING'||label==='DRIVE TIME');
+    if(airportText&&label==='DRIVE TIME')val=String(val).replace(/H\s+(?=\d+M$)/,'H');
     text(label,x+9,17,10,C.muted);
     const brake=airportText&&label==='BRAKE';
-    text(val,x+9,large?51:45,brake?24:21,color,'bold',w-(brake?9:18),raw&&val!=='N/A',scroll,LED_FIELD_CELLS[label]||0,large?4:0);
+    text(val,x+9,large?51:45,brake?24:21,color,'bold',w-(brake?9:compactJourney?12:18),raw&&val!=='N/A',scroll,LED_FIELD_CELLS[label]||0,large?4:0);
   };
   const edge=(x,color,reverse=false,width=18)=>{
     const m=/^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(color),clear=m?`rgba(${parseInt(m[1],16)},${parseInt(m[2],16)},${parseInt(m[3],16)},0)`:'rgba(0,0,0,0)';
@@ -237,7 +239,7 @@ function render(v,cfg,now=v.now||0){
     }else if(v.panel==='job_distance'){
       const planned=value(p,'job.planned.distance.km'),remaining=value(p,'truck.navigation.distance');
       metric('PLANNED',planned==null?'N/A':`${fmt(planned,0)} KM`,875,145,C.cyan);metric('REMAINING',remaining==null?'N/A':`${fmt(remaining/1000,1)} KM`,1020,155,C.amber);
-      metric('PICKUP',value(p,'job.source.company')||'N/A',1175,145,C.white,true);metric('DELIVERY',value(p,'job.destination.company')||'N/A',1320,130,C.green,true);
+      metric('PICKUP',value(p,'job.source.company')||'N/A',1175,145,C.white,true,true);metric('DELIVERY',value(p,'job.destination.company')||'N/A',1320,130,C.green,true,true);
     }else if(v.panel==='trailer_status'){
       const attached=yes(p,'trailer.connected'),mass=value(p,'job.cargo.mass'),axle=value(p,'truck.trailer.lift_axle.indicator');
       metric('TRAILER',attached?'CONNECTED':'NOT CONNECTED',875,170,attached?C.green:C.muted);metric('CARGO',value(p,'job.cargo')||'N/A',1045,170,C.amber,true);
@@ -255,7 +257,11 @@ function render(v,cfg,now=v.now||0){
       const brakeX=airportText?1021:1035,airX=airportText?1200:1194,airWidth=airportText?125:155;
       metric('BRAKE TEMP C',`${fmt(value(p,'truck.brake.temperature'))}${airportText?'°C':''}`,875,airportText?136:160,C.amber);metric('BRAKE',yes(p,'truck.brake.parking')?'PARKED':effective==null?'N/A':effective>.05?'APPLIED':'RELEASED',brakeX,150,C.cyan);
       text('AIR PSI',airX,17,10,C.muted);
-      text(pressure==null?'N/A':`${fmt(pressure)}${airportText?' ':'  '}${fmt(airPct*100)}%`,airX,airportText?45:39,18,C.white,'bold',airWidth,false,false,airportText?7:9,airportText?3:0);
+      if(airportText){
+        // Keep both values on one 3px-pitch row, including 100%, without a full blank character cell.
+        text(pressure==null?'N/A':fmt(pressure),airX,45,21,C.white,'bold',51,false,false,3,3,'right');
+        if(pressure!=null)text(`${fmt(airPct*100)}%`,airX+57,45,21,C.white,'bold',69,false,false,4,3,'right');
+      }else text(pressure==null?'N/A':`${fmt(pressure)}  ${fmt(airPct*100)}%`,airX,39,18,C.white,'bold',airWidth,false,false,9);
       bar(airX,airportText?51:45,airportText?125:145,airPct,pressure!=null&&yes(p,'truck.brake.air.pressure.warning')?C.red:C.cyan);
       const parkingBrake=value(p,'truck.brake.parking');
       metric('PARK BRAKE',parkingBrake==null?'N/A':parkingBrake?'ON':'OFF',airportText?1326:1345,airportText?124:105,parkingBrake?C.amber:C.cyan);

@@ -53,7 +53,7 @@ test('nominal digit reservations do not truncate negative temperatures or four-d
 test('status and direct numeric text calls carry their own reservations and bounded average field',()=>{
  const cfg=settings({textStyle:'airport_led',dashboardLanguage:'en'}),brake=recorded(view('systems_brake'),cfg);
  assert.equal(brake.at(1030).minCells,8);assert.equal(brake.at(1030).plan.text,'RELEASED');
- assert.equal(brake.at(1335).plan.cells,3);assert.equal(brake.at(1200).minCells,7);
+ assert.equal(brake.at(1335).plan.cells,3);assert.equal(brake.at(1200).minCells,3);assert.equal(brake.at(1257).minCells,4);
  const fuelView=view('fuel');fuelView.consumptionL100=32.5;
  const fuel=recorded(fuelView,cfg);
  for(const [x,cells]of [[941,4],[1253,4],[884,7],[1200,6],[1020,9],[1335,6]])assert.equal(fuel.at(x).minCells,cells,`field ${x}`);
@@ -202,4 +202,111 @@ test('Chinese and Cyrillic font fallback scrolls left at the selected speed and 
   }
   assert.deepEqual(positions('北京',mode,200,elapsed),[884]);
  }
+});
+
+test('long pickup and delivery companies keep their complete names and scroll left at the selected speed',()=>{
+ const v=view('job_distance'),companies=[
+  {key:'job.source.company',name:'TRANSINET INTERNATIONAL LOGISTICS',x:1184,maxWidth:127},
+  {key:'job.destination.company',name:'EUROGOODIES DISTRIBUTION CENTRE',x:1329,maxWidth:112}
+ ];
+ for(const company of companies)v.p.values[company.key]=company.name;
+ for(const ledScrollMode of ['restart','loop_left'])for(const ledScrollSpeed of [50,100,200]){
+  const elapsed=(ledScrollMode==='restart'?900:0)+480;
+  const cfg=settings({textStyle:'airport_led',ledScrollMode,ledScrollSpeed,dashboardLanguage:'en'});
+  const result=recorded({...v,panelElapsedMs:elapsed},cfg,elapsed);
+  for(const company of companies){
+   const call=result.at(company.x);assert.ok(call,company.key);
+   assert.equal(call.label,company.name);assert.equal(call.plan.text,company.name);
+   assert.equal(call.plan.truncated,false);assert.equal(call.plan.scrolling,true);
+   assert.equal(call.maxWidth,company.maxWidth);assert.ok(call.plan.width<=company.maxWidth);
+   assert.equal(call.plan.offset,4*ledScrollSpeed/100,`${company.key}/${ledScrollMode}/${ledScrollSpeed}`);
+  }
+ }
+ const cfg=settings({textStyle:'airport_led',ledScrollMode:'loop_left',dashboardLanguage:'en'});
+ const first=recorded(v,cfg,0),next=recorded({...v,panelElapsedMs:120},cfg,120);
+ for(const company of companies){
+  const call=first.at(company.x),x=Math.round(call.x),y=Math.round(call.y),{width,height}=call.plan;
+  assert.deepEqual(pixels(next.canvas,x,y,width-call.pitch,height),pixels(first.canvas,x+call.pitch,y,width-call.pitch,height),`${company.key} moves left one LED column`);
+  const wrapped=recorded(v,cfg,(company.name.length*6+12)*120);
+  assert.deepEqual(pixels(wrapped.canvas,x,y,width,height),pixels(first.canvas,x,y,width,height),`${company.key} loops without losing the end of its name`);
+ }
+});
+
+test('Chinese company fallback scrolls complete names left and short names remain stationary',()=>{
+ const proto=Object.getPrototypeOf(createCanvas(1,1).getContext('2d')),original=proto.fillText;
+ const fields=[{key:'job.source.company',name:'中国国际物流运输有限公司',x:1184},{key:'job.destination.company',name:'上海国际货物配送服务有限公司',x:1329}];
+ function positions(names,mode,speed,elapsed){
+  const v=view('job_distance'),calls=[];
+  fields.forEach((field,i)=>{v.p.values[field.key]=names[i];});
+  try{
+   proto.fillText=function(label,x,...args){if(names.includes(String(label)))calls.push({label:String(label),x});return original.call(this,label,x,...args);};
+   render({...v,panelElapsedMs:elapsed},settings({textStyle:'airport_led',ledScrollMode:mode,ledScrollSpeed:speed,dashboardLanguage:'en'}),elapsed);
+  }finally{proto.fillText=original;}
+  return calls;
+ }
+ for(const mode of ['restart','loop_left'])for(const speed of [50,100,200]){
+  const elapsed=(mode==='restart'?900:0)+90,calls=positions(fields.map(field=>field.name),mode,speed,elapsed);
+  for(const field of fields)assert.equal(calls.find(call=>call.label===field.name)?.x,field.x-2*speed/100,`${field.key}/${mode}/${speed}`);
+  assert.deepEqual(positions(['中运','沪运'],mode,speed,elapsed),[{label:'中运',x:1184},{label:'沪运',x:1329}]);
+ }
+});
+
+test('short LED companies stay still and standard company text retains its original fitted rendering',()=>{
+ const v=view('job_distance');v.p.values['job.source.company']='CAT';v.p.values['job.destination.company']='EURO';
+ for(const ledScrollMode of ['restart','loop_left']){
+  const cfg=settings({textStyle:'airport_led',ledScrollMode,ledScrollSpeed:200,dashboardLanguage:'en'});
+  const first=recorded(v,cfg,0),later=recorded({...v,panelElapsedMs:3000},cfg,3000);
+  for(const x of [1184,1329]){
+   const call=later.at(x);assert.equal(call.plan.scrolling,false);assert.equal(call.plan.offset,0);
+   assert.deepEqual(pixels(later.canvas,x,Math.round(call.y),call.plan.width,call.plan.height),pixels(first.canvas,x,Math.round(call.y),call.plan.width,call.plan.height));
+  }
+ }
+ const proto=Object.getPrototypeOf(createCanvas(1,1).getContext('2d')),original=proto.fillText;
+ for(const names of [['TRANSINET INTERNATIONAL LOGISTICS','EUROGOODIES DISTRIBUTION CENTRE'],['中国国际物流运输有限公司','上海国际货物配送服务有限公司']]){
+  v.p.values['job.source.company']=names[0];v.p.values['job.destination.company']=names[1];
+  for(const elapsed of [0,3000]){
+   const calls=[];
+   try{
+    proto.fillText=function(label,x,y,maxWidth){if(names.includes(String(label)))calls.push({label:String(label),x,maxWidth});return original.call(this,label,x,y,maxWidth);};
+    render({...v,panelElapsedMs:elapsed},settings({textStyle:'standard',ledScrollMode:'loop_left',ledScrollSpeed:200,dashboardLanguage:'en'}),elapsed);
+   }finally{proto.fillText=original;}
+   assert.deepEqual(calls,[{label:names[0],x:1184,maxWidth:127},{label:names[1],x:1329,maxWidth:112}]);
+  }
+ }
+});
+
+test('remaining distance uses the largest fitting LED pitch without losing digits or changing standard text',()=>{
+ const cfg=settings({textStyle:'airport_led',dashboardLanguage:'en'}),v=view('job_distance');
+ for(const [km,label,pitch]of [[128.4,'128.4KM',3],[0.5,'0.5KM',4],[1000,'1000.0KM',3],[12345.6,'12345.6KM',2]]){
+  v.p.values['truck.navigation.distance']=km*1000;
+  const call=recorded(v,cfg).at(1029);assert.ok(call);
+  assert.equal(call.label,label);assert.equal(call.plan.text,label);assert.equal(call.pitch,pitch);
+  assert.equal(call.plan.truncated,false);assert.equal(call.plan.scrolling,false);
+  assert.equal(call.maxWidth,143);assert.ok(call.plan.width<=143,'complete value stays in its original column');
+ }
+ const proto=Object.getPrototypeOf(createCanvas(1,1).getContext('2d')),original=proto.fillText,calls=[];
+ try{
+  proto.fillText=function(label,x,y,maxWidth){if(x===1029&&y===45)calls.push({label:String(label),x,y,maxWidth});return original.call(this,label,x,y,maxWidth);};
+  v.p.values['truck.navigation.distance']=128400;
+  render(v,settings({textStyle:'standard',dashboardLanguage:'en'}));
+ }finally{proto.fillText=original;}
+ assert.deepEqual(calls,[{label:'128.4 KM',x:1029,y:45,maxWidth:137}]);
+});
+
+test('drive time enlarges complete hours and minutes while standard text keeps its spacing and position',()=>{
+ const cfg=settings({textStyle:'airport_led',dashboardLanguage:'en'}),v=view('route');
+ for(const [seconds,label,pitch]of [[6300,'1H45M',4],[38700,'10H45M',3],[362700,'100H45M',3]]){
+  v.p.values['truck.navigation.time']=seconds;
+  const call=recorded(v,cfg).at(1199);assert.ok(call);
+  assert.equal(call.label,label);assert.equal(call.plan.text,label);assert.equal(call.pitch,pitch);
+  assert.equal(call.plan.truncated,false);assert.equal(call.plan.scrolling,false);
+  assert.equal(call.maxWidth,123);assert.ok(call.plan.width<=123,'full time including both units fits before the ETA field');
+ }
+ const proto=Object.getPrototypeOf(createCanvas(1,1).getContext('2d')),original=proto.fillText,calls=[];
+ try{
+  proto.fillText=function(label,x,y,maxWidth){if(x===1199&&y===45)calls.push({label:String(label),x,y,maxWidth});return original.call(this,label,x,y,maxWidth);};
+  v.p.values['truck.navigation.time']=6300;
+  render(v,settings({textStyle:'standard',dashboardLanguage:'en'}));
+ }finally{proto.fillText=original;}
+ assert.deepEqual(calls,[{label:'1H 45M',x:1199,y:45,maxWidth:117}]);
 });

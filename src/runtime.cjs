@@ -139,7 +139,7 @@ function startRuntime(plugin,logger,options={}) {
       rally:rally.status(),lifecycle:{hostConnected,views:[...savedViews].map(([serial,s])=>({serial,uid:s.key.uid,active:sessions.has(serial),uiMode:s.view?.page,section:rally.dash.section})),transitions},
       paused:packet?.paused, input:packet?.input, activeSessions:sessions.size,config:cfg,udpBound:ready,
       host:options.getDiagnostics?.()||null,fonts:require('./fonts.cjs').fontDiagnostics,telemetryText:Object.fromEntries(Object.entries(packet?.values||{}).filter(([k,v])=>typeof v==='string')),lights:Object.fromEntries(Object.entries(packet?.values||{}).filter(([k])=>k.startsWith('truck.light.'))),
-      stats:{...stats},rpm:{sdkLimit:packet?.values?.['rpm.limit']??null,dialMax:cfg.rpmScaleMax||packet?.values?.['rpm.limit']||2500},version:'1.1.1',lastPacketAgeMs:Number.isFinite(received)?Math.round(clock()-received):null});
+      stats:{...stats},rpm:{sdkLimit:packet?.values?.['rpm.limit']??null,dialMax:cfg.rpmScaleMax||packet?.values?.['rpm.limit']||2500},version:'1.1.2',lastPacketAgeMs:Number.isFinite(received)?Math.round(clock()-received):null});
     if(p.action==='status')return options.refreshDiagnostics?options.refreshDiagnostics().then(status):status();
     return {error:'Unknown action'};
   });

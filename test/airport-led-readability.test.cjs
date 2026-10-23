@@ -251,20 +251,43 @@ test('Airport BRAKE has a balanced 10px offset while other columns retain the fu
  }
 });
 
-test('system air-pressure readout uses a larger complete LED row without changing standard layout',()=>{
- for(const textMatrix of matrices)for(const pressure of [118,185]){
+test('system air-pressure and percentage share one large complete LED row without changing standard layout',()=>{
+ for(const textMatrix of matrices)for(const pressure of [118,185,1000]){
   const v=view('systems_brake');v.p.values['truck.brake.air.pressure']=pressure;
-  const percentage=Math.round(pressure/185*100),cfg=settings({textStyle:'airport_led',textMatrix,dashboardLanguage:'en'}),result=recorded(v,cfg);
-  const call=result.at(1200,`${pressure} ${percentage}%`);
-  assert.ok(call);assert.equal(call.pitch,pressure===185?2:3);assert.equal(call.minCells,7);
-  assert.equal(call.y+call.plan.height,45);assert.ok(call.y>=21);assert.equal(call.plan.truncated,false);
-  assert.equal(call.plan.text,`${pressure} ${percentage}%`);assert.ok(call.plan.width<=125);
+  const percentage=Math.min(100,Math.round(pressure/185*100)),cfg=settings({textStyle:'airport_led',textMatrix,dashboardLanguage:'en'}),result=recorded(v,cfg);
+  const value=result.at(1200,String(pressure)),percent=result.at(1257,`${percentage}%`);
+  assert.ok(value);assert.ok(percent);assert.equal(value.pitch,pressure===1000?2:3);assert.equal(percent.pitch,3);
+  assert.equal(value.minCells,3);assert.equal(percent.minCells,4);assert.equal(percent.align,'right');
+  for(const [call,label]of [[value,String(pressure)],[percent,`${percentage}%`]]){
+   assert.equal(call.y+call.plan.height,45);assert.ok(call.y>=21);assert.equal(call.plan.truncated,false);
+   assert.equal(call.plan.text,label);assert.equal(call.plan.scrolling,false);assert.ok(call.plan.width<=call.maxWidth);
+  }
+  assert.equal(value.maxWidth,51);assert.equal(percent.maxWidth,69);
+  assert.ok(boardX(value)+value.plan.width<=1251);assert.equal(boardX(percent),1257);
+  assert.ok(boardX(percent)+percent.plan.width<result.at(1335).x,'complete 100% row stops before PARK');
+  if(pressure===185){
+   assert.equal(value.plan.width,51);assert.equal(percent.plan.width,69);
+   assert.equal(boardX(percent)-boardX(value)-value.plan.width,6,'separate digit groups have one narrow gap');
+  }
   assert.ok(result.plainCalls.some(c=>c.label==='AIR PSI'&&c.x===1200&&c.y===17),'pressure unit stays in the aligned heading');
   assert.deepEqual(rgb(result.canvas,1206,51),color(PALETTES.rally.cyan));
   const standard=recorded(v,{...cfg,textStyle:'standard'});
-  assert.ok(standard.plainCalls.some(c=>c.label===`${pressure}  ${percentage}%`&&c.x===1194&&c.y===39));
+  assert.ok(standard.plainCalls.some(c=>c.label===`${pressure}  ${percentage}%`&&c.x===1194&&c.y===39&&c.max===155));
+  assert.equal(standard.dotCalls.length,0);
   assert.deepEqual(rgb(standard.canvas,1200,45),color(PALETTES.rally.cyan));
  }
+});
+
+test('missing air pressure displays one N/A group without inventing a percentage or moving PARK',()=>{
+ const v=view('systems_brake');delete v.p.values['truck.brake.air.pressure'];
+ const cfg=settings({textStyle:'airport_led',dashboardLanguage:'en'}),result=recorded(v,cfg);
+ const pressureCalls=result.dotCalls.filter(call=>call.x>=1200&&call.x<1335);
+ assert.equal(pressureCalls.length,1);assert.equal(pressureCalls[0].x,1200);assert.equal(pressureCalls[0].plan.text,'N/A');
+ assert.equal(pressureCalls[0].plan.truncated,false);assert.equal(result.at(1257),undefined);assert.ok(result.at(1335));
+ const present=view('systems_brake');present.p.values['truck.brake.air.pressure']=185;
+ assert.deepEqual(pixels(result.canvas,1335,0,115,60),pixels(recorded(present,cfg).canvas,1335,0,115,60),'AIR state never paints into PARK');
+ const standard=recorded(v,{...cfg,textStyle:'standard'});
+ assert.ok(standard.plainCalls.some(call=>call.label==='N/A'&&call.x===1194&&call.y===39&&call.max===155));
 });
 
 test('braking overlay air-pressure row retains percentage and PSI together at larger dot pitch',()=>{
