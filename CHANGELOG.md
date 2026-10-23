@@ -1,7 +1,9 @@
 # 1.1.3 — 2026-10-23
 
 - Match the job-information remaining-distance dot size to the default route carousel: fixed 3px pitch with overflow scrolling, preserving alignment and non-LED rendering. / 任务信息剩余距离统一使用默认路线轮询的 3px 点距，超长内容沿用滚动显示，保留现有对齐与非点阵排版。
-- Restore the original text baseline for the Chinese unavailable cargo-mass label while preserving numeric LED placement. / 货物质量显示中文“暂无”时恢复默认文字位置，保留实际质量数字的点阵位置。
+- Align cargo-mass dots with the cargo-name row. The Chinese unavailable label uses its original non-LED text baseline. / 货物质量点阵与货物名称顶部对齐；中文“暂无”使用原默认普通文字位置。
+- Preserve complete cargo names in Dot Matrix LED mode and scroll long names using the existing direction and speed settings. / 点阵 LED 保留完整货物名称，长名称沿用现有方向和速度设置滚动显示。
+- Keep dot rows aligned when values require smaller dots, including job times, trailer states, engine readouts, fuel layouts and motion data. Missing-value text retains its original font baseline. / 修正任务时间、挂车状态、发动机、燃油及运动数据缩小点距后的上下偏移；无数据普通文字保留原基线。
 
 # 1.1.2 — 2026-10-23
 

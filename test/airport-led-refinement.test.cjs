@@ -275,6 +275,53 @@ test('short LED companies stay still and standard company text retains its origi
  }
 });
 
+test('cargo names scroll in full in both panels at the selected speed while short names stay still',()=>{
+ for(const [panel,x]of [['job_overview',884],['trailer_status',1054]]){
+  const v=view(panel);v.p.values['job.cargo']='Medical Vaccines';
+  for(const ledScrollMode of ['restart','loop_left'])for(const ledScrollSpeed of [50,100,200]){
+   const elapsed=(ledScrollMode==='restart'?900:0)+480;
+   const cfg=settings({textStyle:'airport_led',ledScrollMode,ledScrollSpeed,dashboardLanguage:'en'});
+   const call=recorded({...v,panelElapsedMs:elapsed},cfg,elapsed).at(x);assert.ok(call,panel);
+   assert.equal(call.label,'Medical Vaccines');assert.equal(call.plan.text,'MEDICAL VACCINES');
+   assert.equal(call.plan.truncated,false);assert.equal(call.plan.scrolling,true);
+   assert.equal(call.pitch,3);assert.equal(call.y,24);assert.equal(call.maxWidth,152);
+   assert.ok(call.plan.width<=152);assert.equal(call.plan.offset,4*ledScrollSpeed/100,`${panel}/${ledScrollMode}/${ledScrollSpeed}`);
+  }
+  const cfg=settings({textStyle:'airport_led',ledScrollMode:'loop_left',dashboardLanguage:'en'});
+  const first=recorded(v,cfg,0),next=recorded({...v,panelElapsedMs:120},cfg,120),call=first.at(x);
+  assert.deepEqual(pixels(next.canvas,x,call.y,call.plan.width-call.pitch,call.plan.height),pixels(first.canvas,x+call.pitch,call.y,call.plan.width-call.pitch,call.plan.height),'cargo moves left one LED column');
+  const wrapped=recorded(v,cfg,('MEDICAL VACCINES'.length*6+12)*120);
+  assert.deepEqual(pixels(wrapped.canvas,x,call.y,call.plan.width,call.plan.height),pixels(first.canvas,x,call.y,call.plan.width,call.plan.height));
+  v.p.values['job.cargo']='FOOD';
+  const short=recorded(v,cfg,0),later=recorded({...v,panelElapsedMs:3000},cfg,3000),shortCall=later.at(x);
+  assert.equal(shortCall.plan.scrolling,false);assert.equal(shortCall.plan.offset,0);
+  assert.deepEqual(pixels(later.canvas,x,shortCall.y,shortCall.plan.width,shortCall.plan.height),pixels(short.canvas,x,shortCall.y,shortCall.plan.width,shortCall.plan.height));
+ }
+});
+
+test('Chinese cargo fallback scrolls complete long names only in LED mode and preserves standard fitted text',()=>{
+ const proto=Object.getPrototypeOf(createCanvas(1,1).getContext('2d')),original=proto.fillText;
+ function positions(panel,name,textStyle,mode,speed,elapsed){
+  const v=view(panel),calls=[];v.p.values['job.cargo']=name;
+  try{
+   proto.fillText=function(label,x,y,maxWidth){if(String(label)===name)calls.push({label:String(label),x,y,maxWidth});return original.call(this,label,x,y,maxWidth);};
+   render({...v,panelElapsedMs:elapsed},settings({textStyle,ledScrollMode:mode,ledScrollSpeed:speed,dashboardLanguage:'en'}),elapsed);
+  }finally{proto.fillText=original;}
+  return calls;
+ }
+ for(const [panel,x]of [['job_overview',884],['trailer_status',1054]]){
+  const name='需要冷链运输的医疗疫苗货物';
+  for(const mode of ['restart','loop_left'])for(const speed of [50,100,200]){
+   const elapsed=(mode==='restart'?900:0)+90,calls=positions(panel,name,'airport_led',mode,speed,elapsed);
+   assert.equal(calls[0]?.label,name);assert.equal(calls[0]?.x,x-2*speed/100,`${panel}/${mode}/${speed}`);
+   assert.equal(calls[0]?.y,45);
+   assert.deepEqual(positions(panel,'疫苗','airport_led',mode,speed,elapsed),[{label:'疫苗',x,y:45,maxWidth:152}]);
+  }
+  for(const standardName of ['Medical Vaccines',name])for(const elapsed of [0,3000])
+   assert.deepEqual(positions(panel,standardName,'standard','loop_left',200,elapsed),[{label:standardName,x,y:45,maxWidth:152}]);
+ }
+});
+
 test('remaining distance matches default route dot size and scrolls long values without changing its field or standard text',()=>{
  const v=view('job_distance');
  for(const theme of ['rally','el_mint','el_amber'])for(const ledScrollMode of ['restart','loop_left']){

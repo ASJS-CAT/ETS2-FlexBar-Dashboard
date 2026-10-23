@@ -132,7 +132,7 @@ test('single-fit fuel rows retain complete values and units while adapting pitch
   for(const [left,right,expectedPitch]of [[884,1010,pitch],[1200,1322,2]]){
    const call=readout(result,label,left,right);assert.ok(call,label);assert.equal(call.pitch,expectedPitch);assert.equal(call.plan.scrolling,scrolling);
    assert.equal(call.plan.text.trim(),label);assert.equal(call.plan.truncated,false);assert.equal(call.plan.rows,7);
-   assert.ok(call.y>=18&&call.y+call.plan.height<57,'single readout remains between caption and bar');
+   assert.equal(call.y,24);assert.ok(call.y+call.plan.height<51,'single readout remains between caption and bar');
   }
  }
 });
@@ -160,20 +160,21 @@ test('selected engine and brake values use larger LED rows while captions keep t
   const cfg=settings({textStyle:'airport_led',textMatrix,dashboardLanguage:'en'}),engine=recorded(view('systems_engine'),cfg);
   for(const [x,label,pitch]of [[884,'52PSI',3],[1029,'94°C',4],[1164,'86°C',4],[1319,'28.2V',4]]){
    const call=engine.at(x,label);assert.ok(call,label);assert.equal(call.pitch,pitch);
-   assert.equal(call.y+call.plan.height,51);assert.ok(call.y>=19,'dot row remains below caption baseline 17');
+   assert.equal(call.y,24);assert.equal(call.y+call.plan.height,24+pitch*7,'dot row remains below caption baseline 17');
    assert.ok(call.plan.width<=call.maxWidth);assert.equal(call.plan.truncated,false);
   }
   assert.ok(engine.plainCalls.filter(c=>['OIL PSI','OIL C','COOLANT C','BATTERY'].includes(c.label)).every(c=>c.y===17));
   const brake=recorded(view('systems_brake'),cfg),temp=brake.at(884,'210°C');
-  assert.equal(temp.pitch,4);assert.equal(temp.plan.height,28);assert.equal(temp.y+temp.plan.height,51);
+  assert.equal(temp.pitch,4);assert.equal(temp.plan.height,28);assert.equal(temp.y,24);assert.equal(temp.y+temp.plan.height,52);
   const cargo=recorded(view('trailer_status'),cfg),mass=cargo.at(1224,'18.0T');
-  assert.ok(mass);assert.equal(mass.pitch,3);assert.equal(mass.y+mass.plan.height,51);
+  assert.ok(mass);assert.equal(mass.pitch,3);assert.equal(mass.y,24);assert.equal(mass.y+mass.plan.height,45);
+  assert.equal(mass.y,cargo.at(1054).y,'cargo name and mass share the same dot-board top');
   assert.equal(mass.plan.truncated,false);assert.ok(mass.plan.width<=112);
   assert.ok(![...engine.plainCalls,...cargo.plainCalls].some(c=>['V','T'].includes(c.label)),'units remain part of the LED string');
  }
 });
 
-test('Chinese missing cargo mass keeps the original text baseline while actual mass retains its larger LED row',()=>{
+test('Chinese missing cargo mass keeps the original text baseline while actual mass aligns its LED row with cargo',()=>{
  const cfg=settings({textStyle:'airport_led',dashboardLanguage:'zh'}),missing=view('trailer_status');
  delete missing.p.values['job.cargo.mass'];
  const result=recorded(missing,cfg),fallback=result.plainCalls.find(call=>call.label==='暂无'&&call.x===1224);
@@ -181,12 +182,89 @@ test('Chinese missing cargo mass keeps the original text baseline while actual m
  assert.equal(result.at(1224),undefined,'unsupported Chinese text is never forced into dot glyphs');
  const standardMissing=recorded(missing,{...cfg,textStyle:'standard'});
  assert.deepEqual(fallback,standardMissing.plainCalls.find(call=>call.label==='暂无'&&call.x===1224));
- const actual=view('trailer_status'),mass=recorded(actual,cfg).at(1224,'18.0T');
- assert.ok(mass);assert.equal(mass.pitch,3);assert.equal(mass.y+mass.plan.height,51);assert.equal(mass.plan.truncated,false);
+ const actual=view('trailer_status'),actualResult=recorded(actual,cfg),mass=actualResult.at(1224,'18.0T');
+ assert.ok(mass);assert.equal(mass.pitch,3);assert.equal(mass.y,24);assert.equal(mass.y+mass.plan.height,45);assert.equal(mass.plan.truncated,false);
+ assert.equal(mass.y,actualResult.at(1054).y,'mass top follows the cargo dot row without moving either column');
  const standardActual=recorded(actual,{...cfg,textStyle:'standard'});
  assert.ok(standardActual.plainCalls.some(call=>call.label==='18.0 T'&&call.x===1224&&call.y===45&&call.max===112));
  const english=recorded(missing,{...cfg,dashboardLanguage:'en'}).at(1224,'N/A');
- assert.ok(english);assert.equal(english.y+english.plan.height,51,'supported English placeholder keeps the existing dot row');
+ assert.ok(english);assert.equal(english.y,24);assert.equal(english.y+english.plan.height,45,'supported English placeholder uses the aligned dot row');
+});
+
+test('Chinese missing battery voltage keeps the standard baseline and font instead of the large LED baseline',()=>{
+ const v=view('systems_engine');delete v.p.values['truck.battery.voltage'];
+ const cfg=settings({textStyle:'airport_led',dashboardLanguage:'zh'}),result=recorded(v,cfg);
+ const fallback=result.plainCalls.find(call=>call.x===1319&&call.label==='暂无');
+ assert.ok(fallback);assert.equal(fallback.y,45);assert.equal(fallback.max,122);assert.match(fallback.font,/\b21px\b/);
+ assert.equal(result.at(1319),undefined);
+ const standard=recorded(v,{...cfg,textStyle:'standard'});
+ assert.deepEqual(fallback,standard.plainCalls.find(call=>call.x===1319&&call.label==='暂无'));
+ for(const page of ['braking','brake']){
+  const missing={...view(),page,brakeForce:.5};delete missing.p.values['truck.brake.temperature'];
+  const result=recorded(missing,cfg),standard=recorded(missing,{...cfg,textStyle:'standard'});
+  const temperature=result.plainCalls.find(call=>call.label==='暂无'&&call.y===45);
+  assert.ok(temperature);assert.deepEqual(temperature,standard.plainCalls.find(call=>call.x===temperature.x&&call.label==='暂无'));
+ }
+});
+
+test('single-row metric boards share y24 across panels and adapt pitch before scrolling extreme numbers',()=>{
+ const cfg=settings({textStyle:'airport_led',dashboardLanguage:'en'}),panels=[
+  ['systems_engine',[884,1029,1164,1319]],['systems_brake',[884,1030,1335]],
+  ['route',[884,1054,1199,1334]],['job_overview',[884,1054,1189]],
+  ['job_timing',[884,1029,1174,1329]],['job_distance',[884,1029,1184,1329]],
+  ['trailer_status',[884,1054,1224,1354]],['trailer_damage',[884,1029,1174,1329]]
+ ];
+ for(const [panel,xs]of panels){
+  const result=recorded({...view(panel),panelElapsedMs:2100},cfg,2100);
+  for(const x of xs){const call=result.at(x);assert.ok(call,`${panel}/${x}`);assert.equal(call.y,24,`${panel}/${x}`);assert.ok(call.y+call.plan.height<=52);}
+ }
+ const v=view('systems_engine');
+ for(const [temperature,pitch,scrolling]of [[94,4,false],[1000,3,false],[-1234,2,false],[123456789012,2,true]]){
+  v.p.values['truck.oil.temperature']=temperature;
+  const result=recorded({...v,panelElapsedMs:2100},cfg,2100),call=result.at(1029);
+  assert.ok(call);assert.equal(call.plan.text,`${temperature}°C`);assert.equal(call.plan.truncated,false);
+  assert.equal(call.pitch,pitch);assert.equal(call.y,24);assert.equal(call.plan.height,pitch*7);
+  assert.equal(call.plan.scrolling,scrolling);
+  assert.ok(!result.plainCalls.some(plain=>plain.x===1029&&plain.y===45),'supported values do not fall back to squeezed normal text');
+  if(scrolling)assert.ok(call.plan.offset>0);
+ }
+});
+
+test('job timing keeps complete 3px dot values and scrolls long times with existing mode and speed',()=>{
+ const fields=[[884,'D11 02:00'],[1029,'D80 12:40'],[1174,'1666H 40M']];
+ for(const ledScrollMode of ['restart','loop_left'])for(const ledScrollSpeed of [50,100,200]){
+  const v=view('job_timing');v.p.values['job.delivery.time']=114520;
+  const elapsed=(ledScrollMode==='restart'?900:0)+480,cfg=settings({textStyle:'airport_led',ledScrollMode,ledScrollSpeed,dashboardLanguage:'en'});
+  const result=recorded({...v,panelElapsedMs:elapsed},cfg,elapsed);
+  for(const [x,label]of fields){
+   const call=result.at(x);assert.ok(call);assert.equal(call.plan.text,label);assert.equal(call.pitch,3);assert.equal(call.y,24);
+   assert.equal(call.plan.truncated,false);assert.equal(call.plan.scrolling,true);assert.equal(call.plan.offset,4*ledScrollSpeed/100);
+  }
+  const standard=recorded({...v,panelElapsedMs:elapsed},{...cfg,textStyle:'standard'},elapsed);
+  for(const [x,label]of fields)assert.ok(standard.plainCalls.some(call=>call.x===x&&call.y===45&&call.label===label));
+  v.p.values['game.time']=214520;
+  const late=recorded({...v,panelElapsedMs:elapsed},cfg,elapsed).at(1174);
+  assert.equal(late.plan.text,'LATE 1666H 40M');assert.equal(late.pitch,3);assert.equal(late.plan.truncated,false);assert.equal(late.plan.scrolling,true);
+ }
+ const short=recorded(view('job_timing'),settings({textStyle:'airport_led',dashboardLanguage:'en'})).at(1174);
+ assert.equal(short.plan.text,'7H 0M');assert.equal(short.pitch,3);assert.equal(short.plan.scrolling,false);
+});
+
+test('long trailer states scroll inside their reserved boards without truncation or normal-font compression',()=>{
+ for(const ledScrollMode of ['restart','loop_left']){
+  const v=view('trailer_status');v.p.values['truck.trailer.lift_axle.indicator']=1;
+  const elapsed=2100,cfg=settings({textStyle:'airport_led',ledScrollMode,dashboardLanguage:'en'});
+  const result=recorded({...v,panelElapsedMs:elapsed},cfg,elapsed),trailer=result.at(884),axle=result.at(1354);
+  assert.equal(trailer.plan.text,'NOT CONNECTED');assert.equal(trailer.minCells,13);assert.equal(trailer.pitch,2);
+  assert.equal(trailer.plan.truncated,false);assert.equal(trailer.plan.scrolling,true);assert.ok(trailer.plan.offset>0);
+  assert.equal(axle.plan.text,'LIFTED');assert.equal(axle.minCells,6);assert.equal(axle.pitch,2);assert.equal(axle.scroll,true);
+  assert.equal(axle.plan.truncated,false);assert.equal(axle.plan.scrolling,false);
+  for(const call of [trailer,axle]){assert.equal(call.y,24);assert.ok(call.plan.width<=call.maxWidth);}
+  assert.ok(!result.plainCalls.some(call=>['NOT CONNECTED','LIFTED'].includes(call.label)));
+  const standard=recorded({...v,panelElapsedMs:elapsed},{...cfg,textStyle:'standard'},elapsed);
+  assert.ok(standard.plainCalls.some(call=>call.label==='NOT CONNECTED'&&call.x===884&&call.y===45&&call.max===152));
+  assert.ok(standard.plainCalls.some(call=>call.label==='LIFTED'&&call.x===1354&&call.y===45&&call.max===87));
+ }
 });
 
 test('engine pressure and temperatures retain complete PSI and Celsius units without changing standard values',()=>{
@@ -210,7 +288,7 @@ test('brake temperature includes the Celsius unit in the dot row for both UI lan
   assert.ok(call,`${dashboardLanguage}/${label}`);assert.equal(call.plan.text,label);assert.equal(call.plan.truncated,false);
   assert.equal(call.minCells,5);assert.equal(call.plan.cells,Math.max(5,label.length));
   assert.equal(call.pitch,temperature===1000?3:4);assert.equal(call.plan.height,temperature===1000?21:28);
-  assert.equal(call.y+call.plan.height,51);assert.ok(call.plan.width<=118);assert.ok(call.x+call.plan.width<1030);
+  assert.equal(call.y,24);assert.equal(call.y+call.plan.height,24+call.pitch*7);assert.ok(call.plan.width<=118);assert.ok(call.x+call.plan.width<1030);
   assert.ok(!result.plainCalls.some(c=>['°C','C','℃',label].includes(c.label)),'number and Celsius glyphs are drawn as one LED string');
   const standard=recorded(v,{...cfg,textStyle:'standard'});
   assert.ok(standard.plainCalls.some(c=>c.label===String(temperature)&&c.x===884&&c.y===45),'standard temperature keeps its original text and coordinates');
@@ -275,10 +353,44 @@ test('larger litre values reduce dot pitch instead of dropping digits or units',
   for(const [x,label]of [[884,'10000.0L'],[1200,'1000.0L']]){
    const call=result.at(x,label);assert.ok(call);assert.equal(call.pitch,2);
    assert.equal(call.plan.text,label);assert.equal(call.plan.truncated,false);assert.equal(call.plan.cells,label.length);
-   assert.ok(call.plan.width<=call.maxWidth);assert.equal(call.y+call.plan.height,55);
+   assert.ok(call.plan.width<=call.maxWidth);assert.equal(call.y,34);assert.equal(call.y+call.plan.height,48);
   }
   assert.ok(!result.plainCalls.some(c=>c.label.endsWith('L')&&c.y===55),'long quantities still use dot glyphs');
  }
+});
+
+test('fuel boards keep their row tops when long values change dot pitch in all three layouts',()=>{
+ for(const airportFuelLayout of ['double_large','single_fit','single_scroll'])for(const litres of [390,10000]){
+  const v={...view(),consumptionL100:100.1};
+  Object.assign(v.p.values,{'truck.fuel.amount':litres,'truck.adblue':litres,'adblue.capacity':litres/0.65,'truck.fuel.range':123456});
+  const cfg=settings({textStyle:'airport_led',airportFuelLayout,dashboardLanguage:'en'}),result=recorded(v,cfg);
+  const tops=airportFuelLayout==='double_large'?[[941,9],[1253,9],[884,34],[1020,34],[1200,34],[1335,24]]:[[884,24],[1020,24],[1200,24],[1335,24]];
+  for(const [x,top]of tops){
+   const call=result.at(x);assert.ok(call,`${airportFuelLayout}/${litres}/${x}`);assert.equal(call.y,top);assert.equal(call.plan.truncated,false);
+   assert.ok(call.plan.width<=call.maxWidth);assert.equal(call.align,airportFuelLayout==='double_large'?'right':'left');
+  }
+  if(airportFuelLayout==='double_large')assert.equal(result.at(1020).pitch,2,'100.1L/100 keeps its full value on the lower row');
+  const missing=recorded({...v,consumptionL100:null},cfg);
+  assert.ok(missing.plainCalls.some(call=>call.label==='CALCULATING'&&call.x===1020&&call.y===(airportFuelLayout==='double_large'?55:45)),'ordinary calculating caption keeps its existing baseline');
+ }
+});
+
+test('motion vector and G dot rows align with angles while ordinary text and unit baselines stay unchanged',()=>{
+ const cfg=settings({textStyle:'airport_led',dashboardLanguage:'en'});
+ for(const values of [[null,null,null],[.12,-1.23,2.34]]){
+  const v={...view(),page:'motion',gForce:{current:.27,peak:12.34}};
+  for(const key of ['truck.local.velocity.linear','truck.local.acceleration.linear'])
+   ['x','y','z'].forEach((axis,i)=>{if(values[i]!=null)v.p.values[`${key}.${axis}`]=values[i];});
+  const result=recorded(v,cfg);
+  for(const x of [884,1049,1214,1379,1649,1774,2044]){
+   const call=result.at(x);assert.ok(call,`${values}/${x}`);assert.equal(call.y,24);assert.ok(call.y+call.plan.height<=45);
+  }
+  for(const label of ['M/S','M/S²'])assert.ok(result.plainCalls.some(call=>call.label===label&&call.y===56));
+  const standard=recorded(v,{...cfg,textStyle:'standard'});
+  for(const x of [1379,1649,1774,2044])assert.ok(standard.plainCalls.some(call=>call.x===x&&call.y===43));
+ }
+ const missing={...view(),page:'motion',gForce:null},zh=recorded(missing,{...cfg,dashboardLanguage:'zh'});
+ for(const x of [1649,2044])assert.ok(zh.plainCalls.some(call=>call.x===x&&call.label==='暂无'&&call.y===43));
 });
 
 test('standard text retains original fuel labels, readout coordinates and bar pixels',()=>{
@@ -410,7 +522,7 @@ test('braking overlay air-pressure row retains percentage and PSI together at la
   const label=`${percentage}%/${pressure}PSI`,call=result.at(1065,label);
   assert.ok(call);assert.equal(call.pitch,3);assert.equal(call.minCells,10);
   assert.equal(call.plan.text,label);assert.equal(call.plan.truncated,false);assert.ok(call.plan.width<=215);
-  assert.equal(call.y+call.plan.height,43);assert.ok(call.y>=19,'dot row stays below AIR heading');
+  assert.equal(call.y,24);assert.equal(call.y+call.plan.height,45,'dot row stays below AIR heading and above bar');
   assert.deepEqual(rgb(result.canvas,1070,48),color(PALETTES.rally.cyan));
   assert.ok(!result.plainCalls.some(c=>c.label==='PSI'),'PSI is part of the complete LED string');
   const standard=recorded(v,{...cfg,textStyle:'standard'});
