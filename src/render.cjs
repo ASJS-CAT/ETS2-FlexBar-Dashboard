@@ -18,7 +18,7 @@ const LED_FIELD_CELLS=Object.freeze({
   'CARGO DAMAGE':6,'BODY WEAR':6,'CHASSIS WEAR':6,'WHEEL WEAR':6,'CARGO MASS':6,
   'HEADING':6,'PITCH':7,'ROLL':7
 });
-const LED_LARGE_FIELDS=new Set(['OIL PSI','OIL C','COOLANT C','BRAKE TEMP C','TEMP','BATTERY','CARGO MASS','REMAINING']);
+const LED_LARGE_FIELDS=new Set(['OIL PSI','OIL C','COOLANT C','BRAKE TEMP C','TEMP','BATTERY','CARGO MASS']);
 function render(v,cfg,now=v.now||0){
   const translate=displayTranslator(dashboardLanguage(cfg));
   const el=cfg.theme==='el_mint'||cfg.theme==='el_amber',C=PALETTES[cfg.theme]||PALETTES.rally;
@@ -73,13 +73,15 @@ function render(v,cfg,now=v.now||0){
     if(airportText&&label==='OIL PSI')val=`${val}PSI`;
     if(airportText&&(label==='OIL C'||label==='COOLANT C'))val=`${val}°C`;
     // Keep the unit in the same dot row; remove only its spacer to fit larger cells.
-    if(large)val=String(val).replace(/\s+(V|T|C|KM)$/,'$1');
+    if(large||airportText&&label==='REMAINING')val=String(val).replace(/\s+(V|T|C|KM)$/,'$1');
     const driveTime=airportText&&label==='DRIVE TIME',compactJourney=airportText&&label==='REMAINING'||driveTime;
     if(driveTime)val=String(val).replace(/H\s+(?=\d+M$)/,'H');
     text(label,x+9,17,10,C.muted);
     const brake=airportText&&label==='BRAKE';
     const ledTop=airportText&&(label==='DRIVE TIME'||v.panel==='job_distance'&&['PLANNED','REMAINING','PICKUP','DELIVERY'].includes(label))?24:null;
-    text(val,x+9,large?51:45,brake?24:21,color,'bold',w-(brake?9:compactJourney?12:18),raw&&val!=='N/A',scroll||driveTime,LED_FIELD_CELLS[label]||0,driveTime?3:large?4:0,'left',[],ledTop);
+    // Cargo's translated N/A may need the normal font, which keeps its original baseline.
+    const cargoFallback=airportText&&label==='CARGO MASS'&&!airportLed.layout(translate(val),{pitch:2,maxWidth:w-18});
+    text(val,x+9,large&&!cargoFallback?51:45,brake?24:21,color,'bold',w-(brake?9:compactJourney?12:18),raw&&val!=='N/A',scroll||compactJourney,LED_FIELD_CELLS[label]||0,compactJourney?3:large?4:0,'left',[],ledTop);
   };
   const edge=(x,color,reverse=false,width=18)=>{
     const m=/^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(color),clear=m?`rgba(${parseInt(m[1],16)},${parseInt(m[2],16)},${parseInt(m[3],16)},0)`:'rgba(0,0,0,0)';

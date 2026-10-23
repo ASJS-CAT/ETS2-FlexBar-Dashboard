@@ -173,6 +173,22 @@ test('selected engine and brake values use larger LED rows while captions keep t
  }
 });
 
+test('Chinese missing cargo mass keeps the original text baseline while actual mass retains its larger LED row',()=>{
+ const cfg=settings({textStyle:'airport_led',dashboardLanguage:'zh'}),missing=view('trailer_status');
+ delete missing.p.values['job.cargo.mass'];
+ const result=recorded(missing,cfg),fallback=result.plainCalls.find(call=>call.label==='暂无'&&call.x===1224);
+ assert.ok(fallback);assert.equal(fallback.y,45);assert.equal(fallback.max,112);assert.match(fallback.font,/\b21px\b/);
+ assert.equal(result.at(1224),undefined,'unsupported Chinese text is never forced into dot glyphs');
+ const standardMissing=recorded(missing,{...cfg,textStyle:'standard'});
+ assert.deepEqual(fallback,standardMissing.plainCalls.find(call=>call.label==='暂无'&&call.x===1224));
+ const actual=view('trailer_status'),mass=recorded(actual,cfg).at(1224,'18.0T');
+ assert.ok(mass);assert.equal(mass.pitch,3);assert.equal(mass.y+mass.plan.height,51);assert.equal(mass.plan.truncated,false);
+ const standardActual=recorded(actual,{...cfg,textStyle:'standard'});
+ assert.ok(standardActual.plainCalls.some(call=>call.label==='18.0 T'&&call.x===1224&&call.y===45&&call.max===112));
+ const english=recorded(missing,{...cfg,dashboardLanguage:'en'}).at(1224,'N/A');
+ assert.ok(english);assert.equal(english.y+english.plan.height,51,'supported English placeholder keeps the existing dot row');
+});
+
 test('engine pressure and temperatures retain complete PSI and Celsius units without changing standard values',()=>{
  const fields=[['truck.oil.pressure',884,1029,'PSI'],['truck.oil.temperature',1029,1164,'°C'],['truck.water.temperature',1164,1319,'°C']];
  for(const dashboardLanguage of ['en','zh'])for(const values of [[53,97,93],[1000,-12,-1234],[null,null,null]]){

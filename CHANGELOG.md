@@ -1,3 +1,8 @@
+# 1.1.3 — 2026-10-23
+
+- Match the job-information remaining-distance dot size to the default route carousel: fixed 3px pitch with overflow scrolling, preserving alignment and non-LED rendering. / 任务信息剩余距离统一使用默认路线轮询的 3px 点距，超长内容沿用滚动显示，保留现有对齐与非点阵排版。
+- Restore the original text baseline for the Chinese unavailable cargo-mass label while preserving numeric LED placement. / 货物质量显示中文“暂无”时恢复默认文字位置，保留实际质量数字的点阵位置。
+
 # 1.1.2 — 2026-10-23
 
 - Long pickup and delivery company names scroll without ellipses, using the existing direction and speed settings.

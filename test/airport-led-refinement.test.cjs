@@ -275,15 +275,23 @@ test('short LED companies stay still and standard company text retains its origi
  }
 });
 
-test('remaining distance uses the largest fitting LED pitch without losing digits or changing standard text',()=>{
- const cfg=settings({textStyle:'airport_led',dashboardLanguage:'en'}),v=view('job_distance');
- for(const [km,label,pitch]of [[128.4,'128.4KM',3],[0.5,'0.5KM',4],[1000,'1000.0KM',3],[12345.6,'12345.6KM',2]]){
-  v.p.values['truck.navigation.distance']=km*1000;
-  const call=recorded(v,cfg).at(1029);assert.ok(call);
-  assert.equal(call.label,label);assert.equal(call.plan.text,label);assert.equal(call.pitch,pitch);
-  assert.equal(call.plan.truncated,false);assert.equal(call.plan.scrolling,false);
-  assert.equal(call.maxWidth,143);assert.ok(call.plan.width<=143,'complete value stays in its original column');
-  assert.equal(call.y,24,'remaining readout aligns with PLANNED regardless of pitch');
+test('remaining distance matches default route dot size and scrolls long values without changing its field or standard text',()=>{
+ const v=view('job_distance');
+ for(const theme of ['rally','el_mint','el_amber'])for(const ledScrollMode of ['restart','loop_left']){
+  const cfg=settings({theme,textStyle:'airport_led',ledScrollMode,dashboardLanguage:'en'});
+  for(const [km,label,scrolling]of [[0.5,'0.5KM',false],[128.4,'128.4KM',false],[1000,'1000.0KM',false],[12345.6,'12345.6KM',true]]){
+   v.p.values['truck.navigation.distance']=km*1000;
+   const call=recorded(v,cfg).at(1029),route=recorded({...v,panel:'route'},cfg).at(1054);assert.ok(call);assert.ok(route);
+   assert.equal(call.label,label);assert.equal(call.plan.text,label);assert.equal(call.pitch,3);assert.equal(call.pitch,route.pitch);
+   assert.equal(call.plan.height,21);assert.equal(call.plan.height,route.plan.height);
+   assert.equal(call.plan.truncated,false);assert.equal(call.plan.scrolling,scrolling);
+   assert.equal(call.maxWidth,143);assert.ok(call.plan.width<=143,'complete value stays in its original column');
+   assert.equal(call.y,24,'remaining readout stays aligned with PLANNED');
+   const later=recorded({...v,panelElapsedMs:2100},cfg,2100).at(1029);
+   assert.equal(later.pitch,3);assert.equal(later.plan.text,label);assert.equal(later.scrollMode,ledScrollMode);
+   if(scrolling)assert.ok(later.plan.offset>0,'long distance moves left instead of reducing dot size');
+   else assert.equal(later.plan.offset,0,'short distance stays still without becoming larger');
+  }
  }
  const proto=Object.getPrototypeOf(createCanvas(1,1).getContext('2d')),original=proto.fillText,calls=[];
  try{
