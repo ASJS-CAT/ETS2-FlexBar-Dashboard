@@ -207,6 +207,20 @@ test('Chinese missing battery voltage keeps the standard baseline and font inste
  }
 });
 
+test('all missing braking values keep the exact standard Chinese fallback baselines and font sizes',()=>{
+ const cfg=settings({textStyle:'airport_led',dashboardLanguage:'zh'});
+ for(const page of ['braking','brake']){
+  const v={...view(),page,brakeForce:null};
+  for(const key of ['truck.brake.temperature','truck.brake.air.pressure','truck.brake.retarder'])delete v.p.values[key];
+  const ledResult=recorded(v,cfg),standard=recorded(v,{...cfg,textStyle:'standard'});
+  const missing=ledResult.plainCalls.filter(call=>call.label==='暂无');
+  assert.equal(missing.length,4,'FORCE, TEMP, AIR and RETARDER each show the missing-data text');
+  assert.deepEqual(missing,standard.plainCalls.filter(call=>call.label==='暂无'));
+  assert.deepEqual(missing.map(call=>call.y),[39,45,39,45]);
+  assert.deepEqual(missing.map(call=>Number(/\b(\d+)px\b/.exec(call.font)[1])),[19,21,17,21]);
+ }
+});
+
 test('single-row metric boards share y24 across panels and adapt pitch before scrolling extreme numbers',()=>{
  const cfg=settings({textStyle:'airport_led',dashboardLanguage:'en'}),panels=[
   ['systems_engine',[884,1029,1164,1319]],['systems_brake',[884,1030,1335]],
@@ -508,11 +522,16 @@ test('missing air pressure displays one N/A group without inventing a percentage
  const cfg=settings({textStyle:'airport_led',dashboardLanguage:'en'}),result=recorded(v,cfg);
  const pressureCalls=result.dotCalls.filter(call=>call.x>=1200&&call.x<1335);
  assert.equal(pressureCalls.length,1);assert.equal(pressureCalls[0].x,1200);assert.equal(pressureCalls[0].plan.text,'N/A');
+ assert.equal(pressureCalls[0].y,24,'supported missing-value dot glyphs retain their aligned row');
  assert.equal(pressureCalls[0].plan.truncated,false);assert.equal(result.at(1257),undefined);assert.ok(result.at(1335));
  const present=view('systems_brake');present.p.values['truck.brake.air.pressure']=185;
  assert.deepEqual(pixels(result.canvas,1335,0,115,60),pixels(recorded(present,cfg).canvas,1335,0,115,60),'AIR state never paints into PARK');
  const standard=recorded(v,{...cfg,textStyle:'standard'});
  assert.ok(standard.plainCalls.some(call=>call.label==='N/A'&&call.x===1194&&call.y===39&&call.max===155));
+ const zh=recorded(v,{...cfg,dashboardLanguage:'zh'}),zhStandard=recorded(v,{...cfg,textStyle:'standard',dashboardLanguage:'zh'});
+ const missing=zh.plainCalls.find(call=>call.label==='暂无'&&call.x===1200),original=zhStandard.plainCalls.find(call=>call.label==='暂无'&&call.x===1194);
+ assert.ok(missing);assert.ok(original);assert.equal(missing.y,39);assert.equal(missing.y,original.y);assert.equal(missing.font,original.font);assert.match(missing.font,/\b18px\b/);
+ assert.equal(zh.at(1200),undefined,'unsupported missing-value text uses the existing ordinary font');
 });
 
 test('braking overlay air-pressure row retains percentage and PSI together at larger dot pitch',()=>{

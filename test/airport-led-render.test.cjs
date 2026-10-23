@@ -42,6 +42,23 @@ test('Airport other-text selection leaves speed, gear and RPM pixel-identical',(
  }
 });
 
+test('three explicit LED ranges add only digits, information and then button labels in order',()=>{
+ const v=view();
+ for(const theme of themes){
+  const base=settings({theme,dashboardLanguage:'en'}),standard=render(v,base,0);
+  const frames=Object.fromEntries(['digits','info','all'].map(ledScope=>[ledScope,render(v,settings({...base,ledScope}),0)]));
+  assert.deepEqual(pixels(frames.digits,425,0,1745,60),pixels(standard,425,0,1745,60),'digits-only preserves information, RPM and every button');
+  assert.notDeepEqual(pixels(frames.digits,110,14,315,39),pixels(standard,110,14,315,39));
+  assert.deepEqual(pixels(frames.info,0,0,875,60),pixels(frames.digits,0,0,875,60));
+  assert.notDeepEqual(pixels(frames.info,875,20,575,35),pixels(frames.digits,875,20,575,35));
+  assert.deepEqual(pixels(frames.info,1450,0,720,60),pixels(frames.digits,1450,0,720,60),'middle range retains normal button labels');
+  onlyChangesWithin(frames.info,frames.all,{x:1450,y:38,w:720,h:15},'all range adds dot labels only');
+  const legacy=render(v,settings({...base,digitStyle:'airport_led',textStyle:'airport_led'}),0);
+  assert.deepEqual(pixels(frames.all,0,0,2170,60),pixels(legacy,0,0,2170,60),'old independent all-LED configuration keeps its pixels');
+  for(const ledScope of ['digits','info','all'])assert.deepEqual(pixels(render(v,{...base,ledScope},0),0,0,2170,60),pixels(frames[ledScope],0,0,2170,60),'raw explicit scope matches normalized configuration');
+ }
+});
+
 test('5x7 dots keep speed and 48px reverse/neutral/two-digit gears inside calibrated boxes',()=>{
  const v=view();
  for(const theme of themes)for(const digitMatrix of matrices){
@@ -130,4 +147,34 @@ test('Airport styles preserve critical warning text',()=>{
  const v=view(),cfg=settings({dashboardLanguage:'en'}),airport={...cfg,digitStyle:'airport_led',textStyle:'airport_led'};
  const alert={...v,page:'alert',activeAlert:{id:'air-emergency',text:'AIR EMERGENCY',detail:'AIR 42 PSI / 23%',critical:true}};
  assert.deepEqual(pixels(render(alert,airport,0),425,0,1025,60),pixels(render(alert,cfg,0),425,0,1025,60));
+});
+
+test('offline hides previous, current and fallback controls while keeping diagnostics, but drive and paused still draw controls',()=>{
+ const {createCanvas}=require('@napi-rs/canvas'),led=require('../src/airport-led.cjs');
+ const proto=Object.getPrototypeOf(createCanvas(1,1).getContext('2d')),originalText=proto.fillText,originalDraw=led.draw;
+ const quick={transition:.5,controls:[{id:'horn',label:'HORN',x:1450,w:150,local:true}],previous:[{id:'parking',label:'PARK',x:1600,w:150,local:true}]};
+ const empty={controls:[],previous:[],transition:1};
+ function captured(v,cfg){
+  const labels=[];let picture;
+  try{
+   proto.fillText=function(label,...args){labels.push(String(label));return originalText.call(this,label,...args);};
+   led.draw=(ctx,label,options)=>{const accepted=originalDraw(ctx,label,options);if(accepted)labels.push(String(label));return accepted;};
+   picture=render(v,cfg);
+  }finally{proto.fillText=originalText;led.draw=originalDraw;}
+  return {picture,labels};
+ }
+ for(const theme of themes)for(const textStyle of ['standard','airport_led']){
+  const cfg=settings({theme,textStyle,dashboardLanguage:'en'}),v={...view(),page:'offline',quick};
+  const offline=captured(v,cfg),withoutControls=captured({...v,quick:empty},cfg),fallback=captured({...v,quick:undefined},cfg);
+  assert.ok(offline.labels.includes('CONNECTION DIAGNOSTICS'));
+  assert.ok(offline.labels.includes('FlexDesigner settings / Check connection'));
+  assert.ok(!offline.labels.some(label=>['HORN','PARK'].includes(label)),'neither old nor current control labels remain');
+  assert.deepEqual(pixels(offline.picture,1450,0,720,60),pixels(withoutControls.picture,1450,0,720,60),'no old/current icons or button backgrounds remain');
+  assert.deepEqual(pixels(fallback.picture,1450,0,720,60),pixels(withoutControls.picture,1450,0,720,60),'legacy fallback buttons are hidden too');
+  for(const page of ['drive','paused']){
+   const active=captured({...v,page},cfg),emptyFrame=captured({...v,page,quick:empty},cfg);
+   assert.ok(active.labels.includes('HORN'));assert.ok(active.labels.includes('PARK'));
+   assert.notDeepEqual(pixels(active.picture,1450,0,720,60),pixels(emptyFrame.picture,1450,0,720,60),`${page} retains connected controls`);
+  }
+ }
 });

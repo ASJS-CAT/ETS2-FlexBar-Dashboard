@@ -1,5 +1,7 @@
 # 1.1.3 — 2026-10-23
 
+- Select one of three Dot Matrix LED scopes: speed/gear; speed/gear plus information; or all three areas including button labels. Existing saved font selections remain compatible. / 点阵 LED 可选三种范围：仅速度和档位、加中间信息区、再加按钮区；兼容已有字体配置。
+- Hide quick controls while waiting for telemetry so connection diagnostics remain readable. Restore the original font position for missing brake and air-pressure values. / 等待连接时隐藏快捷按钮，避免遮挡连接说明；缺失制动与气压数据恢复普通文字位置。
 - Match the job-information remaining-distance dot size to the default route carousel: fixed 3px pitch with overflow scrolling, preserving alignment and non-LED rendering. / 任务信息剩余距离统一使用默认路线轮询的 3px 点距，超长内容沿用滚动显示，保留现有对齐与非点阵排版。
 - Align cargo-mass dots with the cargo-name row. The Chinese unavailable label uses its original non-LED text baseline. / 货物质量点阵与货物名称顶部对齐；中文“暂无”使用原默认普通文字位置。
 - Preserve complete cargo names in Dot Matrix LED mode and scroll long names using the existing direction and speed settings. / 点阵 LED 保留完整货物名称，长名称沿用现有方向和速度设置滚动显示。

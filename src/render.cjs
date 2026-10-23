@@ -23,7 +23,9 @@ const LED_SCROLL_FIELDS=new Set(['GAME TIME','DEADLINE','TIME LEFT','TRAILER','T
 function render(v,cfg,now=v.now||0){
   const translate=displayTranslator(dashboardLanguage(cfg));
   const el=cfg.theme==='el_mint'||cfg.theme==='el_amber',C=PALETTES[cfg.theme]||PALETTES.rally;
-  const airportDigits=cfg.digitStyle==='airport_led',airportText=cfg.textStyle==='airport_led';
+  const ledScope=['digits','info','all'].includes(cfg.ledScope)?cfg.ledScope:null;
+  const airportDigits=!!ledScope||cfg.digitStyle==='airport_led',airportText=ledScope?ledScope!=='digits':cfg.textStyle==='airport_led';
+  const airportButtons=ledScope?ledScope==='all':airportText;
   const digitMatrix='5x7',textMatrix='5x7';
   const digitRows=airportLed.rowCount(digitMatrix),textRows=airportLed.rowCount(textMatrix);
   // Theme colors preserve semantic red/amber/green; normal Rally cyan becomes warm airport yellow.
@@ -206,7 +208,7 @@ function render(v,cfg,now=v.now||0){
     text('FORCE',mx(300),16,9,C.muted);text(force==null?'N/A':`${fmt(force*100)}%`,mx(300),39,19,C.white,'bold');bar(mx(300),46,175,force,C.red);
     metric('TEMP',value(p,'truck.brake.temperature')==null?'N/A':`${fmt(value(p,'truck.brake.temperature'))} C`,mx(490),145,C.amber);
     text('AIR',mx(640),16,9,C.muted);
-    text(pressure==null?'N/A':airportText?`${fmt(airPct*100)}%/${fmt(pressure)}PSI`:`${fmt(airPct*100)}% / ${fmt(pressure)} PSI`,mx(640),airportText?43:39,17,C.cyan,'bold',215,false,false,airportText?10:14,airportText?3:0,'left',[],24);
+    text(pressure==null?'N/A':airportText?`${fmt(airPct*100)}%/${fmt(pressure)}PSI`:`${fmt(airPct*100)}% / ${fmt(pressure)} PSI`,mx(640),39,17,C.cyan,'bold',215,false,false,airportText?10:14,airportText?3:0,'left',[],24);
     bar(mx(640),airportText?48:46,205,airPct,C.cyan);
     metric('RETARDER',value(p,'truck.brake.retarder')==null?'N/A':fmt(value(p,'truck.brake.retarder')),messageRect.right-150,140,C.white);
   }else if(v.page==='notice'){
@@ -265,7 +267,7 @@ function render(v,cfg,now=v.now||0){
       text('AIR PSI',airX,17,10,C.muted);
       if(airportText){
         // Keep both values on one 3px-pitch row, including 100%, without a full blank character cell.
-        text(pressure==null?'N/A':fmt(pressure),airX,45,21,C.white,'bold',51,false,false,3,3,'right');
+        text(pressure==null?'N/A':fmt(pressure),airX,pressure==null?39:45,pressure==null?18:21,C.white,'bold',51,false,false,3,3,'right',[],pressure==null?24:null);
         if(pressure!=null)text(`${fmt(airPct*100)}%`,airX+57,45,21,C.white,'bold',69,false,false,4,3,'right');
       }else text(pressure==null?'N/A':`${fmt(pressure)}  ${fmt(airPct*100)}%`,airX,39,18,C.white,'bold',airWidth,false,false,9);
       bar(airX,airportText?51:45,airportText?125:145,airPct,pressure!=null&&yes(p,'truck.brake.air.pressure.warning')?C.red:C.cyan);
@@ -331,14 +333,15 @@ function render(v,cfg,now=v.now||0){
       box(b.x+2,5,b.w-4,51,on?(el?'#163524':'#1b3037'):pressed?'#263b45':C.panel);box(b.x+2,54,b.w-4,2,on?C.cyan:pressed?C.amber:C.line);
       icon(b.id,b.x+b.w/2,25,enabled?(on?C.cyan:pressed?C.amber:C.white):'#52606a');
       c.save();c.beginPath();c.rect(b.x+3,38,b.w-6,15);c.clip();
-      const label=translate(b.label),ledLabel=airportText&&textRows*2<=15&&airportLed.layout(label,{pitch:2,matrix:textMatrix,maxWidth:b.w-8});
+      const label=translate(b.label),ledLabel=airportButtons&&textRows*2<=15&&airportLed.layout(label,{pitch:2,matrix:textMatrix,maxWidth:b.w-8});
       if(ledLabel)airportLed.draw(c,label,{...ledOptions,x:b.x+(b.w-ledLabel.width)/2,y:38,pitch:2,matrix:textMatrix,color:enabled?C.white:'#46515a'});
       else centered(b.label,b.x+b.w/2,50,11,enabled?C.muted:'#46515a');c.restore();
       if(b.id==='lights'&&yes(p,'truck.light.beam.high')){box(b.x+7,9,8,3,C.cyan);box(b.x+7,14,8,3,C.cyan);}
       if(v.hold?.id===b.id)box(b.x+2,55,(b.w-4)*v.hold.value,2,v.hold.value>=1?C.green:C.amber);
     }c.restore();};
-  const q=v.quick,transition=q?.transition??1;if(v.page!=='motion'&&q?.previous?.length&&transition<1)drawControls(q.previous,1-transition);
-  if(v.page!=='motion')drawControls(q?q.controls:fallback,transition);
+  const q=v.quick,transition=q?.transition??1,showControls=v.page!=='motion'&&v.page!=='offline';
+  if(showControls&&q?.previous?.length&&transition<1)drawControls(q.previous,1-transition);
+  if(showControls)drawControls(q?q.controls:fallback,transition);
 
   if(v.page==='offline'){text('CONNECTION DIAGNOSTICS',1490,28,19,C.cyan,'bold');text('FlexDesigner settings / Check connection',1490,48,14,C.muted);}
   if(p&&yes(p,'truck.light.lblinker'))edge(0,'#66ff55',false,52);

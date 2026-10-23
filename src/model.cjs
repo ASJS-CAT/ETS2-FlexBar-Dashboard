@@ -3,7 +3,7 @@ const {GForce}=require('./driving-metrics.cjs');
 const MANUAL_PANELS=Object.freeze({job:Object.freeze(['job_overview','job_timing','job_distance']),trailer:Object.freeze(['trailer_status','trailer_damage'])});
 const {TelemetryState,DrivingContext,QuickControlResolver,PINNABLE,CAPABILITIES}=require('./quick-controls.cjs');
 const DEFAULTS = Object.freeze({ language:'zh',dashboardLanguage:'en',rpmScaleMax:2500,gearFontSize:42,rpmScaleFormat:'full',rpmLabelCount:6,warningRotationSeconds:2,locationRotationSeconds:8,refuelExitSeconds:1.8,paymentSeconds:3,controlOrder:[],hiddenControls:[], fps: 20, units: 'kmh', theme:'rally', manualPageHoldCycles:3, brakePageHoldSeconds:3,
-  overspeedMargin: 3, lowFuelPercent: 12, cycleSeconds: 15, cyclePanels:['fuel','route','systems'],digitStyle:'rally',textStyle:'standard',digitMatrix:'5x7',textMatrix:'5x7',ledScrollMode:'restart',ledScrollSpeed:100,airportFuelLayout:'double_large',
+  overspeedMargin: 3, lowFuelPercent: 12, cycleSeconds: 15, cyclePanels:['fuel','route','systems'],digitStyle:'rally',textStyle:'standard',ledScope:null,digitMatrix:'5x7',textMatrix:'5x7',ledScrollMode:'restart',ledScrollSpeed:100,airportFuelLayout:'double_large',
   airPressureFullPsi:185,quickControlsMode:'dynamic',pinnedControls:['hazard','parking'],diffUpdate: false, bindingMode: false, wakeOnStart: true });
 function settings(raw = {}) {
   const number = (k, lo, hi) => raw[k]!==null&&raw[k]!==''&&Number.isFinite(Number(raw[k])) ? Math.min(hi, Math.max(lo, Number(raw[k]))) : DEFAULTS[k];
@@ -14,8 +14,10 @@ function settings(raw = {}) {
   const holdCycles=[1,2,3,5].includes(Number(raw.manualPageHoldCycles))?Number(raw.manualPageHoldCycles):DEFAULTS.manualPageHoldCycles;
   const theme=raw.theme==='el'?'el_mint':['rally','el_mint','el_amber'].includes(raw.theme)?raw.theme:'rally';
   const digit=raw.digitStyle==='font'?'rally':['rally','din','euro','narrow','tft','segment','airport_led'].includes(raw.digitStyle)?raw.digitStyle:'rally';
+  // Missing scope preserves legacy independent digit/text selections until the user chooses a range.
+  const ledScope=['digits','info','all'].includes(raw.ledScope)?raw.ledScope:null;
   return { language:raw.language==='en'?'en':'zh', dashboardLanguage:['follow','zh','en'].includes(raw.dashboardLanguage)?raw.dashboardLanguage:'en', fps: number('fps', 5, 25), units: raw.units === 'mph' ? 'mph' : 'kmh',theme,
-    digitStyle:digit,textStyle:raw.textStyle==='airport_led'?'airport_led':'standard',digitMatrix:DEFAULTS.digitMatrix,textMatrix:DEFAULTS.textMatrix,
+    digitStyle:ledScope?'airport_led':digit,textStyle:ledScope?(ledScope==='digits'?'standard':'airport_led'):raw.textStyle==='airport_led'?'airport_led':'standard',ledScope,digitMatrix:DEFAULTS.digitMatrix,textMatrix:DEFAULTS.textMatrix,
     ledScrollMode:['loop_left','loop_right'].includes(raw.ledScrollMode)?'loop_left':DEFAULTS.ledScrollMode,
     ledScrollSpeed:typeof raw.ledScrollSpeed==='number'||typeof raw.ledScrollSpeed==='string'&&raw.ledScrollSpeed.trim()!==''?number('ledScrollSpeed',50,200):DEFAULTS.ledScrollSpeed,
     airportFuelLayout:['double_large','single_fit','single_scroll'].includes(raw.airportFuelLayout)?raw.airportFuelLayout:DEFAULTS.airportFuelLayout,
